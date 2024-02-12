@@ -16,8 +16,8 @@ import { logger } from './modules/logger';
   /* ====== DATABASE ====== */
 
   const DATABASE_HOST = process.env.DATABASE_HOST;
-  const DATABASE_PORT = parseInt(process.env.DATABASE_PORT || '5432', 10);
-  const DATABASE_USER = process.env.DATABASE_USER || 'postgres';
+  const DATABASE_PORT = parseInt(process.env.DATABASE_PORT || '3306', 10);
+  const DATABASE_USER = process.env.DATABASE_USER || 'root';
   const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
   const DATABASE_NAME = process.env.DATABASE_NAME;
 
