@@ -9,10 +9,15 @@
     "Rhys Mahannah <rmahannah@my.bcit.ca>"
   ],
   "dependencies": {
+    "@types/passport": "^1.0.16",
+    "@types/passport-local": "^1.0.38",
+    "crypto": "^1.0.1",
     "drizzle-orm": "^0.29.3",
     "express": "^4.18.2",
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "postgres": "^3.4.3",
     "winston": "^3.11.0",
     "zod": "^3.22.4"
