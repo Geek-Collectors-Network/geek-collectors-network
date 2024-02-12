@@ -22,7 +22,7 @@ import { logger } from './modules/logger';
   const DATABASE_NAME = process.env.DATABASE_NAME;
 
   const migrationsFolder = path.join(__dirname, '..', 'drizzle');
-  const connectionString = `postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}`;
+  const connectionString = `mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}`;
 
   const client = postgres(connectionString);
   const db = drizzle(client);
