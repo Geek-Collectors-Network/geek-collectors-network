@@ -15,14 +15,14 @@ import { logger } from './modules/logger';
 (async () => {
   /* ====== DATABASE ====== */
 
-  const POSTGRES_HOST = process.env.POSTGRES_HOST;
-  const POSTGRES_PORT = parseInt(process.env.POSTGRES_PORT || '5432', 10);
-  const POSTGRES_USER = process.env.POSTGRES_USER || 'postgres';
-  const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
-  const POSTGRES_DB = process.env.POSTGRES_DB;
+  const DATABASE_HOST = process.env.DATABASE_HOST;
+  const DATABASE_PORT = parseInt(process.env.DATABASE_PORT || '5432', 10);
+  const DATABASE_USER = process.env.DATABASE_USER || 'postgres';
+  const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
+  const DATABASE_DB = process.env.DATABASE_DB;
 
   const migrationsFolder = path.join(__dirname, '..', 'drizzle');
-  const connectionString = `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`;
+  const connectionString = `postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}`;
 
   const client = postgres(connectionString);
   const db = drizzle(client);

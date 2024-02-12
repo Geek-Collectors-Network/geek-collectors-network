@@ -34,11 +34,11 @@ services:
     env_file:
       - ./apps/api/.env
     environment:
-      POSTGRES_HOST: postgres-dev
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: dev
-      POSTGRES_DB: geekcollectorsnetwork
+      DATABASE_HOST: postgres-dev
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: dev
+      DATABASE_DB: geekcollectorsnetwork
     ports:
       - ${API_PORT:-3000}:${API_PORT:-3000}
     restart: unless-stopped
