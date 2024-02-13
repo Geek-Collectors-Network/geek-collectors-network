@@ -6,18 +6,12 @@ import Registration from "./components/RegistrationPage";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 
+import LandingPage from "./components/LandingPage";
+
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Box
-        display={"flex"}
-        height={"100vh"}
-        width={"100vw"}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <Registration />
-      </Box>
+      <LandingPage></LandingPage>
     </ChakraProvider>
   );
 }
