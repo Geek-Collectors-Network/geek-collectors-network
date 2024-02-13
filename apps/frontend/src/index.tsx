@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./global.styles.scss";
-import Registration from "./components/RegistrationPage";
 import { Box, ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 
