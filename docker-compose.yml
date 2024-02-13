@@ -45,7 +45,8 @@ services:
     volumes:
       - ./apps/api:/app/api:ro
     depends_on:
-      - mysql-dev
+      mysql-dev:
+        condition: service_healthy
 
   frontend-dev:
     build:
@@ -72,6 +73,11 @@ services:
       # with.
       - mysql-dev-ephemeral:/var/lib/mysql
       - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
 
   phpmyadmin-dev:
     image: phpmyadmin:5.2.1
@@ -83,7 +89,8 @@ services:
     ports:
       - 3307:80
     depends_on:
-      - mysql-dev
+      mysql-dev:
+        condition: service_healthy
 
 volumes:
   mysql-dev-ephemeral: {}
