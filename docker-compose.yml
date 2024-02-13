@@ -38,7 +38,7 @@ services:
       DATABASE_PORT: 5432
       DATABASE_USER: postgres
       DATABASE_PASSWORD: dev
-      DATABASE_DB: geekcollectorsnetwork
+      DATABASE_NAME: geekcollectorsnetwork
     ports:
       - ${API_PORT:-3000}:${API_PORT:-3000}
     restart: unless-stopped
