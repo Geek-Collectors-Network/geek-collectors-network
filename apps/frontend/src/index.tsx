@@ -1,23 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import LoginPage from "./components/LoginPage";
 import "./global.styles.scss";
-import Registration from "./components/RegistrationPage";
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme";
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Box
-        display={"flex"}
-        height={"100vh"}
-        width={"100vw"}
-        justifyContent={"center"}
-        alignItems={"center"}
-      >
-        <Registration />
-      </Box>
+      <LoginPage />
     </ChakraProvider>
   );
 }
