@@ -2,10 +2,15 @@ import React from "react";
 import { Box, Button, Flex, Image, VStack } from "@chakra-ui/react";
 
 function AuthButtons() {
+  /* Temporary styles for buttons; will likely be replaced with
+  Chakra's 'useStyleConfig'. */
   const buttonStyles = {
     width: "50%",
     height: "4em",
   };
+
+  /* Using VStack right now; this is similar to Flex; may decide to
+  switch to Flex based on review. */
   return (
     <VStack w={"100%"} p={"10px 0"}>
       <Button width={buttonStyles.width} height={buttonStyles.height}>
@@ -18,8 +23,6 @@ function AuthButtons() {
   );
 }
 
-/* Children is a special prop that allows a component
-to have nested components. */
 function LandingPage() {
   return (
     <Flex
