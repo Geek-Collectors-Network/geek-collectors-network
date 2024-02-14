@@ -1,10 +1,6 @@
 import React from "react";
 import { Box, Button, Flex, Image, VStack } from "@chakra-ui/react";
 
-interface LandingPageProps {
-  children: React.ReactNode;
-}
-
 function AuthButtons() {
   const buttonStyles = {
     width: "50%",
