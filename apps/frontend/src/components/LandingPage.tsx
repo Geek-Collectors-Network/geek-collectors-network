@@ -1,23 +1,30 @@
 import React from "react";
-import { Box, Button, Flex, Image, VStack } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Image, VStack } from "@chakra-ui/react";
 
 function AuthButtons() {
   /* Temporary styles for buttons; will likely be replaced with
   Chakra's 'useStyleConfig'. */
   const buttonStyles = {
-    width: "50%",
     height: "4em",
+    width: {"base": "50%", "md": "50%"},
+    fontSize: {"base" : "lg", "md": "xl"}
   };
 
-  /* Using VStack right now; this is similar to Flex; may decide to
-  switch to Flex based on review. */
+  /* VStack isthe same as Flex but with 'flex-direction' set to 'column'.
+  If we want horiztonal placement on larger screens, we can switch back to Flex. */
   return (
-    <VStack w={"100%"} p={"10px 0"}>
-      <Button width={buttonStyles.width} height={buttonStyles.height}>
-        SIGN UP
+    <VStack w={"100%"} p={4}>
+      <Button
+        h={buttonStyles.height}
+        width={buttonStyles.width}
+        fontSize={buttonStyles.fontSize}>
+          SIGN UP
       </Button>
-      <Button width={buttonStyles.width} height={buttonStyles.height}>
-        LOG IN
+      <Button
+        h={buttonStyles.height}
+        width={buttonStyles.width}
+        fontSize={buttonStyles.fontSize}>
+          LOGIN
       </Button>
     </VStack>
   );
