@@ -1,28 +1,26 @@
 import React from "react";
-import { Box, Button, ButtonGroup, Flex, Image, VStack } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, Image, Stack, VStack } from "@chakra-ui/react";
 
 function AuthButtons() {
-  /* Temporary styles for buttons; will likely be replaced with
-  Chakra's 'useStyleConfig'. */
+
+  /* Temporary styles for buttons; to be replaced with Chakra 'useStyleConfig'. */
   const buttonStyles = {
     height: "4em",
-    width: {"base": "50%", "md": "50%"},
-    fontSize: {"base" : "lg", "md": "xl"}
+    width: {base: "50%", md: "50%"},
+    fontSize: {base : "lg", md: "xl"}
   };
 
-  /* VStack isthe same as Flex but with 'flex-direction' set to 'column'.
-  If we want horiztonal placement on larger screens, we can switch back to Flex. */
   return (
-    <VStack w={"100%"} p={4}>
+    <VStack w={"100%"} spacing={4}>
       <Button
         h={buttonStyles.height}
-        width={buttonStyles.width}
+        w={buttonStyles.width}
         fontSize={buttonStyles.fontSize}>
           SIGN UP
       </Button>
       <Button
         h={buttonStyles.height}
-        width={buttonStyles.width}
+        w={buttonStyles.width}
         fontSize={buttonStyles.fontSize}>
           LOGIN
       </Button>
@@ -32,24 +30,24 @@ function AuthButtons() {
 
 function LandingPage() {
   return (
-    <Flex
-      w={"100vw"}
-      h={"100vh"}
-      bg={"orange"}
-      align={"center"}
-      justify={"center"}
-      direction={"column"}
-    >
-      {/* Logo */}
-      <Box border={"black 2px solid"}>
+    <VStack
+      spacing={4}
+      w="100vw"
+      h="100vh"
+      bg="background.900"
+      align="center"
+      justify="center">
+
+      {/* GGR Logo -- Placeholder */}
+      <Box>
         <Image
           src={"https://via.placeholder.com/200"}
           alt={"Company Logog Placeholder"}
-          boxSize={"250px"}
+          boxSize={{base: "200px", md: "300px"}}
         />
       </Box>
       <AuthButtons />
-    </Flex>
+    </VStack>
   );
 }
 
