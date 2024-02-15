@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, ButtonGroup, Flex, Image, Stack, VStack } from "@chakra-ui/react";
+import { Box, Button, Image, VStack } from "@chakra-ui/react";
 
 function AuthButtons() {
 
