@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -13,12 +13,6 @@ import { HamburgerIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 
 // Add Header component created by Toco following rebase / merge
 function LoginPage() {
-
-  const [email, setEmail] = useState("");
-
-
-
-
   return (
       <Box w={"100vw"} h={"100vh"} bg={"white"}>
         <Box as="header" bg={"brand.500"} p={6} zIndex="sticky" top={0}>
@@ -34,7 +28,7 @@ function LoginPage() {
             </Heading>
           </Flex>
           <Stack spacing={8} w={{ base: "100%", md: "80%", lg: "50%" }}>
-            <FormControl id="email" isRequired>
+            <FormControl id="email">
               <Input type="email" placeholder="Email" />
             </FormControl>
             <FormControl id="password">
