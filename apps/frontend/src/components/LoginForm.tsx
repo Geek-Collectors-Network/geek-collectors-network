@@ -10,7 +10,7 @@ function LoginForm() {
             <FormControl id="password">
                 <Input type="password" placeholder="Password" />
             </FormControl>
-            <Button bg={"brand.500"} variant="solid" mt={8} p={6}>
+            <Button bg={"brand.500"} color={"white"} _hover={{ bg: "brand.600" }} variant="solid" p={6}>
                 LOGIN
             </Button>
         </Stack>
