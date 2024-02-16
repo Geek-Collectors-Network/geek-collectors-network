@@ -9,14 +9,6 @@ ARG DOCKER_UBUNTU_VERSION=latest
 
 # ========================== NODE STAGE ==========================
 FROM node:${DOCKER_NODE_VERSION} AS node
-# Copy all the required libraries for Node to run in a scratch container
-RUN mkdir -p /node-deps/lib/x86_64-linux-gnu \
-      /node-deps/usr/lib/x86_64-linux-gnu \
-      /node-deps/lib64 \
-    && ldd $(which node) \
-      | grep '=>' \
-      | awk '{ print $3 }' \
-      | xargs -I '{}' cp -v '{}' /node-deps'{}'
 
 
 # ========================== PACKAGES STAGE ==========================
@@ -95,7 +87,7 @@ RUN rm -rf build/ \
 
 
 # ========================== PRODUCTION STAGE ==========================
-FROM scratch AS production
+FROM node:${DOCKER_NODE_VERSION} AS production
 ARG NAME
 
 ARG WORKSPACE
@@ -105,11 +97,6 @@ ENV NODE_ENV=production
 
 # Copy Tini
 COPY --from=base /usr/bin/tini /usr/bin/tini
-
-# Copy necessary libraries to run Node in a scratch container
-COPY --from=node /node-deps/ /
-COPY --from=node /usr/local/bin/node /usr/local/bin/node
-COPY --from=node /lib64/ld-linux-x86-64.so.2 /lib64/
 
 # Copy build artifacts
 COPY --from=build --chown=${USER}:${USER} ${WORKSPACE}/${NAME}/dist ${WORKSPACE}/${NAME}/dist
