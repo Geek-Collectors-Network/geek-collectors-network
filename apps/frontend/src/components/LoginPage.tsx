@@ -8,11 +8,11 @@ import {
 import { HamburgerIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 
 interface LoginPageProps {
-  children: React.ReactNode;
+  formComponent: React.ReactNode;
 }
 
 // Add Header component created by Toco following rebase / merge
-function LoginPage( { children }: LoginPageProps) {
+function LoginPage( { formComponent }: LoginPageProps) {
   return (
       <Box w={"100vw"} h={"100vh"} bg={"white"}>
         <Box as="header" bg={"brand.500"} p={6} zIndex="sticky" top={0}>
@@ -28,7 +28,7 @@ function LoginPage( { children }: LoginPageProps) {
             </Heading>
           </Flex>
           {/* Below is where the Login Form will be rendered. */}
-          {children}
+          {formComponent}
         </VStack>
       </Box>
   );
