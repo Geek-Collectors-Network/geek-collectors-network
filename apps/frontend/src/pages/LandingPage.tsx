@@ -12,7 +12,7 @@ function AuthButtons() {
 
   return (
     <VStack w={'100%'} spacing={4}>
-      <Link to="/signup">
+      <Link to="/register">
         <Button
           h={buttonStyles.height}
           w={buttonStyles.width}
@@ -20,7 +20,7 @@ function AuthButtons() {
             SIGN UP
         </Button>
       </Link>
-      <Link to="/register">
+      <Link to="/login">
         <Button
           h={buttonStyles.height}
           w={buttonStyles.width}
