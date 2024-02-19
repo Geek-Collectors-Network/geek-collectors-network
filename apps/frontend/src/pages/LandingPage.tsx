@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Image, VStack } from '@chakra-ui/react';
+import { Image, VStack } from '@chakra-ui/react';
+import NavigationButton from '../components/NavigationButton';
 
 function LandingPage() {
   return (
@@ -15,23 +16,8 @@ function LandingPage() {
         src="gcn_logo.svg"
         alt="gcn_logo"
       /> */}
-       <Link to="/login">
-        <Button
-          colorScheme="brand"
-          w={'90%'}
-        >
-          LOGIN
-        </Button>
-      </Link>
-      <Link to="/register">
-        <Button
-          colorScheme="brand"
-          variant="outline"
-          w={'90%'}
-        >
-            SIGN UP
-        </Button>
-      </Link>
+       <NavigationButton label='LOGIN' to='/login'  />
+       <NavigationButton label='SIGN UP' to='/register' />
     </VStack>
   );
 }
