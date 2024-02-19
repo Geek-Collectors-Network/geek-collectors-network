@@ -11,6 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
@@ -29,6 +30,8 @@ const validationSchema = Yup.object({
 });
 
 function RegistrationForm() {
+  const signIn = useSignIn();
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -37,8 +40,26 @@ function RegistrationForm() {
       password: '',
     },
     validationSchema,
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: async values => {
+      try {
+        // await fetch('http://localhost:3001/api/register', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(values),
+        // }).then(res => res.json());
+
+        signIn({
+          auth: {
+            token: '', // token from the server,
+            type: 'Bearer',
+          },
+          userState: { email: values.email },
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      }
     },
   });
 
