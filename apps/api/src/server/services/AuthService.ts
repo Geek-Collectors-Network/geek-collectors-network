@@ -1,19 +1,17 @@
-import { BaseService, type Resources } from './Service';
-// import passport from 'passport';
-// import { Strategy as LocalStrategy, Strategy } from 'passport-local';
+import { promisify } from 'util';
+
+import { MySqlInsertValue } from 'drizzle-orm/mysql-core';
 import { pbkdf2, randomBytes } from 'crypto';
+
+import { isSqlError } from '../utils';
+import { BaseService, type Resources } from './Service';
 import { user } from '../../models/user';
 
-// import { object, string, email } from 'zod';
-// const userSignupSchema = object({
-//   username: string(),
-//   email: email(),
-//   password: string().min(6), // Assuming a minimum password length of 6 characters
-// });
+const pbkdf2Promise = promisify(pbkdf2);
 
 export class AuthController {
   // eslint-disable-next-line no-useless-constructor
-  constructor(private readonly resources: Resources) {}
+  constructor(private readonly resources: Resources) { }
 
   public async signup(
     email: string,
@@ -21,27 +19,23 @@ export class AuthController {
     firstName: string,
     lastName: string,
   ) {
-    const createdUser = { user: null };
     const salt = randomBytes(16).toString('utf8');
-    console.log(salt);
-    const result = pbkdf2(password, salt, 310000, 32, 'sha256', (err, hashedPassword) => {
-      if (err) return { message: 'Error hashing password' };
-      const userInfo = {
-        email,
-        firstName,
-        lastName,
-        salt,
-        hashedPassword: hashedPassword.toString('utf8'),
-        createdAt: new Date(),
-      };
-      // const insertedUser =  this.resources.db
-      //   .insert(user)
-      //   .values(userInfo)
-      //   .execute();
-      // console.log(insertedUser);
-      // return insertedUser;
-      return userInfo;
-    });
+    const hashedPassword = (await pbkdf2Promise(password, salt, 310000, 32, 'sha256')).toString('utf8');
+
+    const userValues: MySqlInsertValue<typeof user> = {
+      email,
+      hashedPassword,
+      salt,
+      firstName,
+      lastName,
+    };
+
+    const insertResults = await this.resources.db
+      .insert(user)
+      .values(userValues)
+      .execute();
+
+    return insertResults[0];
   }
 }
 
@@ -51,7 +45,7 @@ export class AuthService extends BaseService {
 
     const controller = new AuthController(resources);
 
-    this.router.post('/signup', (req, res, next) => {
+    this.router.post('/signup', async (req, res) => {
       const { email, password, firstName, lastName } = req.body;
       if (!email || !password || !firstName || !lastName) {
         res.status(400).json({
@@ -60,22 +54,32 @@ export class AuthService extends BaseService {
         return;
       }
 
-      controller.signup(
-        email.toString(),
-        password.toString(),
-        firstName.toString(),
-        lastName.toString(),
-      ).then(insertedUser => {
-        console.log(insertedUser);
-      });
-      const insertedUser = null;
+      try {
+        const insertedUser = await controller.signup(
+          email.toString(),
+          password.toString(),
+          firstName.toString(),
+          lastName.toString(),
+        );
 
-      if (insertedUser !== null) {
-        res.status(200).json(insertedUser);
-      } else {
-        res.status(500).json({
-          message: 'User not created',
-        });
+        if (insertedUser) {
+          res.status(200).json(insertedUser);
+        } else {
+          res.status(500).json({
+            message: 'User not created',
+          });
+        }
+      } catch (e) {
+        if (isSqlError(e) && e.code === 'ER_DUP_ENTRY') {
+          res.status(500).json({
+            message: 'User already exists',
+          });
+        } else {
+          res.status(500).json({
+            err: e,
+            message: 'An error occurred',
+          });
+        }
       }
     });
   }
