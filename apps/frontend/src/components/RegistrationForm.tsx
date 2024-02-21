@@ -109,19 +109,18 @@ function RegistrationForm() {
             Forgot password?
           </Button>
         </HStack>
-        <PageLink text={'Already have an account? Log in!'} to={'/login'} />
         <Button
           type="submit"
           w={'100%'}
           colorScheme="brand"
           variant="solid"
           mt={8}
-          p={0}
-          m={'3'}
+          m={5}
           disabled={formik.isSubmitting}
         >
           SIGN UP
         </Button>
+        <PageLink text={'Already have an account? Log in!'} to={'/login'} paddingBottom={20} />
       </VStack>
     </form>
   );
