@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Image, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import NavigationButton from '../components/NavigationButton';
 
 function LandingPage() {
