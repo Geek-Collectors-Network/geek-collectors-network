@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import PageLink from './PageLink';
 
 const validationSchema = Yup.object({
   firstName: Yup.string()
@@ -108,13 +109,15 @@ function RegistrationForm() {
             Forgot password?
           </Button>
         </HStack>
+        <PageLink text={'Already have an account? Log in!'} to={'/login'} />
         <Button
           type="submit"
           w={'100%'}
           colorScheme="brand"
           variant="solid"
           mt={8}
-          p={6}
+          p={0}
+          m={'3'}
           disabled={formik.isSubmitting}
         >
           SIGN UP
