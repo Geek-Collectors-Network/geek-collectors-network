@@ -1,15 +1,15 @@
-import React from "react";
-import {VStack} from "@chakra-ui/react";
+import React from 'react';
+import { VStack } from '@chakra-ui/react';
 
-import PageLayout from "./PageLayout";
-import PageTitle from "../components/PageTitle";
+import PageLayout from './PageLayout';
+import PageTitle from '../components/PageTitle';
 
 interface LoginPageProps {
   formComponent: React.ReactNode;
 }
 
 // Add Header component created by Toco following rebase / merge
-function LoginPage( { formComponent }: LoginPageProps) {
+function LoginPage({ formComponent }: LoginPageProps) {
   return (
     <PageLayout>
       <VStack
