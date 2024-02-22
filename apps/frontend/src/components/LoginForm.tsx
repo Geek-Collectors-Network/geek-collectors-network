@@ -114,7 +114,7 @@ function LoginForm() {
           variant="solid"
           disabled={formik.isSubmitting}
         >
-          SIGN UP
+          LOG IN
         </Button>
         <PageLink text={"Don't have an account? Sign up!"} to={'/register'}></PageLink>
       </VStack>
