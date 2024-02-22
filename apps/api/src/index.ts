@@ -10,8 +10,8 @@ import MySQLStore from 'express-mysql-session';
 
 import { Server } from './server/server';
 import { Service, type Resources } from './server/services/Service';
-import { HelloWorldService } from './server/services/HelloWorldService';
 import { AuthService } from './server/services/AuthService';
+import { UserService } from './server/services/UserService';
 
 import { logger } from './modules/logger';
 
@@ -59,7 +59,7 @@ import { logger } from './modules/logger';
 
   const resources: Resources = { db, session: sessionResource };
 
-  const v1Routes: Service[] = [HelloWorldService, AuthService];
+  const v1Routes: Service[] = [AuthService, UserService];
 
   server.addServices(Server.VERSIONS.API_V1, v1Routes, resources);
   server.start(HOST, PORT);
