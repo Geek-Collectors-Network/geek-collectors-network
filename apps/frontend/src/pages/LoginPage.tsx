@@ -3,9 +3,8 @@ import { VStack } from '@chakra-ui/react';
 
 import PageLayout from './PageLayout';
 import PageTitle from '../components/PageTitle';
-import PageLink from '../components/PageLink';
 
-interface LoginPageProps {
+type LoginPageProps = {
   formComponent: React.ReactNode;
 }
 
@@ -20,7 +19,6 @@ function LoginPage({ formComponent }: LoginPageProps) {
       >
         <PageTitle title={'Login'} />
         {formComponent}
-        <PageLink text={"Don't have an account? Sign up!"} to={'/register'} p={4} />
       </VStack>
     </PageLayout>
   );

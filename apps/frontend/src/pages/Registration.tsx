@@ -3,9 +3,13 @@ import { VStack } from '@chakra-ui/react';
 
 import PageLayout from './PageLayout';
 import PageTitle from '../components/PageTitle';
-import RegistrationForm from '../components/RegistrationForm';
+// import RegistrationForm from '../components/RegistrationForm';
 
-function Registration() {
+type LoginPageProps = {
+  formComponent: React.ReactNode;
+}
+
+function Registration({ formComponent }: LoginPageProps) {
   return (
     <PageLayout >
       <VStack
@@ -14,7 +18,7 @@ function Registration() {
         pt={20}
       >
         <PageTitle title={'Sign Up'} />
-        <RegistrationForm />
+        {formComponent}
       </VStack>
     </ PageLayout>
   );
