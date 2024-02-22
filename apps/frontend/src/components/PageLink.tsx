@@ -7,9 +7,9 @@ interface PageLinkProps extends BoxProps {
     to: string;
   }
 
-function PageLink({ text, to, ...rest } : PageLinkProps) {
+function PageLink({ text, to } : PageLinkProps) {
   return (
-    <HStack w={'100%'} justify={'center'} color={'brand.500'} {...rest}>
+    <HStack w={'100%'} justify={'center'} color={'brand.500'}>
       <ChakraLink as={ReactRouterLink} to={to}>
         <b>{text}</b>
       </ChakraLink>
