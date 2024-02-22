@@ -33,8 +33,8 @@ function LoginForm() {
       {formik => (
         <Form>
           <VStack gap={4}>
-            <TextInput name="email" label="Email" />
-            <TextInput name="password" label="Password" type="password" />
+            <TextInput name="email" label="Email:" />
+            <TextInput name="password" label="Password:" type="password" />
 
             <LoginControls />
 

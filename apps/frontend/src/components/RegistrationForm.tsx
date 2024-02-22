@@ -18,7 +18,7 @@ function RegistrationForm() {
     >
       {formik => (
         <Form>
-          <VStack gap={4} w={'100%'}>
+          <VStack gap={4}>
             <TextInput name="firstName" label="First name:" />
             <TextInput name="lastName" label="Last name:" />
             <TextInput name="email" label="Email:" type="email" />
