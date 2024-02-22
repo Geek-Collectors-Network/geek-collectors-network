@@ -26,10 +26,6 @@ function TextInput({ name, label, type = 'text' }: TextInputProps) {
   const [field, meta] = useField(name);
 
   return (
-
-    /* A Chakra UI element that has a `isInvalid` prop that, when true
-     displays an error message; these error messages are supplied by
-    the `meta` object. */
     <FormControl id={name} isInvalid={!!(meta.touched && meta.error)}>
       <FormLabel>{label}</FormLabel>
       <Input {...field} type={type} focusBorderColor="brand.600" />
