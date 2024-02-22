@@ -1,25 +1,12 @@
 import React from 'react';
 
 import { Form, Formik } from 'formik';
-import { Button, Checkbox, HStack, VStack } from '@chakra-ui/react';
+import { Button, VStack } from '@chakra-ui/react';
 
 import TextInput from './TextInput';
 import PageLink from './PageLink';
 import { loginSchema } from './ValidationSchemas';
-
-function LoginControls() {
-  return (
-    <HStack w={'100%'} justify={'space-around'}>
-      <Checkbox size={['sm', 'md']}>
-        Remember me
-      </Checkbox>
-
-      <Button size={['sm', 'md']} colorScheme="brand" variant="link">
-        Forgot password?
-      </Button>
-    </HStack>
-  );
-}
+import LoginControls from './LoginControls';
 
 function LoginForm() {
   return (

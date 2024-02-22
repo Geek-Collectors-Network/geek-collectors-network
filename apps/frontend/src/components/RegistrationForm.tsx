@@ -6,6 +6,7 @@ import { Button, VStack } from '@chakra-ui/react';
 import TextInput from './TextInput';
 import PageLink from './PageLink';
 import { registrationSchema } from './ValidationSchemas';
+import LoginControls from './LoginControls';
 
 function RegistrationForm() {
   return (
@@ -23,6 +24,8 @@ function RegistrationForm() {
             <TextInput name="lastName" label="Last name:" />
             <TextInput name="email" label="Email:" type="email" />
             <TextInput name="password" label="Password:" type="password" />
+
+            <LoginControls />
 
             <Button
               type="submit"
