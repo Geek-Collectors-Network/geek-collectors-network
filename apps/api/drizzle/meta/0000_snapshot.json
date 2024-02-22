@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "ceb07467-fd44-48f7-be4d-017020873961",
+  "id": "3ace1e41-61cb-4b1e-9dcd-01ad5a0efc7d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "tag": {
@@ -9,7 +9,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
@@ -23,10 +23,10 @@
         },
         "creatorId": {
           "name": "creatorId",
-          "type": "serial",
+          "type": "int",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": true
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -60,7 +60,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
@@ -184,7 +184,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "int",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
@@ -198,17 +198,17 @@
         },
         "userId": {
           "name": "userId",
-          "type": "serial",
+          "type": "int",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": true
+          "autoincrement": false
         },
         "tagId": {
           "name": "tagId",
-          "type": "serial",
+          "type": "int",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": true
+          "autoincrement": false
         }
       },
       "indexes": {},

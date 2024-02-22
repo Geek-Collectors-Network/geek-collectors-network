@@ -1,6 +1,6 @@
 import {
+  int,
   mysqlTable,
-  serial,
   timestamp,
 } from 'drizzle-orm/mysql-core';
 
@@ -8,14 +8,14 @@ import { user } from './user';
 
 
 export const tag = mysqlTable('tag', {
-  id: serial('id').primaryKey(),
+  id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
-  creatorId: serial('creatorId').references(() => user.id),
+  creatorId: int('creatorId').references(() => user.id),
 });
 
 export const userInterestTag = mysqlTable('userInterestTag', {
-  id: serial('id').primaryKey(),
+  id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
-  userId: serial('userId').references(() => user.id),
-  tagId: serial('tagId').references(() => tag.id),
+  userId: int('userId').references(() => user.id),
+  tagId: int('tagId').references(() => tag.id),
 });

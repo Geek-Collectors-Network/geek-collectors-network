@@ -1,12 +1,12 @@
 CREATE TABLE `tag` (
-	`id` serial AUTO_INCREMENT NOT NULL,
+	`id` int AUTO_INCREMENT NOT NULL,
 	`createdAt` timestamp NOT NULL,
-	`creatorId` serial AUTO_INCREMENT,
+	`creatorId` int,
 	CONSTRAINT `tag_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `user` (
-	`id` serial AUTO_INCREMENT NOT NULL,
+	`id` int AUTO_INCREMENT NOT NULL,
 	`createdAt` timestamp NOT NULL,
 	`updatedAt` timestamp ON UPDATE CURRENT_TIMESTAMP,
 	`lastLoginAt` timestamp,
@@ -25,10 +25,10 @@ CREATE TABLE `user` (
 );
 --> statement-breakpoint
 CREATE TABLE `userInterestTag` (
-	`id` serial AUTO_INCREMENT NOT NULL,
+	`id` int AUTO_INCREMENT NOT NULL,
 	`createdAt` timestamp NOT NULL,
-	`userId` serial AUTO_INCREMENT,
-	`tagId` serial AUTO_INCREMENT,
+	`userId` int,
+	`tagId` int,
 	CONSTRAINT `userInterestTag_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint

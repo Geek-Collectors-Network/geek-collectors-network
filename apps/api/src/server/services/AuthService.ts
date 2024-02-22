@@ -64,13 +64,12 @@ export class AuthController {
     }
 
     const salt = Buffer.from(userRecord[0].salt, 'hex');
-    const hashedPassword = userRecord[0].hashedPassword;
+    const { hashedPassword } = userRecord[0];
     const newHashedPassword = (await pbkdf2Promise(password, salt, 310000, 16, 'sha256'));
     const hashedBuffer = Buffer.from(hashedPassword, 'hex');
 
     return timingSafeEqual(hashedBuffer, newHashedPassword) ? userRecord[0].id : null;
   }
-
 }
 
 export class AuthService extends BaseService {
@@ -131,12 +130,17 @@ export class AuthService extends BaseService {
       if (userId) {
         req.session.userId = userId;
         req.session.authenticated = true;
-        res.status(200).json({ userId: userId });
+        res.status(200).json({ userId });
       } else {
         res.status(401).json({
           message: 'Invalid email or password',
         });
       }
+    });
+
+    this.router.post('/logout', async (req, res) => {
+      req.session.authenticated = false;
+      res.status(200).json({ message: 'Logged out' });
     });
   }
 }

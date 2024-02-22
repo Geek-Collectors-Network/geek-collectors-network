@@ -1,14 +1,14 @@
 import {
   boolean,
   date,
+  int,
   mysqlTable,
-  serial,
   timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core';
 
 export const user = mysqlTable('user', {
-  id: serial('id').primaryKey(),
+  id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
   updatedAt: timestamp('updatedAt').onUpdateNow(),
   lastLoginAt: timestamp('lastLoginAt'),
