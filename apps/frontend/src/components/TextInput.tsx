@@ -5,10 +5,10 @@ import React from 'react';
 type TextInputProps = {
     name: string,
     label: string,
-    type?: string,
+    type?: string
   }
 
-const TextInput: React.FC<TextInputProps> = ({ name, label, type = 'text' }) => {
+function TextInput({ name, label, type = 'text' }: TextInputProps) {
   const [field, meta] = useField(name);
 
   return (
@@ -18,6 +18,6 @@ const TextInput: React.FC<TextInputProps> = ({ name, label, type = 'text' }) => 
       <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>
   );
-};
+}
 
 export default TextInput;
