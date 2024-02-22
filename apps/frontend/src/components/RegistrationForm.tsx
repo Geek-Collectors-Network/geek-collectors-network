@@ -18,13 +18,18 @@ function RegistrationForm() {
     >
       {formik => (
         <Form>
-          <VStack gap={4}>
+          <VStack gap={4} >
             <TextInput name="firstName" label="First name:" />
             <TextInput name="lastName" label="Last name:" />
             <TextInput name="email" label="Email:" type="email" />
             <TextInput name="password" label="Password:" type="password" />
 
-            <Button type="submit" w={'100%'} colorScheme="brand" variant="solid" disabled={formik.isSubmitting}>
+            <Button
+              type="submit"
+              w={'100%'}
+              colorScheme="brand"
+              variant="solid"
+              disabled={formik.isSubmitting}>
                 SIGN UP
             </Button>
 
