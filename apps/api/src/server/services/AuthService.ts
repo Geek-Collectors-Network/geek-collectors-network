@@ -30,11 +30,7 @@ export class AuthController {
     lastName: string,
   ) {
     const salt = randomBytes(16);
-    console.log('Salt', salt);
-    console.log('Salt length', salt.length);
     const hashedPassword = (await pbkdf2Promise(password, salt, 310000, 16, 'sha256'));
-    console.log('Hashed Password', hashedPassword.toString('hex'));
-    console.log('Hashed Password length', hashedPassword.length); // 32 or less
 
     const userValues: MySqlInsertValue<typeof user> = {
       email,
@@ -64,11 +60,10 @@ export class AuthController {
     }
 
     const salt = Buffer.from(userRecord[0].salt, 'hex');
-    const { hashedPassword } = userRecord[0];
-    const newHashedPassword = (await pbkdf2Promise(password, salt, 310000, 16, 'sha256'));
-    const hashedBuffer = Buffer.from(hashedPassword, 'hex');
+    const generatedHashedPassword = await pbkdf2Promise(password, salt, 310000, 16, 'sha256');
+    const retrievedHashedPassword = Buffer.from(userRecord[0].hashedPassword, 'hex');
 
-    return timingSafeEqual(hashedBuffer, newHashedPassword) ? userRecord[0].id : null;
+    return timingSafeEqual(retrievedHashedPassword, generatedHashedPassword) ? userRecord[0].id : null;
   }
 }
 
@@ -128,6 +123,7 @@ export class AuthService extends BaseService {
 
       const userId = await controller.login(email.toString(), password.toString());
       if (userId) {
+        // TODO: refactor to avoid possible race condition
         req.session.userId = userId;
         req.session.authenticated = true;
         res.status(200).json({ userId });
