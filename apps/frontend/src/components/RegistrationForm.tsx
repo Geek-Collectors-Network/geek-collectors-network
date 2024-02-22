@@ -116,8 +116,6 @@ function RegistrationForm() {
           w={'100%'}
           colorScheme="brand"
           variant="solid"
-          mt={8}
-          m={5}
           disabled={formik.isSubmitting}
         >
           SIGN UP
