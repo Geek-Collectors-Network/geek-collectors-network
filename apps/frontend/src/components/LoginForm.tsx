@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form, Formik } from 'formik';
+import { Form, Formik, useFormikContext } from 'formik';
 import { Button, VStack } from '@chakra-ui/react';
 
 import TextInput from './TextInput';
@@ -9,6 +9,8 @@ import { loginSchema } from './ValidationSchemas';
 import LoginControls from './LoginControls';
 
 function LoginForm() {
+  const { isSubmitting } = useFormikContext();
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
@@ -17,27 +19,25 @@ function LoginForm() {
         console.log(values);
       }}
     >
-      {formik => (
-        <Form>
-          <VStack gap={4}>
-            <TextInput name="email" label="Email:" />
-            <TextInput name="password" label="Password:" type="password" />
+      <Form>
+        <VStack gap={4}>
+          <TextInput name="email" label="Email:" />
+          <TextInput name="password" label="Password:" type="password" />
 
-            <LoginControls />
+          <LoginControls />
 
-            <Button
-              type="submit"
-              w={'100%'}
-              colorScheme="brand"
-              variant="solid"
-              disabled={formik.isSubmitting}>
+          <Button
+            type="submit"
+            w={'100%'}
+            colorScheme="brand"
+            variant="solid"
+            disabled={isSubmitting}>
                 LOG IN
-            </Button>
+          </Button>
 
-            <PageLink text={'Not registered? Sign up!'} to={'/register'}/>
-          </VStack>
-        </Form>
-      )}
+          <PageLink text={'Not registered? Sign up!'} to={'/register'}/>
+        </VStack>
+      </Form>
     </Formik>
   );
 }
