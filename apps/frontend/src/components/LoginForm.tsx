@@ -9,6 +9,24 @@ import { loginSchema } from './ValidationSchemas';
 import LoginControls from './LoginControls';
 
 function LoginForm() {
+  const formik = useFormik({
+    /* These are the initial state of the form fields -- the
+    state the user sees when they navigate to this page. */
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    /* This is the validation schema that the form will use
+    to validate the form fields. */
+    validationSchema: loginValidationSchema,
+
+    /* If validation schema passes, the
+    values will be submitted. */
+    onSubmit: validatedValues => {
+      console.log(validatedValues);
+    },
+  });
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
