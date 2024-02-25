@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { BaseService, type Resources } from './Service';
 import { user } from '../../models/user';
+import { tag, userInterestTag } from '../../models/tag';
 
 import { z, ZodError } from 'zod';
 
@@ -55,6 +56,29 @@ export class UserController {
     // changedRows would show actual db changes (but is deprecated)
     return { updated: results[0].affectedRows === 1 };
   }
+
+  public async createTag(userId: number, tagText: string) {
+    console.log('createTag', userId, tagText);
+    const tagInsertResults = await this.resources.db
+      .insert(tag)
+      .values({
+        text: tagText,
+        creatorId: userId,
+      })
+      .execute();
+    console.log('tagInsertResults', tagInsertResults);
+    const tagId = tagInsertResults[0].insertId;
+
+    const userInterestTagInsertResults = await this.resources.db
+      .insert(userInterestTag)
+      .values({
+        userId,
+        tagId,
+      })
+      .execute();
+    console.log('userInterestTagInsertResults', userInterestTagInsertResults);
+    return { tagId, userInterestTagId: userInterestTagInsertResults[0].insertId };
+  }
 }
 
 export class UserService extends BaseService {
@@ -98,6 +122,21 @@ export class UserService extends BaseService {
           res.status(500).json({ error: 'Internal Server Error' });
         }
       }
+    });
+
+    this.router.post('/interests/create', async (req, res) => {
+      const id  = req.session.userId;
+      if (!id) {
+        res.status(401).json({ error: 'Not authenticated' });
+        return;
+      }
+      const tagText = req.body.tag;
+      if (!tagText) {
+        res.status(400).json({ error: 'Missing tag' });
+        return;
+      }
+      const createTagResult = await controller.createTag(id, tagText);
+      res.status(201).json(createTagResult);
     });
   }
 }
