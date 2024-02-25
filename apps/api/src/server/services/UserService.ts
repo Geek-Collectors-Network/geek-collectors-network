@@ -78,13 +78,17 @@ export class UserController {
   }
 
   public async addUserInterestTag(userId: number, tagId: number) {
-    const results = await this.resources.db
-      .insert(userInterestTag)
-      .values({
-        userId,
-        tagId,
-      });
-    return { added: results[0].affectedRows === 1 };
+    try {
+      const results = await this.resources.db
+        .insert(userInterestTag)
+        .values({
+          userId,
+          tagId,
+        });
+      return { added: results[0].affectedRows === 1 };
+    } catch (err) {
+      return { added: false };
+    }
   }
 }
 

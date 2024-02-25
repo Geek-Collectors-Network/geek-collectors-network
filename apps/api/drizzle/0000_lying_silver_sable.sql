@@ -27,11 +27,10 @@ CREATE TABLE `user` (
 );
 --> statement-breakpoint
 CREATE TABLE `userInterestTag` (
-	`id` int AUTO_INCREMENT NOT NULL,
+	`userId` int NOT NULL,
+	`tagId` int NOT NULL,
 	`createdAt` timestamp NOT NULL,
-	`userId` int,
-	`tagId` int,
-	CONSTRAINT `userInterestTag_id` PRIMARY KEY(`id`)
+	CONSTRAINT `userInterestTag_userId_tagId_pk` PRIMARY KEY(`userId`,`tagId`)
 );
 --> statement-breakpoint
 ALTER TABLE `tag` ADD CONSTRAINT `tag_creatorId_user_id_fk` FOREIGN KEY (`creatorId`) REFERENCES `user`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint

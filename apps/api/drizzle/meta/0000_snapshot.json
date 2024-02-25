@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "f9e2f510-7346-4ba9-9ca3-79765d64d9d3",
+  "id": "78e57e9a-e2b9-4daa-a073-d7e321e7a2b5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "tag": {
@@ -196,32 +196,25 @@
     "userInterestTag": {
       "name": "userInterestTag",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "userId": {
           "name": "userId",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "tagId": {
           "name": "tagId",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
@@ -255,10 +248,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "userInterestTag_id": {
-          "name": "userInterestTag_id",
+        "userInterestTag_userId_tagId_pk": {
+          "name": "userInterestTag_userId_tagId_pk",
           "columns": [
-            "id"
+            "userId",
+            "tagId"
           ]
         }
       },
