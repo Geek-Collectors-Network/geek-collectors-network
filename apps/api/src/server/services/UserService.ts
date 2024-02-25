@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { BaseService, type Resources } from './Service';
 import { user } from '../../models/user';
@@ -87,8 +87,17 @@ export class UserController {
         });
       return { added: results[0].affectedRows === 1 };
     } catch (err) {
+      // TODO: seperately handle duplicate key error and tag not found error
       return { added: false };
     }
+  }
+
+  // TODO: delete tag if no other users have it (?)
+  public async removeUserInterestTag(userId: number, tagId: number) {
+    const results = await this.resources.db
+      .delete(userInterestTag)
+      .where(and(eq(userInterestTag.userId, userId), eq(userInterestTag.tagId, tagId)));
+    return { removed: results[0].affectedRows === 1 };
   }
 }
 
@@ -161,6 +170,17 @@ export class UserService extends BaseService {
       const tagId = parseInt(req.params.tagId, 10);
       const addInterestTagResult = await controller.addUserInterestTag(id, tagId);
       res.status(200).json(addInterestTagResult);
+    });
+
+    this.router.delete('/interests/:tagId', async (req, res) => {
+      const id  = req.session.userId;
+      if (!id) {
+        res.status(401).json({ error: 'Not authenticated' });
+        return;
+      }
+      const tagId = parseInt(req.params.tagId, 10);
+      const removeInterestTagResult = await controller.removeUserInterestTag(id, tagId);
+      res.status(200).json(removeInterestTagResult);
     });
   }
 }
