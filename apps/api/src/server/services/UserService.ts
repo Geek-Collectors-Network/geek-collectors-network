@@ -58,7 +58,6 @@ export class UserController {
   }
 
   public async createTag(userId: number, tagText: string) {
-    console.log('createTag', userId, tagText);
     const tagInsertResults = await this.resources.db
       .insert(tag)
       .values({
@@ -66,7 +65,6 @@ export class UserController {
         creatorId: userId,
       })
       .execute();
-    console.log('tagInsertResults', tagInsertResults);
     const tagId = tagInsertResults[0].insertId;
 
     const userInterestTagInsertResults = await this.resources.db
@@ -76,8 +74,17 @@ export class UserController {
         tagId,
       })
       .execute();
-    console.log('userInterestTagInsertResults', userInterestTagInsertResults);
     return { tagId, userInterestTagId: userInterestTagInsertResults[0].insertId };
+  }
+
+  public async addUserInterestTag(userId: number, tagId: number) {
+    const results = await this.resources.db
+      .insert(userInterestTag)
+      .values({
+        userId,
+        tagId,
+      });
+    return { added: results[0].affectedRows === 1 };
   }
 }
 
@@ -137,6 +144,18 @@ export class UserService extends BaseService {
       }
       const createTagResult = await controller.createTag(id, tagText);
       res.status(201).json(createTagResult);
+    });
+
+
+    this.router.post('/interests/:tagId', async (req, res) => {
+      const id  = req.session.userId;
+      if (!id) {
+        res.status(401).json({ error: 'Not authenticated' });
+        return;
+      }
+      const tagId = parseInt(req.params.tagId, 10);
+      const addInterestTagResult = await controller.addUserInterestTag(id, tagId);
+      res.status(200).json(addInterestTagResult);
     });
   }
 }
