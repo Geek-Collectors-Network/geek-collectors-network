@@ -161,13 +161,9 @@ export class UserService extends BaseService {
       }
     });
 
-    this.router.get('/interests', async (req, res) => {
-      const id  = req.session.userId;
-      if (!id) {
-        res.status(401).json({ error: 'Not authenticated' });
-        return;
-      }
-      const results = await controller.getUserInterestTags(id);
+    this.router.get('/interests/:userId?', async (req, res) => {
+      const userId = req.params.userId ? parseInt(req.params.userId, 10) : req.session.userId!;
+      const results = await controller.getUserInterestTags(userId);
       res.status(200).json(results);
     });
 
