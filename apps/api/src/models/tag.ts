@@ -7,7 +7,7 @@ import {
 
 import { user } from './user';
 
-// TODO: add a textNormalized (lowercase)
+// TODO: allow duplicates but with unique capitalization (?)
 export const tag = mysqlTable('tag', {
   id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
@@ -15,6 +15,7 @@ export const tag = mysqlTable('tag', {
   creatorId: int('creatorId').references(() => user.id),
 });
 
+// TODO: combo of userId and tagId should be unique
 export const userInterestTag = mysqlTable('userInterestTag', {
   id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
