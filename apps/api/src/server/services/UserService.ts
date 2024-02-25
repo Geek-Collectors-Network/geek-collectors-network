@@ -57,6 +57,23 @@ export class UserController {
     return { updated: results[0].affectedRows === 1 };
   }
 
+  public async getUserInterestTags(userId: number) {
+    const results = await this.resources.db
+      .select({
+        id: tag.id,
+        text: tag.text,
+      })
+      .from(tag)
+      .innerJoin(
+        userInterestTag,
+        and(
+          eq(userInterestTag.userId, userId),
+          eq(userInterestTag.tagId, tag.id),
+        ),
+      );
+    return results;
+  }
+
   public async createTag(userId: number, tagText: string) {
     // check if tag already exists
     const tagSearchResults = await this.resources.db
@@ -142,6 +159,16 @@ export class UserService extends BaseService {
           res.status(500).json({ error: 'Internal Server Error' });
         }
       }
+    });
+
+    this.router.get('/interests', async (req, res) => {
+      const id  = req.session.userId;
+      if (!id) {
+        res.status(401).json({ error: 'Not authenticated' });
+        return;
+      }
+      const results = await controller.getUserInterestTags(id);
+      res.status(200).json(results);
     });
 
     this.router.post('/interests/create', async (req, res) => {
