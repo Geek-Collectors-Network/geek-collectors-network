@@ -5,7 +5,7 @@ COMPOSE = docker compose -p $(PROJECT) -f $(COMPOSE_FILE)
 
 MAKEFLAGS += --no-print-directory
 
-.PHONY: check-valid-service logs down build run dev prod res resources install
+.PHONY: check-valid-service logs down build run dev prod res resource resources install
 
 ###### UTILITIES ##########
 
@@ -38,6 +38,7 @@ prod: build down
 	$(MAKE) run SERVICE=prod
 
 res: resources
+resource: build down
 resources: build down
 	$(MAKE) run SERVICE=resource
 
