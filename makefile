@@ -27,17 +27,18 @@ build:
 
 ########## LAUNCH ##########
 
-run: check-valid-service build down
+run: check-valid-service
 	$(COMPOSE) up -d $(shell $(COMPOSE) config --services | grep -E "($(SERVICE)|common)$$")
 
-dev:
+dev: build down
+	$(MAKE) run SERVICE=resource
 	$(MAKE) run SERVICE=dev
 
-prod:
+prod: build down
 	$(MAKE) run SERVICE=prod
 
 res: resources
-resources:
+resources: build down
 	$(MAKE) run SERVICE=resource
 
 

@@ -45,8 +45,6 @@ services:
     volumes:
       - ./apps/api:/app/api:ro
     depends_on:
-      phpmyadmin-resource:
-        condition: service_started
       mysql-resource:
         condition: service_healthy
 
