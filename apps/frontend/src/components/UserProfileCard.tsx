@@ -1,13 +1,19 @@
-import { EmailIcon, LinkIcon } from '@chakra-ui/icons';
-import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react';
 import React from 'react';
+import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react';
+
+type UserProfileIcon = {
+  label: string,
+  icon: React.ReactElement,
+  variant?: string,
+}
 
 type UserProfileCardProps = {
     name: string,
     imageURL: string,
+    icons: UserProfileIcon[];
 }
 
-function UserProfileCard({ name, imageURL }: UserProfileCardProps) {
+function UserProfileCard({ name, imageURL, icons }: UserProfileCardProps) {
   return (
     <HStack
       backgroundColor={'background'}
@@ -30,23 +36,16 @@ function UserProfileCard({ name, imageURL }: UserProfileCardProps) {
         <Text fontSize={'xl'} fontWeight={'black'}>{name}</Text>
       </Flex>
 
-      <HStack
-        mr={5}
-        spacing={8}>
-
-        <IconButton
-          aria-label="Send email"
-          icon={<EmailIcon boxSize={8}/>}
-          variant={'ghost'}
-          colorScheme="brand"
-        />
-        <IconButton
-          aria-label="Connect to social media"
-          icon={<LinkIcon boxSize={8}/>}
-          variant={'ghost'}
-          colorScheme="brand"
-        />
-
+      <HStack mr={5} spacing={8}>
+        {icons.map((icon, index) => (
+          <IconButton
+            key={index}
+            aria-label={icon.label}
+            icon={icon.icon}
+            variant={'ghost' || icon.variant}
+            colorScheme={'brand'}
+          />
+        ))}
       </HStack>
     </HStack>
   );
