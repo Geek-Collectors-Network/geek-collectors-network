@@ -18,7 +18,8 @@ function UserProfileCard({ name, imageURL, icons }: UserProfileCardProps) {
     <HStack
       backgroundColor={'background'}
       justify={'space-between'}
-      p={3}
+      px={4}
+      py={3}
       spacing={4}
       w={'100%'}
       minW={'375px'}
@@ -37,7 +38,7 @@ function UserProfileCard({ name, imageURL, icons }: UserProfileCardProps) {
         <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{name}</Text>
       </Flex>
 
-      <HStack mr={5} spacing={8}>
+      <HStack spacing={8}>
         {icons.map((icon, index) => (
           <IconButton
             key={name + index}

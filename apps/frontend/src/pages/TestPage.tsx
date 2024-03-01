@@ -3,7 +3,7 @@ import { VStack } from '@chakra-ui/react';
 
 import UserProfileCard from '../components/UserProfileCard';
 
-import { EmailIcon, LinkIcon } from '@chakra-ui/icons';
+import { EmailIcon, InfoIcon, LinkIcon } from '@chakra-ui/icons';
 
 const icons = [
   {
@@ -12,7 +12,7 @@ const icons = [
   },
   {
     label: 'Connect to social media',
-    icon: <LinkIcon boxSize={8}/>,
+    icon: <InfoIcon boxSize={8}/>,
   },
 ];
 
