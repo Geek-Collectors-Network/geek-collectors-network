@@ -13,7 +13,7 @@ export const registrationSchema = Yup.object({
 
   password: Yup.string()
     .min(8, 'Must be at least 8 characters.')
-    .required(),
+    .required('Please enter your password.'),
 });
 
 export const loginSchema = Yup.object({
