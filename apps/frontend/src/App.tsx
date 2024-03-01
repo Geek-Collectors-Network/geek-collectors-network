@@ -2,19 +2,15 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage';
-
 import Registration from './pages/Registration';
-import RegistrationForm from './components/RegistrationForm';
-
 import LoginPage from './pages/LoginPage';
-import LoginForm from './components/LoginForm';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/register" element={<Registration formComponent={<RegistrationForm />} />} />
-      <Route path="/login" element={<LoginPage formComponent={<LoginForm />} />} />
+      <Route path="/register" element={<Registration />} />
+      <Route path="/login" element={<LoginPage />} />
 
       {/* Profile page and profile edit page */}
       {/* <Route path="/profile" /> */}
