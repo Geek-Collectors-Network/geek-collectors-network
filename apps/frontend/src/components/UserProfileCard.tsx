@@ -21,11 +21,12 @@ function UserProfileCard({ name, imageURL, icons }: UserProfileCardProps) {
       p={3}
       spacing={4}
       w={'100%'}
+      minW={'375px'}
     >
       <Box flexShrink={0}>
         <Image
           borderRadius={'full'}
-          boxSize={'70px'}
+          boxSize={['50px', '60px', '70px']}
           src={imageURL}
           alt="profile photo">
         </Image>
@@ -33,16 +34,16 @@ function UserProfileCard({ name, imageURL, icons }: UserProfileCardProps) {
 
       <Flex
         flex={'1'}>
-        <Text fontSize={'xl'} fontWeight={'black'}>{name}</Text>
+        <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{name}</Text>
       </Flex>
 
       <HStack mr={5} spacing={8}>
         {icons.map((icon, index) => (
           <IconButton
-            key={index}
+            key={name + index}
             aria-label={icon.label}
             icon={icon.icon}
-            variant={'ghost' || icon.variant}
+            variant={icon.variant || 'ghost'}
             colorScheme={'brand'}
           />
         ))}
