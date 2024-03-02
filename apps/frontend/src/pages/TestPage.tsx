@@ -3,16 +3,16 @@ import { VStack } from '@chakra-ui/react';
 
 import UserProfileCard from '../components/UserProfileCard';
 
-import { EmailIcon, InfoIcon, LinkIcon } from '@chakra-ui/icons';
+import { CheckIcon, SmallCloseIcon } from '@chakra-ui/icons';
 
 const icons = [
   {
     label: 'Send email',
-    icon: <EmailIcon boxSize={8}/>,
+    icon: <CheckIcon boxSize={8}/>,
   },
   {
     label: 'Connect to social media',
-    icon: <InfoIcon boxSize={8}/>,
+    icon: <SmallCloseIcon boxSize={10}/>,
   },
 ];
 
