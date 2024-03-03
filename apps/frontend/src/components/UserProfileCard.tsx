@@ -1,20 +1,28 @@
 import React from 'react';
 import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react';
 
+// If more user data is needed, it can be added here
 type UserData = {
   name: string,
   image: string
 }
 
 type UserProfileIcon = {
+
+  // Some icons may not have explicit names; added for accessibility
   label: string,
+
+  // The Chakra UI (or other) icon to be rendered and it's variant
   icon: React.ReactElement,
   variant?: string,
+
+  // Allows for custom color schemes, i.e, green checkmark or red "x".
+  colorScheme?: string
 }
 
 type UserProfileCardProps = {
     userData: UserData,
-    icons: UserProfileIcon[];
+    icons: UserProfileIcon[]; // May need to render multiple icons
 }
 
 function UserProfileCard({ userData, icons }: UserProfileCardProps) {
@@ -26,17 +34,17 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
       py={3}
       spacing={4}
       w={'100%'}
-      minW={'375px'}
     >
       <Box flexShrink={0}>
         <Image
-          borderRadius={'full'}
-          boxSize={['50px', '60px', '70px']}
-          src={userData.image}
-          alt="profile photo">
+          borderRadius={'full'} // Makes image circular
+          boxSize={['50px', '60px', '70px']} // Dynamically increases image size based on screen width
+          src={userData.image || 'https://via.placeholder.com/150'}
+          alt={`${userData.name}'s profile photo`}>
         </Image>
       </Box>
 
+      {/* User name, displayed to the right of the profile image */}
       <Flex
         flex={'1'}>
         <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{userData.name}</Text>
@@ -49,7 +57,7 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
             aria-label={icon.label}
             icon={icon.icon}
             variant={icon.variant || 'ghost'}
-            colorScheme={'brand'}
+            colorScheme={icon.colorScheme || 'brand'}
           />
         ))}
       </HStack>
