@@ -4,7 +4,7 @@ import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react';
 // If more user data is needed, it can be added here
 type UserData = {
   name: string,
-  image: string
+  image?: string
 }
 
 type UserProfileIcon = {

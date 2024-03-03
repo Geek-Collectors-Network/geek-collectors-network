@@ -24,7 +24,7 @@ function TestPage() {
       w={'100%'}
       justify={'center'}
     >
-      <UserProfileCard name="John Smith" imageURL="https://picsum.photos/id/237/70/70" icons={icons}/>
+      <UserProfileCard userData={{ name: 'John Smith' }} icons={icons}/>
     </VStack>
   );
 }
