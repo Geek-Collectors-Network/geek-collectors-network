@@ -35,7 +35,7 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
       backgroundColor={'background'}
       justify={'space-between'}
       px={2}
-      py={1}
+      py={2}
       spacing={4}
       w={'100%'}
       borderBottom={'1px'}
