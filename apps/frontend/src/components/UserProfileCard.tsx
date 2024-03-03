@@ -1,6 +1,11 @@
 import React from 'react';
 import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react';
 
+type UserProfile = {
+  name: string,
+  image: string
+}
+
 type UserProfileIcon = {
   label: string,
   icon: React.ReactElement,
@@ -8,12 +13,11 @@ type UserProfileIcon = {
 }
 
 type UserProfileCardProps = {
-    name: string,
-    imageURL: string,
+    userData: UserProfile,
     icons: UserProfileIcon[];
 }
 
-function UserProfileCard({ name, imageURL, icons }: UserProfileCardProps) {
+function UserProfileCard({ userData, icons }: UserProfileCardProps) {
   return (
     <HStack
       backgroundColor={'background'}
@@ -28,20 +32,20 @@ function UserProfileCard({ name, imageURL, icons }: UserProfileCardProps) {
         <Image
           borderRadius={'full'}
           boxSize={['50px', '60px', '70px']}
-          src={imageURL}
+          src={userData.image}
           alt="profile photo">
         </Image>
       </Box>
 
       <Flex
         flex={'1'}>
-        <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{name}</Text>
+        <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{userData.name}</Text>
       </Flex>
 
       <HStack spacing={8}>
         {icons.map((icon, index) => (
           <IconButton
-            key={name + index}
+            key={index}
             aria-label={icon.label}
             icon={icon.icon}
             variant={icon.variant || 'ghost'}
