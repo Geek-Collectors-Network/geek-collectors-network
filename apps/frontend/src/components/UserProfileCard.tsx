@@ -34,8 +34,8 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
     <HStack
       backgroundColor={'background'}
       justify={'space-between'}
-      px={4}
-      py={3}
+      px={2}
+      py={1}
       spacing={4}
       w={'100%'}
       borderBottom={'1px'}
@@ -55,10 +55,9 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
       <Flex
         flex={'1'}
         onClick={() => navigateToUserProfile()}>
-        <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{userData.name}</Text>
+        <Text fontSize={['lg', 'xl']} fontWeight={'bold'}>{userData.name}</Text>
       </Flex>
 
-      <HStack spacing={3}>
       <HStack spacing={3}>
         {icons.map((icon, index) => (
           <IconButton
