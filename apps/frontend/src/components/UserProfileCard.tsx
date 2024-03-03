@@ -38,6 +38,8 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
       py={3}
       spacing={4}
       w={'100%'}
+      borderBottom={'1px'}
+      borderColor={'greyOut'}
     >
       <Box flexShrink={0}
         onClick={() => navigateToUserProfile()}>
@@ -56,7 +58,7 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
         <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{userData.name}</Text>
       </Flex>
 
-      <HStack spacing={8}>
+      <HStack spacing={3}>
         {icons.map((icon, index) => (
           <IconButton
             key={index}
