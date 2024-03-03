@@ -25,6 +25,10 @@ type UserProfileCardProps = {
     icons: UserProfileIcon[]; // May need to render multiple icons
 }
 
+function navigateToUserProfile() {
+  console.log('Navigating to user profile...');
+}
+
 function UserProfileCard({ userData, icons }: UserProfileCardProps) {
   return (
     <HStack
@@ -35,7 +39,8 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
       spacing={4}
       w={'100%'}
     >
-      <Box flexShrink={0}>
+      <Box flexShrink={0}
+        onClick={() => navigateToUserProfile()}>
         <Image
           borderRadius={'full'} // Makes image circular
           boxSize={['50px', '60px', '70px']} // Dynamically increases image size based on screen width
@@ -46,7 +51,8 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
 
       {/* User name, displayed to the right of the profile image */}
       <Flex
-        flex={'1'}>
+        flex={'1'}
+        onClick={() => navigateToUserProfile()}>
         <Text fontSize={['xl', '2xl']} fontWeight={'bold'}>{userData.name}</Text>
       </Flex>
 
