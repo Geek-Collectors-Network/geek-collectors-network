@@ -59,6 +59,7 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
       </Flex>
 
       <HStack spacing={3}>
+      <HStack spacing={3}>
         {icons.map((icon, index) => (
           <IconButton
             key={index}
