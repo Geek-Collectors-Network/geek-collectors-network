@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react';
 
-type UserProfile = {
+type UserData = {
   name: string,
   image: string
 }
@@ -13,7 +13,7 @@ type UserProfileIcon = {
 }
 
 type UserProfileCardProps = {
-    userData: UserProfile,
+    userData: UserData,
     icons: UserProfileIcon[];
 }
 
