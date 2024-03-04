@@ -1,4 +1,5 @@
 import { boolean, date, int, mysqlTable, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import { InferInsertModel } from 'drizzle-orm';
 
 export const user = mysqlTable('user', {
   id: int('id').primaryKey().autoincrement(),
@@ -17,11 +18,15 @@ export const user = mysqlTable('user', {
   isAdmin: boolean('isAdmin').default(false),
 });
 
+export type UserType = InferInsertModel<typeof user>;
+
 export const tag = mysqlTable('tag', {
   id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
   creatorId: int('creatorId').references(() => user.id),
 });
+
+export type TagType = InferInsertModel<typeof tag>;
 
 export const userInterestTag = mysqlTable('userInterestTag', {
   id: int('id').primaryKey().autoincrement(),
@@ -29,3 +34,5 @@ export const userInterestTag = mysqlTable('userInterestTag', {
   userId: int('userId').references(() => user.id),
   tagId: int('tagId').references(() => tag.id),
 });
+
+export type UserInterestTagType = InferInsertModel<typeof userInterestTag>;
