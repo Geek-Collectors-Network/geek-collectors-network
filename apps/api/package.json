@@ -29,11 +29,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^18.17.14",
     "bun": "^1.0.29",
-    "dotenv": "^16.4.1",
     "drizzle-kit": "^0.20.14",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
-    "tsc-alias": "^1.8.7",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   },
