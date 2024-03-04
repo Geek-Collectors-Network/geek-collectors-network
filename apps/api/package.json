@@ -28,6 +28,7 @@
     "@types/express-session": "^1.17.10",
     "@types/morgan": "^1.9.9",
     "@types/node": "^18.17.14",
+    "bun": "^1.0.29",
     "dotenv": "^16.4.1",
     "drizzle-kit": "^0.20.14",
     "nodemon": "^3.0.1",
