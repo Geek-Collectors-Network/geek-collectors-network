@@ -7,7 +7,7 @@ type UserData = {
   image?: string
 }
 
-type UserProfileIcon = {
+type UserButton = {
 
   // Some icons may not have explicit names; added for accessibility
   label: string,
@@ -22,7 +22,7 @@ type UserProfileIcon = {
 
 type UserProfileCardProps = {
     userData: UserData,
-    icons: UserProfileIcon[]; // May need to render multiple icons
+    icons: UserButton[]; // May need to render multiple icons
 }
 
 function navigateToUserProfile() {
