@@ -5,6 +5,7 @@ import { Box, Flex, HStack, IconButton, Image, Text } from '@chakra-ui/react';
 type UserData = {
   name: string,
   image?: string
+  mutualFriends?: number,
 }
 
 type UserButton = {
