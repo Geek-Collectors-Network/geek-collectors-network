@@ -13,6 +13,7 @@ import { Service, type Resources } from './server/services/Service';
 import { AuthService } from './server/services/AuthService';
 import { UserService } from './server/services/UserService';
 
+import { writeDummyToDb } from './models/dummy';
 import { logger } from './modules/logger';
 
 (async () => {
@@ -31,6 +32,8 @@ import { logger } from './modules/logger';
   const db = drizzle(client);
 
   await migrate(db, { migrationsFolder });
+  if (process.env.NODE_ENV === 'development') await writeDummyToDb(db);
+
 
   /* ====== SERVER ====== */
 
@@ -63,10 +66,4 @@ import { logger } from './modules/logger';
 
   server.addServices(Server.VERSIONS.API_V1, v1Routes, resources);
   server.start(HOST, PORT);
-
-  process.on('SIGINT', () => {
-    server.stop();
-    client.end();
-    process.exitCode = 0;
-  });
 })();
