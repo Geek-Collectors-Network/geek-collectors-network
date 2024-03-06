@@ -4,5 +4,3 @@ about: Describe a new task to be completed
 ---
 
 ### Description
-
-### Solution
