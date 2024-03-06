@@ -5,7 +5,7 @@ import UserProfileCard from '../components/UserProfileCard';
 
 import { CheckIcon, SmallCloseIcon } from '@chakra-ui/icons';
 
-const icons = [
+const cardButtons = [
   {
     label: 'Send email',
     icon: <CheckIcon boxSize={8}/>,
@@ -24,7 +24,7 @@ function TestPage() {
       w={'100%'}
       justify={'center'}
     >
-      <UserProfileCard userData={{ name: 'John Smith' }} icons={icons}/>
+      <UserProfileCard userData={{ name: 'John Smith' }} icons={cardButtons}/>
     </VStack>
   );
 }

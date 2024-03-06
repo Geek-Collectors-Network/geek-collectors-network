@@ -8,7 +8,7 @@ type UserData = {
   mutualFriends?: number,
 }
 
-type UserButton = {
+type CardButton = {
 
   // Some icons may not have explicit names; added for accessibility
   label: string,
@@ -23,7 +23,7 @@ type UserButton = {
 
 type UserProfileCardProps = {
     userData: UserData,
-    icons: UserButton[]; // May need to render multiple icons
+    icons: CardButton[]; // May need to render multiple icons
 }
 
 function navigateToUserProfile() {
