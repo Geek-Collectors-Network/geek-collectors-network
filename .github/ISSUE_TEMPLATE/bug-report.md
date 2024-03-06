@@ -3,12 +3,12 @@ name: Bug Report
 about: Report bugs to be squashed
 ---
 
-## Description
+### Description
 
-## Expected Behaviour
+### Expected Behaviour
 
-## Actual Behaviour
+### Actual Behaviour
 
-## System Info
+### System Info
 
-## Steps to Reproduce
+### Steps to Reproduce
