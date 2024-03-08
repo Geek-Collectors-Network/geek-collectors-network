@@ -19,6 +19,8 @@ type CardButton = {
 
   // Allows for custom color schemes, i.e, green checkmark or red "x".
   colorScheme?: string
+
+  onClick?: () => void
 }
 
 type UserProfileCardProps = {
