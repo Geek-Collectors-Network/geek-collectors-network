@@ -69,6 +69,7 @@ function UserProfileCard({ userData, buttons }: UserProfileCardProps) {
             icon={button.icon}
             variant={button.variant || 'ghost'}
             colorScheme={button.colorScheme || 'brand'}
+            onClick={button.onClick}
           />
         ))}
       </HStack>
