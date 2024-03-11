@@ -25,14 +25,14 @@ type CardButton = {
 
 type UserProfileCardProps = {
     userData: UserData,
-    icons: CardButton[]; // May need to render multiple icons
+    buttons: CardButton[]; // May need to render multiple icons
 }
 
 function navigateToUserProfile() {
   console.log('Navigating to user profile...');
 }
 
-function UserProfileCard({ userData, icons }: UserProfileCardProps) {
+function UserProfileCard({ userData, buttons }: UserProfileCardProps) {
   return (
     <HStack
       backgroundColor={'background'}
@@ -62,13 +62,13 @@ function UserProfileCard({ userData, icons }: UserProfileCardProps) {
       </Flex>
 
       <HStack spacing={3}>
-        {icons.map((icon, index) => (
+        {buttons.map((button, index) => (
           <IconButton
             key={index}
-            aria-label={icon.label}
-            icon={icon.icon}
-            variant={icon.variant || 'ghost'}
-            colorScheme={icon.colorScheme || 'brand'}
+            aria-label={button.label}
+            icon={button.icon}
+            variant={button.variant || 'ghost'}
+            colorScheme={button.colorScheme || 'brand'}
           />
         ))}
       </HStack>
