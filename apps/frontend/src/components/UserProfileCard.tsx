@@ -13,7 +13,7 @@ type CardButton = {
   // Some icons may not have explicit names; added for accessibility
   label: string,
 
-  // The Chakra UI (or other) icon to be rendered and it's variant
+  // The Chakra UI (or other) icon to be rendered and its variant
   icon: React.ReactElement,
   variant?: string,
 
@@ -25,7 +25,7 @@ type CardButton = {
 
 type UserProfileCardProps = {
     userData: UserData,
-    buttons: CardButton[]; // May need to render multiple icons
+    buttons: CardButton[]; // May need to render multiple icon buttons
 }
 
 function navigateToUserProfile() {
