@@ -24,7 +24,7 @@ function TestPage() {
       w={'100%'}
       justify={'center'}
     >
-      <UserProfileCard userData={{ name: 'John Smith' }} icons={cardButtons}/>
+      <UserProfileCard userData={{ name: 'John Smith' }} buttons={cardButtons}/>
     </VStack>
   );
 }
