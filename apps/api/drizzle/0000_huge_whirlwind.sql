@@ -16,7 +16,7 @@ CREATE TABLE `user` (
 	`salt` varchar(128) NOT NULL,
 	`firstName` varchar(20),
 	`lastName` varchar(20),
-	`username` varchar(20),
+	`displayName` varchar(20),
 	`profileImageUrl` varchar(255),
 	`birthDate` date,
 	`isAdmin` boolean DEFAULT false,

@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "616a6213-40a5-4591-86fe-33b70ffe4c56",
+  "id": "3b453e2d-2b55-44a5-a63d-bd394d4b53d6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "tag": {
@@ -116,8 +116,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "username": {
-          "name": "username",
+        "displayName": {
+          "name": "displayName",
           "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false,
