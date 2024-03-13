@@ -250,32 +250,34 @@ const DUMMY_USERS: UserType[] = [
   },
 ];
 
-const DUMMY_TAGS: TagType[] = [
-  {
-    id: 1,
-    creatorId: 1,
-  },
-  {
-    id: 2,
-    creatorId: 1,
-  },
-  {
-    id: 3,
-    creatorId: 3,
-  },
-  {
-    id: 4,
-    creatorId: 2,
-  },
-  {
-    id: 5,
-    creatorId: 1,
-  },
-  {
-    id: 6,
-    creatorId: 3,
-  },
+const tagsText: string[] = [
+  'Star Wars',
+  'Star Trek',
+  'Marvel',
+  'Lord of the Rings',
+  'Transformers',
+  'Minecraft',
+  'Harry Potter',
+  'DC Comics',
+  'Nintendo',
+  'Game of Thrones',
+  'Pokemon',
+  'Doctor Who',
+  'The Simpsons',
+  'Dungeons & Dragons',
+  'Back to the Future',
+  'Batman',
+  'Super Mario Bros',
+  'The Legend of Zelda',
+  'The Avengers',
+  'Ghostbusters',
 ];
+
+const DUMMY_TAGS: TagType[] = tagsText.map((text, index) => ({
+  id: index + 1,
+  creatorId: (index % 3) + 2,
+  text,
+}));
 
 const DUMMY_INTERESTS: UserInterestTagType[] = [
   {

@@ -2,7 +2,9 @@ CREATE TABLE `tag` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`createdAt` timestamp NOT NULL,
 	`creatorId` int,
-	CONSTRAINT `tag_id` PRIMARY KEY(`id`)
+	`text` varchar(50) NOT NULL,
+	CONSTRAINT `tag_id` PRIMARY KEY(`id`),
+	CONSTRAINT `tag_text_unique` UNIQUE(`text`)
 );
 --> statement-breakpoint
 CREATE TABLE `user` (
