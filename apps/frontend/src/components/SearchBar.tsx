@@ -12,6 +12,7 @@ type SearchBarProps = {
 function SearchBar({ onSearch, placeholderText = 'Search...' }: SearchBarProps) {
   return (
     <Input
+      focusBorderColor="brand.600"
       placeholder={placeholderText}
       onChange={e => onSearch(e.target.value)}/>
   );
