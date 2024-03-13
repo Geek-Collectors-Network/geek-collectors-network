@@ -6,12 +6,13 @@ type SearchBarProps = {
     /* This function will filter data to be displayed in parent component.
     Ex. Displaying names containing the characters typed in by the user.  */
     onSearch: (search: string) => void;
+    placeholderText?: string;
 }
 
-function SearchBar({ onSearch }: SearchBarProps) {
+function SearchBar({ onSearch, placeholderText = 'Search...' }: SearchBarProps) {
   return (
     <Input
-      placeholder="Search..."
+      placeholder={placeholderText}
       onChange={e => onSearch(e.target.value)}/>
   );
 }
