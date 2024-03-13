@@ -1,7 +1,9 @@
 import { eq } from 'drizzle-orm';
 
 import { BaseService, type Resources } from './Service';
-import { user } from '../../models/user';
+import { user } from '../../models/schema';
+import { authenticate } from '../middleware/Authenticate';
+
 
 import { z, ZodError } from 'zod';
 
@@ -63,8 +65,7 @@ export class UserService extends BaseService {
 
     const controller = new UserController(resources);
     this.router.use(resources.session);
-
-    // TODO: use middleware to check authentication
+    this.router.use(authenticate);
 
     this.router.get('/:userId?/profile', async (req, res) => {
       const userId = req.params.userId ? parseInt(req.params.userId, 10) : req.session.userId!;
@@ -78,13 +79,9 @@ export class UserService extends BaseService {
 
     this.router.patch('/profile', async (req, res) => {
       const { userId } = req.session;
-      if (!userId) {
-        res.status(401).json({ error: 'Not authenticated' });
-        return;
-      }
       try {
         const parsedUpdateData: ProfileData = updateUserProfileSchema.parse(req.body);
-        const updateProfileResult = await controller.updateProfile(userId, parsedUpdateData);
+        const updateProfileResult = await controller.updateProfile(userId!, parsedUpdateData);
         res.status(200).json(updateProfileResult);
       } catch (err) {
         if (err instanceof ZodError) {
