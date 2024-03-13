@@ -64,7 +64,6 @@ export class UserService extends BaseService {
     super(resources, '/user');
 
     const controller = new UserController(resources);
-    this.router.use(resources.session);
     this.router.use(authenticate);
 
     this.router.get('/:userId?/profile', async (req, res) => {

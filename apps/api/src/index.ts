@@ -62,7 +62,7 @@ import { logger } from './modules/logger';
   if (!process.env.API_PORT) logger.warn('No API_PORT environment variable detected. Defaulting to 3000');
 
   const resources: Resources = { db, sessions };
-  const v1Routes: Service[] = [HelloWorldService, AuthService];
+  const v1Routes: Service[] = [AuthService, UserService];
 
   const server = new Server(resources);
   server.addServices(Server.VERSIONS.API_V1, v1Routes, resources);
