@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "02b8d26e-7ea4-4ddc-9f11-8ad569ee91f2",
+  "id": "373ce192-9940-4a55-b298-21d91a5682f0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "tag": {
@@ -179,45 +179,59 @@
         }
       }
     },
-    "userInterestTag": {
-      "name": "userInterestTag",
+    "user_to_tag": {
+      "name": "user_to_tag",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "userId": {
           "name": "userId",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "tagId": {
           "name": "tagId",
           "type": "int",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "userInterestTag_id": {
-          "name": "userInterestTag_id",
-          "columns": [
+      "foreignKeys": {
+        "user_to_tag_userId_user_id_fk": {
+          "name": "user_to_tag_userId_user_id_fk",
+          "tableFrom": "user_to_tag",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
             "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_to_tag_tagId_tag_id_fk": {
+          "name": "user_to_tag_tagId_tag_id_fk",
+          "tableFrom": "user_to_tag",
+          "tableTo": "tag",
+          "columnsFrom": [
+            "tagId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "user_to_tag_userId_tagId_pk": {
+          "name": "user_to_tag_userId_tagId_pk",
+          "columns": [
+            "userId",
+            "tagId"
           ]
         }
       },

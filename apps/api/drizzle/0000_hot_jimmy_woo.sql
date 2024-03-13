@@ -26,10 +26,11 @@ CREATE TABLE `user` (
 	CONSTRAINT `user_email_unique` UNIQUE(`email`)
 );
 --> statement-breakpoint
-CREATE TABLE `userInterestTag` (
-	`id` int AUTO_INCREMENT NOT NULL,
-	`createdAt` timestamp NOT NULL,
-	`userId` int,
-	`tagId` int,
-	CONSTRAINT `userInterestTag_id` PRIMARY KEY(`id`)
+CREATE TABLE `user_to_tag` (
+	`userId` int NOT NULL,
+	`tagId` int NOT NULL,
+	CONSTRAINT `user_to_tag_userId_tagId_pk` PRIMARY KEY(`userId`,`tagId`)
 );
+--> statement-breakpoint
+ALTER TABLE `user_to_tag` ADD CONSTRAINT `user_to_tag_userId_user_id_fk` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `user_to_tag` ADD CONSTRAINT `user_to_tag_tagId_tag_id_fk` FOREIGN KEY (`tagId`) REFERENCES `tag`(`id`) ON DELETE cascade ON UPDATE no action;

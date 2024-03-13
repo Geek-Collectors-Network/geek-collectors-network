@@ -1,4 +1,4 @@
-import { boolean, date, int, mysqlTable, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import { boolean, date, int, mysqlTable, primaryKey, timestamp, varchar } from 'drizzle-orm/mysql-core';
 import { InferInsertModel, relations } from 'drizzle-orm';
 
 export const user = mysqlTable('user', {
@@ -25,27 +25,28 @@ export const tag = mysqlTable('tag', {
   text: varchar('text', { length: 50 }).notNull().unique(),
 });
 
-export const userInterestTag = mysqlTable('userInterestTag', {
-  id: int('id').primaryKey().autoincrement(),
-  createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
-  userId: int('userId'),
-  tagId: int('tagId'),
-});
-
-export const tagRelations = relations(tag, ({ one }) => ({
-  user: one(user, {
-    fields: [tag.creatorId],
-    references: [user.id],
-  }),
+export const userToTag = mysqlTable('user_to_tag', {
+  userId: int('userId').references(() => user.id, { onDelete: 'cascade' }),
+  tagId: int('tagId').references(() => tag.id, { onDelete: 'cascade' }),
+}, table => ({
+  pk: primaryKey({ columns: [table.userId, table.tagId] }),
 }));
 
-export const userInterestTagRelations = relations(userInterestTag, ({ one }) => ({
+export const userRelations = relations(user, ({ many }) => ({
+  userToTags: many(userToTag),
+}));
+
+export const tagRelations = relations(tag, ({ many }) => ({
+  userToTags: many(userToTag),
+}));
+
+export const userToTagRelations = relations(userToTag, ({ one }) => ({
   user: one(user, {
-    fields: [userInterestTag.userId],
+    fields: [userToTag.userId],
     references: [user.id],
   }),
   tag: one(tag, {
-    fields: [userInterestTag.tagId],
+    fields: [userToTag.tagId],
     references: [tag.id],
   }),
 }));
@@ -53,4 +54,4 @@ export const userInterestTagRelations = relations(userInterestTag, ({ one }) => 
 
 export type UserType = InferInsertModel<typeof user>;
 export type TagType = InferInsertModel<typeof tag>;
-export type UserInterestTagType = InferInsertModel<typeof userInterestTag>;
+export type UserToTagType = InferInsertModel<typeof userToTag>;

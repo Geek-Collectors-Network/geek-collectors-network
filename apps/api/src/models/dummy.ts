@@ -1,8 +1,8 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 
-import type { UserType, TagType, UserInterestTagType } from './schema';
+import type { UserType, TagType, UserToTagType } from './schema';
 // eslint-disable-next-line no-duplicate-imports
-import { user, tag, userInterestTag } from './schema';
+import { user, tag, userToTag } from './schema';
 
 import { logger } from '../modules/logger';
 
@@ -279,38 +279,13 @@ const DUMMY_TAGS: TagType[] = tagsText.map((text, index) => ({
   text,
 }));
 
-const DUMMY_INTERESTS: UserInterestTagType[] = [
-  {
-    id: 1,
-    userId: 1,
-    tagId: 3,
-  },
-  {
-    id: 2,
-    userId: 1,
-    tagId: 2,
-  },
-  {
-    id: 3,
-    userId: 2,
-    tagId: 3,
-  },
-  {
-    id: 4,
-    userId: 2,
-    tagId: 3,
-  },
-  {
-    id: 5,
-    userId: 3,
-    tagId: 1,
-  },
-  {
-    id: 6,
-    userId: 1,
-    tagId: 6,
-  },
-];
+const DUMMY_INTERESTS: UserToTagType[] = [];
+for (let userId = 1; userId <= DUMMY_USERS.length; userId++) {
+  for (let i = 0; i < userId; i++) {
+    const tagId = (userId + i) % DUMMY_TAGS.length;
+    DUMMY_INTERESTS.push({ userId, tagId });
+  }
+}
 
 export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
   logger.info('Writing dummy data to database if it doesn\'t exist.');
@@ -329,7 +304,7 @@ export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
     // Likely to throw "duplicate entry", we'll just ignore it
   }
 
-  const interestPromises = DUMMY_INTERESTS.map(dummy => db.insert(userInterestTag).values(dummy).execute());
+  const interestPromises = DUMMY_INTERESTS.map(dummy => db.insert(userToTag).values(dummy).execute());
   try {
     await Promise.all(interestPromises);
   } catch (e) {
