@@ -15,7 +15,7 @@ type Friend = {
 }
 
 function FriendsList() {
-  const { data: friends, isLoading } = useFetchAndFilter<Friend>('https://dummyjson.com/users', 'users');
+  const { data: friends, isLoading } = useFetchAndFilter<Friend>('https://dummyjson.com/users?limit=8', 'users');
   const [filteredFriends, setFilteredFriends] = useState<Friend[]>([]);
 
   // Ensures `filteredFriends` list is updated when original `friends` list changes.
