@@ -31,7 +31,7 @@ function useFetchData<T>(endpoint: string, dataKey?: string) {
       .finally(() => {
         setIsLoading(false);
       });
-  });
+  }, [endpoint, dataKey]);
   return { data, isLoading, error };
 }
 
