@@ -9,20 +9,14 @@ function useFetchData<T>(endpoint: string, dataKey?: string) {
     setIsLoading(true);
 
     fetch(endpoint)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Error fetching data: ${response.status}`);
-        }
-        return response.json();
-      })
-
+      .then(response => response.json())
       .then(receivedData => {
         const formattedData = dataKey ? receivedData[dataKey] : receivedData;
         setData(formattedData);
       })
 
       .catch(err => {
-        console.log(`Error ftching data: ${err}`);
+        console.log(`Error fetching data: ${err}`);
         setIsLoading(false);
         setError(err);
         setData([]);

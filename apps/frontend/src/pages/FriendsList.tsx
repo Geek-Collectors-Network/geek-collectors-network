@@ -15,7 +15,7 @@ type Friend = {
 }
 
 function FriendsList() {
-  const { data: friends, isLoading, error } = useFetchAndFilter<Friend>('https://dummyjson.com/user', 'users');
+  const { data: friends, isLoading } = useFetchAndFilter<Friend>('https://dummyjson.com/users', 'users');
   const [filteredFriends, setFilteredFriends] = useState<Friend[]>([]);
 
   // Ensures `filteredFriends` list is updated when original `friends` list changes.
@@ -55,26 +55,12 @@ function FriendsList() {
     );
   }
 
-  if (error) {
-    return (
-      <VStack
-        bg={'background'}
-        px={10}
-        pt={14}
-        justifyContent={'center'}
-      >
-        <PageTitle title={'Friends Lists'} />
-        <SearchBar onSearch={handleUserSearch} />
-        <p>There was an error fetching the data. Please try again later.</p>
-      </VStack>
-    );
-  }
-
   return (
     <VStack
       bg={'background'}
       px={10}
       pt={14}
+      alignItems={'center'}
     >
       <PageTitle title={'Friends Lists'} />
       <SearchBar onSearch={handleUserSearch} />
