@@ -22,11 +22,13 @@ function SearchBar({ onSearch, placeholderText = 'Search...' }: SearchBarProps) 
 
   return (
     <InputGroup>
+
       <Input
         value={value}
         placeholder={placeholderText}
         onChange={handleChange}
         focusBorderColor="brand.600"/>
+
       <InputRightElement>
         <Button
           background="transparent"
@@ -37,6 +39,7 @@ function SearchBar({ onSearch, placeholderText = 'Search...' }: SearchBarProps) 
           <SmallCloseIcon color={'brand.600'} boxSize={6}/>
         </Button>
       </InputRightElement>
+
     </InputGroup>
   );
 }
