@@ -1,20 +1,11 @@
 import { eq } from 'drizzle-orm';
 
 import { BaseService, type Resources } from './Service';
-import { user } from '../../models/schema';
+import { user, UserType } from '../../models/schema';
 import { authenticate } from '../middleware/Authenticate';
-
 
 import { z, ZodError } from 'zod';
 
-type ProfileData = {
-  email?: string
-  firstName?: string
-  lastName?: string
-  displayName?: string
-  profileImageUrl?: string
-  birthDate?: Date
-};
 
 const updateUserProfileSchema = z.object({
   email: z.string().email().toLowerCase(),
@@ -47,7 +38,7 @@ export class UserController {
     return results.length !== 1 ? null : results[0];
   }
 
-  public async updateProfile(id: number, updateData: ProfileData) {
+  public async updateProfile(id: number, updateData: Partial<UserType>) {
     const results = await this.resources.db
       .update(user)
       .set(updateData)
@@ -79,7 +70,7 @@ export class UserService extends BaseService {
     this.router.patch('/profile', async (req, res) => {
       const { userId } = req.session;
       try {
-        const parsedUpdateData: ProfileData = updateUserProfileSchema.parse(req.body);
+        const parsedUpdateData: Partial<UserType> = updateUserProfileSchema.parse(req.body);
         const updateProfileResult = await controller.updateProfile(userId!, parsedUpdateData);
         res.status(200).json(updateProfileResult);
       } catch (err) {
