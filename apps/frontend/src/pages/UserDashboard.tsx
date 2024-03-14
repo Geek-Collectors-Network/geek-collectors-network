@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { VStack, HStack, StackDivider, Heading } from '@chakra-ui/react';
+import { VStack, HStack, StackDivider, Heading, Text } from '@chakra-ui/react';
 import { ArrowRightIcon } from '@chakra-ui/icons';
 
 import PageLayout from '../components/PageLayout';
@@ -16,30 +16,30 @@ function UserDashboard() {
         px={10}
         pt={20}
       >
-        <Heading size={'md'} alignSelf={'center'} justifySelf={'center'} mb={4} >
+        <Heading size={'sm'} alignSelf={'center'} justifySelf={'center'} mb={4} >
             Profile & Settings
         </Heading>
-        <Link to={'/'} style={{ width: '100%' }}>
+        <Link to={'/account'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
-            <Heading size={'sm'}>Account Information</Heading>
+            <Text>Account Information</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
         <Link to={'/'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
-            <Heading size={'sm'}>Profile</Heading>
+            <Text>Profile</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
         <Link to={'/'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
-            <Heading size={'sm'}>Friends List</Heading>
+            <Text>Friends List</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
         <Link to={'/'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
-            <Heading size={'sm'}>Item Collection</Heading>
+            <Text>Item Collection</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
