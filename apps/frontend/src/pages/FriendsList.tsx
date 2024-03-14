@@ -9,8 +9,7 @@ import useFetchAndFilter from '../hooks/useFetchAndFilter';
 import loadingAnimation from '../components/LoadingAnimation';
 
 
-/* Types like this may be better extracted into a separate file
-Will leave this for now, but will consider this in the future. */
+// TODO: Extract to separate file
 type Friend = {
   id: string,
   firstName: string,
