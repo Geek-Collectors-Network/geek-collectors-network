@@ -7,16 +7,7 @@ import UserProfileCard from '../components/UserProfileCard';
 import SearchBar from '../components/SearchBar';
 import useFetchAndFilter from '../hooks/useFetchAndFilter';
 import loadingAnimation from '../components/LoadingAnimation';
-
-
-// TODO: Extract to separate file
-type Friend = {
-  id: string,
-  firstName: string,
-  lastName: string,
-  image: string,
-}
-
+import { Friend } from '../types/types';
 
 function FriendsList() {
   const { data: friends, isLoading } = useFetchAndFilter<Friend>('https://dummyjson.com/users?limit=8', 'users');
