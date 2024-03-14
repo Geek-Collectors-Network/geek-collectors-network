@@ -1,3 +1,5 @@
+import { type Resources } from './services/Service';
+
 import express from 'express';
 
 // Middleware
@@ -5,22 +7,13 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
 
-import { Service, Resources } from './services/Service';
-
 import { logger } from '../modules/logger';
 
-// eslint-disable-next-line no-shadow
-enum VERSIONS {
-  API_V1 = '/api/v1',
-}
-
 export class Server {
-  public static readonly VERSIONS = VERSIONS;
-
   public readonly app: express.Application;
   private server: ReturnType<express.Application['listen']> | null = null;
 
-  constructor(resources: Resources) {
+  constructor(resources: Resources, routes: Record<string, express.Router>) {
     this.app = express();
 
     this.app.use(resources.sessions);
@@ -35,9 +28,16 @@ export class Server {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
+    Object.entries(routes).forEach(([route, router]) => {
+      this.app.use(route, router);
+    });
 
     this.app.get('/health', (_, res) => res.status(200).json({
       msg: 'OK',
+    }));
+
+    this.app.use('*', (_, res) => res.status(404).json({
+      msg: 'Not Found',
     }));
   }
 
@@ -49,14 +49,5 @@ export class Server {
 
   public stop() {
     this.server?.close();
-  }
-
-  public addServices(version: VERSIONS, services: Service[], resources: Resources): void {
-    services.forEach(service => {
-      const serviceInstance = new service(resources);
-      const router = serviceInstance.getRouter();
-
-      this.app.use(version, router);
-    });
   }
 }
