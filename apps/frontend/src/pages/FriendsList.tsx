@@ -15,7 +15,7 @@ type Friend = {
 }
 
 function FriendsList() {
-  const { data: friends, isLoading, error } = useFetchAndFilter<Friend>('https://dummyjson.com/users', 'users');
+  const { data: friends, isLoading, error } = useFetchAndFilter<Friend>('https://dummyjson.com/user', 'users');
   const [filteredFriends, setFilteredFriends] = useState<Friend[]>([]);
 
   // Ensures `filteredFriends` list is updated when original `friends` list changes.
@@ -31,9 +31,7 @@ function FriendsList() {
     setFilteredFriends(filteredQueries);
   };
 
-
-  // Rendering actions based success, loading, and error states
-
+  // Rendering actions based on success, loading, and error states
   const loadingAnimation = (
     <Spinner
       thickness="4px"
@@ -43,7 +41,7 @@ function FriendsList() {
     />
   );
 
-  if (isLoading && !error) {
+  if (isLoading) {
     return (
       <VStack
         bg={'background'}
@@ -63,6 +61,7 @@ function FriendsList() {
         bg={'background'}
         px={10}
         pt={14}
+        justifyContent={'center'}
       >
         <PageTitle title={'Friends Lists'} />
         <SearchBar onSearch={handleUserSearch} />
@@ -80,7 +79,7 @@ function FriendsList() {
       <PageTitle title={'Friends Lists'} />
       <SearchBar onSearch={handleUserSearch} />
 
-      {filteredFriends.map(friend => (
+      {filteredFriends.length > 0 ? filteredFriends.map(friend => (
         <UserProfileCard
           key={friend.id}
           userData={{ name: `${friend.firstName} ${friend.lastName}`, image: friend.image }}
@@ -89,7 +88,8 @@ function FriendsList() {
             { label: 'Check social media', icon: <InfoIcon boxSize={5}/> },
           ]}
         />
-      ))}
+      )) : <p>No friends found</p>
+      }
     </VStack>
   );
 }
