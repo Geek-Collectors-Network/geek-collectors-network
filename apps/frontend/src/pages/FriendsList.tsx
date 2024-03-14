@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { VStack, Spinner } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import { EmailIcon, InfoIcon } from '@chakra-ui/icons';
 
 import PageTitle from '../components/PageTitle';
 import UserProfileCard from '../components/UserProfileCard';
 import SearchBar from '../components/SearchBar';
 import useFetchAndFilter from '../hooks/useFetchAndFilter';
+import loadingAnimation from '../components/LoadingAnimation';
 
+
+/* Types like this may be better extracted into a separate file
+Will leave this for now, but will consider this in the future. */
 type Friend = {
   id: string,
   firstName: string,
   lastName: string,
   image: string,
 }
+
 
 function FriendsList() {
   const { data: friends, isLoading } = useFetchAndFilter<Friend>('https://dummyjson.com/users?limit=8', 'users');
@@ -31,51 +36,30 @@ function FriendsList() {
     setFilteredFriends(filteredQueries);
   };
 
-  // Rendering actions based on success, loading, and error states
-  const loadingAnimation = (
-    <Spinner
-      thickness="4px"
-      color={'brand.500'}
-      emptyColor="gray.200"
-      size={['md', 'lg', 'xl']}
-    />
-  );
-
-  if (isLoading) {
-    return (
-      <VStack
-        bg={'background'}
-        px={10}
-        pt={14}
-      >
-        <PageTitle title={'Friends Lists'} />
-        <SearchBar onSearch={handleUserSearch} />
-        {loadingAnimation}
-      </VStack>
-    );
-  }
-
-  return (
-    <VStack
-      bg={'background'}
-      px={10}
-      pt={14}
-      alignItems={'center'}
-    >
-      <PageTitle title={'Friends Lists'} />
-      <SearchBar onSearch={handleUserSearch} />
-
+  const renderFriendsList = (
+    <>
       {filteredFriends.length > 0 ? filteredFriends.map(friend => (
         <UserProfileCard
           key={friend.id}
           userData={{ name: `${friend.firstName} ${friend.lastName}`, image: friend.image }}
           buttons={[
             { label: 'Send email', icon: <EmailIcon boxSize={6}/>, onClick: () => console.log(`Sending message to ${friend.id}`) },
-            { label: 'Check social media', icon: <InfoIcon boxSize={5}/> },
+            { label: 'Social media', icon: <InfoIcon boxSize={5}/> },
           ]}
         />
       )) : <p>No friends found</p>
       }
+    </>
+  );
+
+  return (
+    <VStack bg={'background'} px={10} pt={14} alignItems={'center'}>
+
+      <PageTitle title={'Friends Lists'} />
+      <SearchBar onSearch={handleUserSearch} />
+
+      {isLoading ? loadingAnimation : renderFriendsList}
+
     </VStack>
   );
 }
