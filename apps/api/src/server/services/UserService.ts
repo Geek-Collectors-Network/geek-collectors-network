@@ -1,19 +1,11 @@
 import { and, eq } from 'drizzle-orm';
 
 import { BaseService, type Resources } from './Service';
-import { user } from '../../models/user';
-import { tag, userInterestTag } from '../../models/tag';
+import { user, UserType, userInterestTag, tag } from '../../models/schema';
+import { authenticate } from '../middleware/Authenticate';
 
 import { z, ZodError } from 'zod';
 
-type ProfileData = {
-  email?: string
-  firstName?: string
-  lastName?: string
-  displayName?: string
-  profileImageUrl?: string
-  birthDate?: Date
-};
 
 const updateUserProfileSchema = z.object({
   email: z.string().email().toLowerCase(),
@@ -46,7 +38,7 @@ export class UserController {
     return results.length !== 1 ? null : results[0];
   }
 
-  public async updateProfile(id: number, updateData: ProfileData) {
+  public async updateProfile(id: number, updateData: Partial<UserType>) {
     const results = await this.resources.db
       .update(user)
       .set(updateData)
@@ -123,18 +115,11 @@ export class UserService extends BaseService {
     super(resources, '/user');
 
     const controller = new UserController(resources);
-    this.router.use(resources.session);
+    this.router.use(authenticate);
 
-    // TODO: use middleware to check authentication
-
-    this.router.get('/profile', async (req, res) => {
-      // TODO: use query param to get profile of specified user (if friend)
-      const id  = req.session.userId;
-      if (!id) {
-        res.status(401).json({ error: 'Not authenticated' });
-        return;
-      }
-      const getProfileResult = await controller.getProfile(id);
+    this.router.get('/:userId?/profile', async (req, res) => {
+      const userId = req.params.userId ? parseInt(req.params.userId, 10) : req.session.userId!;
+      const getProfileResult = await controller.getProfile(userId);
       if (getProfileResult) {
         res.status(200).json(getProfileResult);
       } else {
@@ -143,14 +128,10 @@ export class UserService extends BaseService {
     });
 
     this.router.patch('/profile', async (req, res) => {
-      const id  = req.session.userId;
-      if (!id) {
-        res.status(401).json({ error: 'Not authenticated' });
-        return;
-      }
+      const { userId } = req.session;
       try {
-        const parsedUpdateData: ProfileData = updateUserProfileSchema.parse(req.body);
-        const updateProfileResult = await controller.updateProfile(id, parsedUpdateData);
+        const parsedUpdateData: Partial<UserType> = updateUserProfileSchema.parse(req.body);
+        const updateProfileResult = await controller.updateProfile(userId!, parsedUpdateData);
         res.status(200).json(updateProfileResult);
       } catch (err) {
         if (err instanceof ZodError) {
@@ -173,7 +154,6 @@ export class UserService extends BaseService {
         res.status(401).json({ error: 'Not authenticated' });
         return;
       }
-      // TODO: validate tag text (?)
       const tagText = req.body.tag;
       if (!tagText) {
         res.status(400).json({ error: 'Missing tag' });
