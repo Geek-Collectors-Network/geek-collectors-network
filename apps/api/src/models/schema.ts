@@ -26,14 +26,14 @@ export const tag = mysqlTable('tag', {
 });
 
 export const userToTag = mysqlTable('user_to_tag', {
-  userId: int('userId').references(() => user.id, { onDelete: 'cascade' }),
-  tagId: int('tagId').references(() => tag.id, { onDelete: 'cascade' }),
+  userId: int('userId').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  tagId: int('tagId').notNull().references(() => tag.id, { onDelete: 'cascade' }),
 }, table => ({
   pk: primaryKey({ columns: [table.userId, table.tagId] }),
 }));
 
 export const userRelations = relations(user, ({ many }) => ({
-  userToTags: many(userToTag),
+  tags: many(userToTag),
 }));
 
 export const tagRelations = relations(tag, ({ one, many }) => ({
@@ -41,7 +41,7 @@ export const tagRelations = relations(tag, ({ one, many }) => ({
     fields: [tag.creatorId],
     references: [user.id],
   }),
-  userToTags: many(userToTag),
+  users: many(userToTag),
 }));
 
 export const userToTagRelations = relations(userToTag, ({ one }) => ({
