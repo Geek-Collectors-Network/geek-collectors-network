@@ -6,4 +6,12 @@ type Friend = {
     image: string,
   }
 
+  type User = {
+    id: string,
+    firstName: string,
+    lastName: string,
+    image: string,
+  }
+
 export type { Friend };
+export type { User };

@@ -5,6 +5,7 @@ import LandingPage from './pages/LandingPage';
 import Registration from './pages/Registration';
 import LoginPage from './pages/LoginPage';
 import Test from './pages/TestPage';
+import UserListTestPage from './pages/UserListTestPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/register" element={<Registration />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/test" element={<Test />} />
+      <Route path="/userlist" element={<UserListTestPage />} />
 
       {/* Profile page and profile edit page */}
       {/* <Route path="/profile" /> */}
