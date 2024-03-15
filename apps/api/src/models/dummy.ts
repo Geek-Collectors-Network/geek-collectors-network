@@ -1,4 +1,5 @@
 import { drizzle } from 'drizzle-orm/mysql2';
+import { sql } from 'drizzle-orm';
 
 import type { UserType, TagType, UserToTagType } from './schema';
 // eslint-disable-next-line no-duplicate-imports
@@ -290,7 +291,13 @@ for (let userId = 1; userId <= DUMMY_USERS.length; userId++) {
 export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
   logger.info('Writing dummy data to database if it doesn\'t exist.');
 
-  const userInsertionPromises = DUMMY_USERS.map(dummy => db.insert(user).values(dummy).execute());
+  // MYSQL doesn't support onConflictDoNothing() (i.e. ON DUPLICATE KEY IGNORE)
+  // so instead we perform a no-op by setting any column’s value to itself
+  const userInsertionPromises = DUMMY_USERS.map(dummy => db
+    .insert(user)
+    .values(dummy)
+    .onDuplicateKeyUpdate({ set: { id: sql`id` } })
+    .execute());
   try {
     Promise.all(userInsertionPromises);
   } catch (e) {
