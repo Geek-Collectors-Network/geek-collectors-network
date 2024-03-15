@@ -21,7 +21,7 @@ export const user = mysqlTable('user', {
 export const tag = mysqlTable('tag', {
   id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
-  creatorId: int('creatorId'),
+  creatorId: int('creatorId').references(() => user.id, { onDelete: 'set null' }),
   text: varchar('text', { length: 50 }).notNull().unique(),
 });
 
@@ -36,7 +36,11 @@ export const userRelations = relations(user, ({ many }) => ({
   userToTags: many(userToTag),
 }));
 
-export const tagRelations = relations(tag, ({ many }) => ({
+export const tagRelations = relations(tag, ({ one, many }) => ({
+  creator: one(user, {
+    fields: [tag.creatorId],
+    references: [user.id],
+  }),
   userToTags: many(userToTag),
 }));
 
