@@ -15,6 +15,7 @@ export const user = mysqlTable('user', {
   displayName: varchar('displayName', { length: 20 }),
   profileImageUrl: varchar('profileImageUrl', { length: 255 }),
   birthDate: date('birthDate'),
+  about: varchar('about', { length: 1000 }),
   isAdmin: boolean('isAdmin').default(false),
 });
 

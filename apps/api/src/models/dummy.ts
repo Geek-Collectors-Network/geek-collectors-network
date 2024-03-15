@@ -23,6 +23,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'ADMIN',
     profileImageUrl: 'https://robohash.org/ADMIN',
     birthDate: new Date('1970-01-01 00:00:00'),
+    about: 'I like to admin things.',
     isAdmin: true,
   },
   {
@@ -39,6 +40,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'JohhnyD',
     profileImageUrl: 'https://robohash.org/JohhnyD',
     birthDate: new Date('1990-05-15 00:00:00'),
+    about: 'I am a male person.',
     isAdmin: false,
   },
   {
@@ -55,6 +57,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Alicia',
     profileImageUrl: 'https://robohash.org/Alicia',
     birthDate: new Date('1985-07-21 00:00:00'),
+    about: 'I am another generic person.',
     isAdmin: false,
   },
   {
@@ -71,6 +74,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'JaneyD',
     profileImageUrl: 'https://robohash.org/JaneyD',
     birthDate: new Date('1995-10-08 00:00:00'),
+    about: 'I am a female person.',
     isAdmin: false,
   },
   {
@@ -87,6 +91,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'The Bard',
     profileImageUrl: 'https://robohash.org/TheBard',
     birthDate: new Date('1564-04-23 00:00:00'),
+    about: 'I am a famous playwright.',
     isAdmin: false,
   },
   {
@@ -103,6 +108,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Detective Holmes',
     profileImageUrl: 'https://robohash.org/DetectiveHolmes',
     birthDate: new Date('1854-01-06 00:00:00'),
+    about: 'I am a fictional detective.',
     isAdmin: false,
   },
   {
@@ -119,6 +125,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Batman',
     profileImageUrl: 'https://robohash.org/Batman',
     birthDate: new Date('1939-05-01 00:00:00'),
+    about: "I'm Batman.",
     isAdmin: false,
   },
   {
@@ -135,6 +142,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Witchy',
     profileImageUrl: 'https://robohash.org/Witchy',
     birthDate: new Date('1979-09-19 00:00:00'),
+    about: 'I am a witch.',
     isAdmin: false,
   },
   {
@@ -151,6 +159,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Spider-Man',
     profileImageUrl: 'https://robohash.org/SpiderMan',
     birthDate: new Date('1962-08-10 00:00:00'),
+    about: 'I am a friendly neighborhood Spider man.',
     isAdmin: false,
   },
   {
@@ -167,6 +176,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Iron Man',
     profileImageUrl: 'https://robohash.org/IronMan',
     birthDate: new Date('1970-05-29 00:00:00'),
+    about: "I'm a billionaire playboy philanthropist.",
     isAdmin: false,
   },
   {
@@ -183,6 +193,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Superman',
     profileImageUrl: 'https://robohash.org/Superman',
     birthDate: new Date('1938-04-18 00:00:00'),
+    about: 'I am a journalist with a secret identity.',
     isAdmin: false,
   },
   {
@@ -199,6 +210,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Hulk',
     profileImageUrl: 'https://robohash.org/Hulk',
     birthDate: new Date('1962-05-01 00:00:00'),
+    about: "Don't make me angry. You wouldn't like me when I'm angry.",
     isAdmin: false,
   },
   {
@@ -215,6 +227,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'Wonder Woman',
     profileImageUrl: 'https://robohash.org/WonderWoman',
     birthDate: new Date('1941-10-21 00:00:00'),
+    about: 'I am an Amazonian warrior princess.',
     isAdmin: false,
   },
   {
@@ -231,6 +244,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: 'God of Thunder',
     profileImageUrl: 'https://robohash.org/GodofThunder',
     birthDate: new Date('1962-08-08 00:00:00'),
+    about: 'I am the son of Odin.',
     isAdmin: false,
   },
   {
@@ -247,6 +261,7 @@ const DUMMY_USERS: UserType[] = [
     displayName: '',
     profileImageUrl: '',
     birthDate: new Date(),
+    about: '',
     isAdmin: false,
   },
 ];
