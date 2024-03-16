@@ -5,7 +5,7 @@ export class TestService extends BaseService {
     super(resources, '/');
 
     this.router.get('/test', async (req, res) => {
-      const results = await this.resources.db
+      const usersWithTags = await this.resources.db
         .query
         .users
         .findMany({
@@ -27,7 +27,7 @@ export class TestService extends BaseService {
         });
 
       res.status(200).json({
-        results,
+        usersWithTags,
       });
     });
   }

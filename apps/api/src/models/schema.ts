@@ -1,4 +1,4 @@
-import { date, int, mysqlTable, primaryKey, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import { date, int, mysqlEnum, mysqlTable, primaryKey, timestamp, varchar } from 'drizzle-orm/mysql-core';
 import { InferInsertModel, relations } from 'drizzle-orm';
 
 export const users = mysqlTable('user', {
@@ -32,6 +32,15 @@ export const usersToTags = mysqlTable('user_to_tag', {
   tagId: int('tag_id').notNull().references(() => tags.id, { onDelete: 'cascade' }),
 }, table => ({
   pk: primaryKey({ columns: [table.userId, table.tagId] }),
+}));
+
+export const friendships = mysqlTable('friendship', {
+  inviterId: int('inviter_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  inviteeId: int('invitee_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+}, table => ({
+  pk: primaryKey({ columns: [table.inviterId, table.inviteeId] }),
+  message: varchar('text', { length: 200 }).notNull().unique(),
+  status: mysqlEnum('status', ['pending', 'accepted', 'rejected', 'blocked']).notNull().default('pending'),
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({
