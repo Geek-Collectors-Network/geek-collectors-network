@@ -1,4 +1,5 @@
 import type { drizzle } from 'drizzle-orm/mysql2';
+import * as schema from '../../models/schema';
 import * as session from 'express-session';
 
 import express from 'express';
@@ -9,7 +10,7 @@ import express from 'express';
   * These are required to be passed in to EVERY service's constructor.
   */
 export type RequiredResources = {
-  db: ReturnType<typeof drizzle>;
+  db: ReturnType<typeof drizzle<typeof schema>>;
   sessions: ReturnType<typeof session.default>
 };
 
