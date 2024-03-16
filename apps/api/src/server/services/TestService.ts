@@ -26,6 +26,11 @@ export class TestService extends BaseService {
           },
         });
 
+      for (const user of usersWithTags) {
+        user.tags = user.tags.map(tag => tag.tag.text);
+      }
+
+
       res.status(200).json({
         usersWithTags,
       });
