@@ -37,10 +37,11 @@ export const usersToTags = mysqlTable('user_to_tag', {
 export const friendships = mysqlTable('friendship', {
   inviterId: int('inviter_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
   inviteeId: int('invitee_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-}, table => ({
-  pk: primaryKey({ columns: [table.inviterId, table.inviteeId] }),
   message: varchar('text', { length: 200 }).notNull().unique(),
   status: mysqlEnum('status', ['pending', 'accepted', 'rejected', 'blocked']).notNull().default('pending'),
+}, table => ({
+  pk: primaryKey({ columns: [table.inviterId, table.inviteeId] }),
+
 }));
 
 export const usersRelations = relations(users, ({ many }) => ({

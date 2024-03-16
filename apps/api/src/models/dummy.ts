@@ -3,7 +3,7 @@ import { sql } from 'drizzle-orm';
 
 import type { UsersType, TagsType, UsersToTagsType } from './schema';
 // eslint-disable-next-line no-duplicate-imports
-import { users, tags, usersToTags } from './schema';
+import { friendships, users, tags, usersToTags } from './schema';
 
 import { logger } from '../modules/logger';
 
@@ -283,6 +283,28 @@ for (let userId = 1; userId <= DUMMY_USERS.length; userId++) {
   }
 }
 
+const DUMMY_FRIENDSHIPS = [
+  // John Doe
+  { inviterId: 2, inviteeId: 3, message: 'Hey Alice, let\'s be friends!', status: 'pending' },
+  { inviterId: 2, inviteeId: 4, message: 'Hey Jane, let\'s be friends!', status: 'pending' },
+  { inviterId: 2, inviteeId: 5, message: 'Hey William, let\'s be friends!', status: 'pending' },
+
+  { inviterId: 2, inviteeId: 6, message: 'Hey Sherlock, let\'s be friends!', status: 'accepted' },
+  { inviterId: 2, inviteeId: 7, message: 'Hey Bruce, let\'s be friends!', status: 'accepted' },
+  { inviterId: 2, inviteeId: 8, message: 'Hey Hermione, let\'s be friends!', status: 'accepted' },
+
+  { inviterId: 2, inviteeId: 9, message: 'Hey Peter, let\'s be friends!', status: 'rejected' },
+  { inviterId: 2, inviteeId: 10, message: 'Hey Tony, let\'s be friends!', status: 'rejected' },
+
+  { inviterId: 2, inviteeId: 11, message: 'Hey Clark, let\'s be friends!', status: 'blocked' },
+  { inviterId: 2, inviteeId: 12, message: 'Hey Bruce, let\'s be friends!', status: 'blocked' },
+
+  { inviterId: 13, inviteeId: 2, message: 'Hey John, it\'s Diana, let\'s be friends!', status: 'pending' },
+  { inviterId: 14, inviteeId: 2, message: 'Hey John, it\'s Thor, let\'s be friends!', status: 'pending' },
+  { inviterId: 15, inviteeId: 2, message: 'Hey John, it\'s Hulk, let\'s be friends!', status: 'pending' },
+
+];
+
 export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
   logger.info('Writing dummy data to database if it doesn\'t exist.');
 
@@ -321,4 +343,10 @@ export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
   } catch (e) {
     // Likely to throw "duplicate entry", we'll just ignore it
   }
+
+  const friendshipPromises = DUMMY_FRIENDSHIPS.map(dummy => db
+    .insert(friendships)
+    .values(dummy)
+    .onDuplicateKeyUpdate({ set: { inviterId: sql`inviter_id` } })
+    .execute());
 };

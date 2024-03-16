@@ -1,3 +1,12 @@
+CREATE TABLE `friendship` (
+	`inviter_id` int NOT NULL,
+	`invitee_id` int NOT NULL,
+	`text` varchar(200) NOT NULL,
+	`status` enum('pending','accepted','rejected','blocked') NOT NULL DEFAULT 'pending',
+	CONSTRAINT `friendship_inviter_id_invitee_id_pk` PRIMARY KEY(`inviter_id`,`invitee_id`),
+	CONSTRAINT `friendship_text_unique` UNIQUE(`text`)
+);
+--> statement-breakpoint
 CREATE TABLE `tag` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`created_at` timestamp NOT NULL,
@@ -34,6 +43,8 @@ CREATE TABLE `user_to_tag` (
 	CONSTRAINT `user_to_tag_user_id_tag_id_pk` PRIMARY KEY(`user_id`,`tag_id`)
 );
 --> statement-breakpoint
+ALTER TABLE `friendship` ADD CONSTRAINT `friendship_inviter_id_user_id_fk` FOREIGN KEY (`inviter_id`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `friendship` ADD CONSTRAINT `friendship_invitee_id_user_id_fk` FOREIGN KEY (`invitee_id`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `tag` ADD CONSTRAINT `tag_creator_id_user_id_fk` FOREIGN KEY (`creator_id`) REFERENCES `user`(`id`) ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `user_to_tag` ADD CONSTRAINT `user_to_tag_user_id_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `user_to_tag` ADD CONSTRAINT `user_to_tag_tag_id_tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `tag`(`id`) ON DELETE cascade ON UPDATE no action;

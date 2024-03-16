@@ -1,9 +1,89 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "3f6d9953-490d-4217-b666-945ca6c7a5be",
+  "id": "6a84ea98-c855-4c7b-9cea-a346ee74585b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "friendship": {
+      "name": "friendship",
+      "columns": {
+        "inviter_id": {
+          "name": "inviter_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "invitee_id": {
+          "name": "invitee_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "enum('pending','accepted','rejected','blocked')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'pending'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "friendship_inviter_id_user_id_fk": {
+          "name": "friendship_inviter_id_user_id_fk",
+          "tableFrom": "friendship",
+          "tableTo": "user",
+          "columnsFrom": [
+            "inviter_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "friendship_invitee_id_user_id_fk": {
+          "name": "friendship_invitee_id_user_id_fk",
+          "tableFrom": "friendship",
+          "tableTo": "user",
+          "columnsFrom": [
+            "invitee_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "friendship_inviter_id_invitee_id_pk": {
+          "name": "friendship_inviter_id_invitee_id_pk",
+          "columns": [
+            "inviter_id",
+            "invitee_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "friendship_text_unique": {
+          "name": "friendship_text_unique",
+          "columns": [
+            "text"
+          ]
+        }
+      }
+    },
     "tag": {
       "name": "tag",
       "columns": {
