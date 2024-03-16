@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
 
+import { sendResponse } from './routes/utils';
 import { logger } from '../modules/logger';
 
 export class Server {
@@ -32,13 +33,8 @@ export class Server {
       this.app.use(route, router);
     });
 
-    this.app.get('/health', (_, res) => res.status(200).json({
-      msg: 'OK',
-    }));
-
-    this.app.use('*', (_, res) => res.status(404).json({
-      msg: 'Not Found',
-    }));
+    this.app.get('/health', sendResponse(200, 'OK!'));
+    this.app.use('*', sendResponse(404, 'Route Not Found'));
   }
 
   public start(host: string, port: number): void {

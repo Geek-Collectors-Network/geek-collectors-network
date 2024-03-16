@@ -63,10 +63,10 @@ export class UserService {
     const getProfileResult = await this.controller.getProfile(userId);
 
     if (getProfileResult) {
-      res.status(200).json(getProfileResult);
-    } else {
-      res.status(404).json({ error: 'User not found' });
+      return getProfileResult;
     }
+
+    return new Error('User not found');
   }
 
   public async handleEditProfile(req: express.Request, res: express.Response) {
@@ -75,13 +75,14 @@ export class UserService {
     try {
       const parsedUpdateData: Partial<UserType> = updateUserProfileSchema.parse(req.body);
       const updateProfileResult = await this.controller.updateProfile(userId!, parsedUpdateData);
-      res.status(200).json(updateProfileResult);
+
+      return updateProfileResult;
     } catch (err) {
       if (err instanceof ZodError) {
-        res.status(400).json({ errors: err.errors });
-      } else {
-        res.status(500).json({ error: 'Internal Server Error' });
+        return new Error(err.errors[0].message);
       }
+
+      return new Error('Internal Server Error');
     }
   }
 }

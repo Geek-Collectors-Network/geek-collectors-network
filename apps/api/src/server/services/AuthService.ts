@@ -74,11 +74,9 @@ export class AuthService {
 
   public async handleSignUp(req: express.Request, res: express.Response) {
     const { email, password, firstName, lastName } = req.body;
+
     if (!email || !password || !firstName || !lastName) {
-      res.status(400).json({
-        message: 'Missing required fields',
-      });
-      return;
+      return new Error('Missing required fields');
     }
 
     try {
@@ -89,34 +87,21 @@ export class AuthService {
         lastName.toString(),
       );
 
-      if (insertedUser) {
-        res.status(200).json({ userId: insertedUser.insertId });
-      } else {
-        res.status(500).json({
-          message: 'User not created',
-        });
-      }
+      return { userId: insertedUser.insertId };
     } catch (e) {
       if (isSqlError(e) && e.code === 'ER_DUP_ENTRY') {
-        res.status(500).json({
-          message: 'User already exists',
-        });
-      } else {
-        res.status(500).json({
-          err: e,
-          message: 'An error occurred',
-        });
+        return new Error('User already exists.');
       }
     }
+
+    return new Error('Internal Server Error');
   }
 
   public async handleLogin(req: express.Request, res: express.Response) {
     const { email, password } = req.body;
+
     if (!email || !password) {
-      res.status(400).json({
-        message: 'Missing required fields (email, password)',
-      });
-      return;
+      return new Error('Missing required fields (email, password)');
     }
 
     const userId = await this.controller.login(email.toString(), password.toString());
@@ -133,16 +118,15 @@ export class AuthService {
       req.session.authenticated = true;
       /* eslint-enable require-atomic-updates */
 
-      res.status(200).json({ userId });
-    } else {
-      res.status(401).json({
-        message: 'Invalid email or password',
-      });
+      return { userId };
     }
+
+    return new Error('Invalid email or password');
   }
 
   public async handleLogout(req: express.Request, res: express.Response) {
     req.session.authenticated = false;
-    res.status(200).json({ message: 'Logged out' });
+
+    return 'Logged out';
   }
 }
