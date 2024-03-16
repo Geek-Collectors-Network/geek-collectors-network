@@ -71,3 +71,4 @@ export const usersToTagsRelations = relations(usersToTags, ({ one }) => ({
 export type UsersType = InferInsertModel<typeof users>;
 export type TagsType = InferInsertModel<typeof tags>;
 export type UsersToTagsType = InferInsertModel<typeof usersToTags>;
+export type FriendshipsType = InferInsertModel<typeof friendships>;

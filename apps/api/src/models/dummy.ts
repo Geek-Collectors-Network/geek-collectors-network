@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import { sql } from 'drizzle-orm';
 
-import type { UsersType, TagsType, UsersToTagsType } from './schema';
+import type { FriendshipsType, UsersType, TagsType, UsersToTagsType } from './schema';
 // eslint-disable-next-line no-duplicate-imports
 import { friendships, users, tags, usersToTags } from './schema';
 
@@ -283,7 +283,7 @@ for (let userId = 1; userId <= DUMMY_USERS.length; userId++) {
   }
 }
 
-const DUMMY_FRIENDSHIPS = [
+const DUMMY_FRIENDSHIPS: FriendshipsType[] = [
   // John Doe
   { inviterId: 2, inviteeId: 3, message: 'Hey Alice, let\'s be friends!', status: 'pending' },
   { inviterId: 2, inviteeId: 4, message: 'Hey Jane, let\'s be friends!', status: 'pending' },
@@ -349,4 +349,9 @@ export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
     .values(dummy)
     .onDuplicateKeyUpdate({ set: { inviterId: sql`inviter_id` } })
     .execute());
+  try {
+    await Promise.all(friendshipPromises);
+  } catch (e) {
+    // Likely to throw "duplicate entry", we'll just ignore it
+  }
 };
