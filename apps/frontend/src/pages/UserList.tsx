@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VStack, Tabs, TabList, TabPanels, Tab, TabPanel, Text, Center } from '@chakra-ui/react';
 
-import PageLayout from './PageLayout';
+import PageLayout from '../components/PageLayout';
 import PageTitle from '../components/PageTitle';
 import UserProfileCard from '../components/UserProfileCard';
 import { AddIcon, CheckIcon, SmallCloseIcon } from '@chakra-ui/icons';
@@ -62,7 +62,7 @@ function UserList() {
   };
 
   return (
-    <PageLayout >
+    <PageLayout showNavigation={true} >
       <VStack bg={'background'} px={10} pt={14} spacing={0}>
 
         <PageTitle title={'User Lists'} />
