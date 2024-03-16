@@ -306,8 +306,9 @@ for (let userId = 1; userId <= DUMMY_USERS.length; userId++) {
 export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
   logger.info('Writing dummy data to database if it doesn\'t exist.');
 
-  // MYSQL doesn't support onConflictDoNothing() (i.e. ON DUPLICATE KEY IGNORE)
+  // MYSQL doesn't support onConflictDoNothing (i.e. ON DUPLICATE KEY IGNORE)
   // so instead we perform a no-op by setting any column’s value to itself
+
   const userInsertionPromises = DUMMY_USERS.map(dummy => db
     .insert(user)
     .values(dummy)
@@ -319,14 +320,22 @@ export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
     // Likely to throw "duplicate entry", we'll just ignore it
   }
 
-  const tagPromises = DUMMY_TAGS.map(dummy => db.insert(tag).values(dummy).execute());
+  const tagPromises = DUMMY_TAGS.map(dummy => db
+    .insert(tag)
+    .values(dummy)
+    .onDuplicateKeyUpdate({ set: { id: sql`id` } })
+    .execute());
   try {
     await Promise.all(tagPromises);
   } catch (e) {
     // Likely to throw "duplicate entry", we'll just ignore it
   }
 
-  const interestPromises = DUMMY_INTERESTS.map(dummy => db.insert(userToTag).values(dummy).execute());
+  const interestPromises = DUMMY_INTERESTS.map(dummy => db
+    .insert(userToTag)
+    .values(dummy)
+    .onDuplicateKeyUpdate({ set: { userId: sql`userId` } })
+    .execute());
   try {
     await Promise.all(interestPromises);
   } catch (e) {
