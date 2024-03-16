@@ -22,6 +22,7 @@ export const tag = mysqlTable('tag', {
   id: int('id').primaryKey().autoincrement(),
   createdAt: timestamp('createdAt').notNull().$defaultFn(() => new Date()),
   creatorId: int('creatorId'),
+  text: varchar('text', { length: 20 }).notNull(),
 });
 
 export const userInterestTag = mysqlTable('userInterestTag', {

@@ -101,7 +101,6 @@ export class UserController {
     }
   }
 
-  // TODO: delete tag if no other users have it (?)
   public async removeUserInterestTag(userId: number, tagId: number) {
     const results = await this.resources.db
       .delete(userInterestTag)

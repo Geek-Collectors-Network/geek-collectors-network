@@ -61,29 +61,7 @@ import { logger } from './modules/logger';
   if (!process.env.API_HOST) logger.warn('No API_HOST environment variable detected. Defaulting to 0.0.0.0');
   if (!process.env.API_PORT) logger.warn('No API_PORT environment variable detected. Defaulting to 3000');
 
-<<<<<<< HEAD
-  const sessionStore = new (MySQLStore(session))({
-    host: DATABASE_HOST,
-    port: DATABASE_PORT,
-    user: DATABASE_USER,
-    password: DATABASE_PASSWORD,
-    database: 'SessionStore'
-  });
-
-  const sessionResource = session.default({
-    secret: 'session_cookie_secret',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false
-  });
-
-  const server = new Server(sessionResource);
-
-  const resources: Resources = { db, session: sessionResource };
-
-=======
   const resources: Resources = { db, sessions };
->>>>>>> main
   const v1Routes: Service[] = [AuthService, UserService];
 
   const server = new Server(resources);

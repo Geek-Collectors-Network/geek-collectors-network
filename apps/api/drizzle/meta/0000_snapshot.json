@@ -1,11 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-<<<<<<< HEAD
-  "id": "78e57e9a-e2b9-4daa-a073-d7e321e7a2b5",
-=======
-  "id": "616a6213-40a5-4591-86fe-33b70ffe4c56",
->>>>>>> main
+  "id": "b2c9aa44-fd6b-49f8-8e12-ef25f79c3640",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "tag": {
@@ -25,18 +21,18 @@
           "notNull": true,
           "autoincrement": false
         },
-        "text": {
-          "name": "text",
-          "type": "varchar(50)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "creatorId": {
           "name": "creatorId",
           "type": "int",
           "primaryKey": false,
           "notNull": false,
+          "autoincrement": false
+        },
+        "text": {
+          "name": "text",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         }
       },
@@ -50,14 +46,7 @@
           ]
         }
       },
-      "uniqueConstraints": {
-        "tag_text_unique": {
-          "name": "tag_text_unique",
-          "columns": [
-            "text"
-          ]
-        }
-      }
+      "uniqueConstraints": {}
     },
     "user": {
       "name": "user",
@@ -186,19 +175,12 @@
     "userInterestTag": {
       "name": "userInterestTag",
       "columns": {
-        "userId": {
-          "name": "userId",
+        "id": {
+          "name": "id",
           "type": "int",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "tagId": {
-          "name": "tagId",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
+          "autoincrement": true
         },
         "createdAt": {
           "name": "createdAt",
@@ -206,16 +188,29 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "tagId": {
+          "name": "tagId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "userInterestTag_userId_tagId_pk": {
-          "name": "userInterestTag_userId_tagId_pk",
+        "userInterestTag_id": {
+          "name": "userInterestTag_id",
           "columns": [
-            "userId",
-            "tagId"
+            "id"
           ]
         }
       },
