@@ -6,7 +6,9 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
+import { pagination } from './middleware/PaginationMiddleware';
 
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from './routes/utils';
 import { sendResponse } from './routes/utils';
 import { logger } from '../modules/logger';
 
@@ -18,7 +20,7 @@ export class Server {
     this.app = express();
 
     this.app.use(resources.sessions);
-
+    this.app.use(pagination(DEFAULT_PAGE, DEFAULT_LIMIT));
     this.app.use(helmet());
     this.app.use(cors());
     this.app.use(morgan('combined', {
