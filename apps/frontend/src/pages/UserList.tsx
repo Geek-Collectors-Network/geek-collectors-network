@@ -6,7 +6,7 @@ import PageTitle from '../components/PageTitle';
 import UserProfileCard from '../components/UserProfileCard';
 import { AddIcon, CheckIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import FriendRequestModal from '../components/FriendRequestModal';
-import userFetchAndFilterData from '../hooks/useFetchAndFilter';
+import userFetchAndFilterData from '../hooks/useFetchData';
 import { User } from '../types/types';
 
 function UserList() {
@@ -60,6 +60,7 @@ function UserList() {
     handleUserRemoval(setFilteredSuggestedUsers, selectedUserId);
     setIsModalOpen(false);
   };
+
 
   return (
     <PageLayout showNavigation={true} >

@@ -13,5 +13,19 @@ type Friend = {
     image: string,
   }
 
+type ModalProps = {
+    onClose: () => void;
+    isOpen: boolean;
+    headerContent: React.ReactNode;
+    bodyContent: React.ReactNode;
+    footerContent: React.ReactNode;
+}
+
+type FriendRequestHeaderProps = {
+  userName: string;
+}
+
 export type { Friend };
 export type { User };
+export type { ModalProps };
+export type { FriendRequestHeaderProps };

@@ -9,13 +9,8 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 
-type ModalProps = {
-    onClose: () => void;
-    isOpen: boolean;
-    headerContent: React.ReactNode;
-    bodyContent: React.ReactNode;
-    footerContent: React.ReactNode;
-}
+import { ModalProps } from '../types/types';
+
 
 function GeneralModal({ onClose, isOpen, headerContent, bodyContent, footerContent } : ModalProps) {
   return (

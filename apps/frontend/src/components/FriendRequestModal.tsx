@@ -2,14 +2,12 @@ import React from 'react';
 import GeneralModal from './GeneralModal';
 import { Button, HStack, Textarea, Text } from '@chakra-ui/react';
 
+import { FriendRequestHeaderProps } from '../types/types';
 
-type FriendRequestHeaderProps = {
-  userName: string;
-}
 
 function FriendRequestHeader({ userName } : FriendRequestHeaderProps) {
   return (
-    <HStack width={'100%'} justify={'center'}>
+    <HStack w={'100%'} justify={'center'}>
       <Text fontSize={'lg'}>Send Request to {userName}</Text>
     </HStack>
   );
@@ -39,7 +37,7 @@ type FriendRequestFooterProps = {
 function FriendRequestFooter({ onClose, onSendRequest } : FriendRequestFooterProps) {
   return (
     <HStack
-      width={'100%'}
+      w={'100%'}
       justify={'center'}>
       <Button colorScheme="brand" onClick={onSendRequest}>Send</Button>
       <Button colorScheme="brand" onClick={onClose}>Close</Button>
