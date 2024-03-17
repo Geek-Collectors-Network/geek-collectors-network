@@ -278,7 +278,7 @@ const DUMMY_TAGS: TagsType[] = tagsText.map((text, index) => ({
 const DUMMY_INTERESTS: UsersToTagsType[] = [];
 for (let userId = 1; userId <= DUMMY_USERS.length; userId++) {
   for (let i = 0; i < userId; i++) {
-    const tagId = (userId + i) % DUMMY_TAGS.length;
+    const tagId = ((userId + i) % DUMMY_TAGS.length) + 1;
     DUMMY_INTERESTS.push({ userId, tagId });
   }
 }
