@@ -8,8 +8,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { pagination } from './middleware/PaginationMiddleware';
 
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from './routes/utils';
-import { sendResponse } from './routes/utils';
+import { DEFAULT_PAGE, DEFAULT_LIMIT, sendResponse } from './routes/utils';
 import { logger } from '../modules/logger';
 
 export class Server {

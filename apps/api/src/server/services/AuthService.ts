@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 import { pbkdf2, randomBytes, timingSafeEqual } from 'node:crypto';
 
 import { isSqlError } from '../utils';
-import { BaseService, type Resources } from './Service';
+import { type Resources } from './Service';
 import { user, UserType } from '../../models/schema';
 
 const pbkdf2Promise = promisify(pbkdf2);
