@@ -35,7 +35,7 @@ export class Server {
     });
 
     this.app.get('/health', sendResponse(200, 'OK!'));
-    this.app.use('*', sendResponse(404, 'Route Not Found'));
+    this.app.use('*', sendResponse(404, new Error('Route Not Found')));
   }
 
   public start(host: string, port: number): void {
