@@ -9,7 +9,6 @@ export class Routes {
   private readonly userService: UserService;
   private readonly authService: AuthService;
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(resources: Resources) {
     this.userService = new UserService(resources);
     this.authService = new AuthService(resources);
