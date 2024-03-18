@@ -83,7 +83,7 @@ export class UserController {
         creatorId: userId,
       })
       .execute();
-    return { tagId: tagInsertResults[0].insertId };
+    return { tagId: tagInsertResults[0].insertId, tagText };
   }
 
   public async addUserTag(userId: number, tagId: number) {
@@ -94,9 +94,9 @@ export class UserController {
           userId,
           tagId,
         });
-      return { added: results[0].affectedRows === 1 };
+      return results[0].affectedRows === 1;
     } catch (err) {
-      return { added: false };
+      return false;
     }
   }
 
@@ -104,7 +104,7 @@ export class UserController {
     const results = await this.resources.db
       .delete(usersToTags)
       .where(and(eq(usersToTags.userId, userId), eq(usersToTags.tagId, tagId)));
-    return { removed: results[0].affectedRows === 1 };
+    return results[0].affectedRows === 1;
   }
 }
 
@@ -164,22 +164,22 @@ export class UserService {
     }
     const { tagId } = await this.controller.createTag(userId!, tagText);
     await this.controller.addUserTag(userId!, tagId);
-    return tagId;
+    return { tagId, tagText };
   }
 
   public async handleAddUserTag(req: express.Request, res: express.Response) {
     const { userId } = req.session;
     const tagId = parseInt(req.params.tagId, 10);
 
-    const result = await this.controller.addUserTag(userId!, tagId);
-    return result;
+    const added = await this.controller.addUserTag(userId!, tagId);
+    return { added };
   }
 
   public async handleDeleteUserTag(req: express.Request, res: express.Response) {
     const { userId } = req.session;
     const tagId = parseInt(req.params.tagId, 10);
 
-    const result = await this.controller.removeUserTag(userId!, tagId);
-    return result;
+    const removed = await this.controller.removeUserTag(userId!, tagId);
+    return { removed };
   }
 }
