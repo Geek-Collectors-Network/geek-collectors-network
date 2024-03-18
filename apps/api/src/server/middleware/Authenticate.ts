@@ -9,5 +9,5 @@ export const authenticate: RequestHandler = (req, res, next) => {
     return next();
   }
 
-  return sendResponse(400, new Error('User is not authenticated'));
+  return sendResponse(400, new Error('User is not authenticated'))(req, res);
 };
