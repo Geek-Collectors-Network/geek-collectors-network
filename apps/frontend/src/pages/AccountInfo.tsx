@@ -18,7 +18,8 @@ function AccountInfo() {
   const [initialValues, setInitialValues] = useState<AccountInfo | null>(null);
 
   useEffect(() => {
-    fetch(`${url}/api/v1/user/profile`, {
+    const userId = sessionStorage.getItem('userId');
+    fetch(`${url}/api/v1/user/${userId}/profile`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

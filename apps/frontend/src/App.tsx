@@ -14,7 +14,8 @@ export const URLContext = React.createContext<string | undefined>('');
 
 function App() {
   return (
-    <URLContext.Provider value={'https://whale-app-mxanw.ondigitalocean.app'}>
+    // <URLContext.Provider value={'https://whale-app-mxanw.ondigitalocean.app'}>
+    <URLContext.Provider value={'http://localhost:3000'}>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<Registration />} />

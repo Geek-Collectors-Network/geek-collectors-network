@@ -25,8 +25,9 @@ function LoginForm() {
           },
           body: JSON.stringify(values),
         })
-          .then(response => {
+          .then(async response => {
             if (response.ok) {
+              sessionStorage.setItem('userId', (await response.json()).data.userId);
               navigate('/dashboard');
             } else {
               console.error('Failed to log in');
