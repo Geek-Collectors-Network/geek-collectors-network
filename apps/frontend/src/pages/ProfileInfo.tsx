@@ -1,20 +1,51 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { VStack, StackDivider, Avatar, Button, FormControl, FormLabel, FormErrorMessage, Input, AvatarBadge, Textarea, Select } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
+import { URLContext } from '../App';
 import { profileSchema } from '../schemas/schemas';
 import PageLayout from '../components/PageLayout';
 import PageTitle from '../components/PageTitle';
 
+const cities = ['Vancouver', 'Burnaby', 'Richmond', 'Surrey', 'Coquitlam', 'Langley', 'Abbotsford', 'Chilliwack', 'Kelowna'];
+
+type ProfileInfo = {
+  username: string;
+  dateOfBirth: string;
+  city: string;
+  about: string;
+}
 
 function ProfileInfo() {
-  const profileInfo = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'email@email.com',
-    password: 'password',
-  };
+  const url = useContext(URLContext);
+  const [initialValues, setInitialValues] = useState<ProfileInfo | null>(null);
 
-  const cities = ['Vancouver', 'Burnaby', 'Richmond', 'Surrey', 'Coquitlam', 'Langley', 'Abbotsford', 'Chilliwack', 'Kelowna'];
+  useEffect(() => {
+    fetch(`${url}/api/v1/user/profile`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => setInitialValues(data))
+      .catch(error => console.error(error));
+  }, []);
+
+  if (!initialValues) {
+    return (
+      <PageLayout showNavigation={true}>
+        <VStack
+          bg={'background'}
+          spacing={2}
+          px={10}
+          pt={20}
+        >
+          <PageTitle title={'Edit Profile'} />
+          <div>Loading...</div>
+        </VStack>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout showNavigation={true}>
@@ -26,12 +57,7 @@ function ProfileInfo() {
       >
         <PageTitle title={'Edit Profile'} />
         <Formik
-          initialValues={{
-            username: '',
-            dateOfBirth: null,
-            city: '',
-            about: '',
-          }}
+          initialValues={initialValues}
           validationSchema={profileSchema}
           onSubmit={values => {
             console.log(values);
@@ -40,7 +66,7 @@ function ProfileInfo() {
           {formik => (
             <Form style={{ width: '100%' }}>
               <VStack gap={1} divider={<StackDivider/>} >
-                <Avatar size={'lg'} mb={4} name={`${profileInfo.firstName} ${profileInfo.lastName}`}>
+                <Avatar size={'lg'} mb={4} name={'J D'}>
                   <AvatarBadge boxSize={'1em'} bg="brand.500" border={'1px'} >+</AvatarBadge>
                 </Avatar>
                 <FormControl id={'username'} isInvalid={!!(formik.errors.username && formik.touched.username)}>
@@ -79,7 +105,7 @@ function ProfileInfo() {
             </Form>
           )}
         </Formik>
-        
+
       </VStack>
 
     </PageLayout>

@@ -1,29 +1,50 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { VStack, StackDivider, Button, FormControl, FormLabel, FormErrorMessage, Input } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { registrationSchema } from '../schemas/schemas';
+import { URLContext } from '../App';
 import PageLayout from '../components/PageLayout';
 import PageTitle from '../components/PageTitle';
 
+type AccountInfo = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 
 function AccountInfo() {
-//   const accountInfo = () => {
-//     const response = await fetch('http://localhost:3001/accountInfo', {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': `Bearer ${localStorage.getItem('token')}`,
-//       },
-//     });
-//   };
+  const url = useContext(URLContext);
+  const [initialValues, setInitialValues] = useState<AccountInfo | null>(null);
 
-  const accountInfo = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'email@email.com',
-    password: 'password',
-  };
+  useEffect(() => {
+    fetch(`${url}/api/v1/user/profile`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => setInitialValues(data))
+      .catch(error => console.error(error));
+  }, []);
 
+  if (!initialValues) {
+    return (
+      <PageLayout showNavigation={true}>
+        <VStack
+          bg={'background'}
+          // divider={<StackDivider borderColor="gray.200" />}
+          spacing={4}
+          px={10}
+          pt={20}
+        >
+          <PageTitle title={'Account Info'} />
+          <div>Loading...</div>
+        </VStack>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout showNavigation={true}>
@@ -36,12 +57,7 @@ function AccountInfo() {
       >
         <PageTitle title={'Account Info'} />
         <Formik
-          initialValues={{
-            firstName: accountInfo.firstName,
-            lastName: accountInfo.lastName,
-            email: accountInfo.email,
-            password: accountInfo.password,
-          }}
+          initialValues={initialValues}
           validationSchema={registrationSchema}
           onSubmit={values => {
             console.log(values);
