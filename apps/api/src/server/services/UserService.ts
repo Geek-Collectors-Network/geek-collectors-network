@@ -65,8 +65,11 @@ export class UserController {
     const friendProfiles = await this.resources.db
       .select({
         id: users.id,
+        firstName: users.firstName,
+        lastName: users.lastName,
         displayName: users.displayName,
         profileImageUrl: users.profileImageUrl,
+        email: users.email,
         twitter: users.twitter,
         facebook: users.facebook,
         instagram: users.instagram,
