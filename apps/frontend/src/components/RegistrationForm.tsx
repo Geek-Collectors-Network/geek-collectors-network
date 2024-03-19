@@ -1,22 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { Button, VStack } from '@chakra-ui/react';
-import { URLContext } from '../App';
 import TextInput from './TextInput';
 import PageLink from './PageLink';
 import { registrationSchema } from '../schemas/schemas';
 
 function RegistrationForm() {
   const navigate = useNavigate();
-  const url = useContext(URLContext);
 
   return (
     <Formik
       initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
       validationSchema={registrationSchema}
       onSubmit={values => {
-        fetch(`${url}/api/v1/auth/signup`, {
+        fetch('/api/v1/auth/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { VStack, StackDivider, Button, FormControl, FormLabel, FormErrorMessage, Input } from '@chakra-ui/react';
 import { Formik, Form, Field } from 'formik';
 import { registrationSchema } from '../schemas/schemas';
-import { URLContext } from '../App';
 import PageLayout from '../components/PageLayout';
 import PageTitle from '../components/PageTitle';
 
@@ -14,12 +13,11 @@ type AccountInfo = {
 }
 
 function AccountInfo() {
-  const url = useContext(URLContext);
   const [initialValues, setInitialValues] = useState<AccountInfo | null>(null);
 
   useEffect(() => {
     const userId = sessionStorage.getItem('userId');
-    fetch(`${url}/api/v1/user/${userId}/profile`, {
+    fetch(`/api/v1/user/${userId}/profile`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
