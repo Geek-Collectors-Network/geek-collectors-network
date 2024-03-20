@@ -11,6 +11,8 @@ interface FriendProfile extends UsersType {
   message?: string;
 }
 
+type FriendshipStatus = 'pending' | 'accepted' | 'rejected' | 'blocked';
+
 const updateUserProfileSchema = z.object({
   email: z.string().email().toLowerCase(),
   firstName: z.string().max(20),
@@ -53,7 +55,7 @@ export class UserController {
     return { updated: results[0].affectedRows === 1 };
   }
 
-  public async getFriendshipIds(id: number) {
+  public async getFriendshipIds(id: number, status: FriendshipStatus[] = ['accepted']) {
     const friendshipIds = await this.resources.db
       .select({
         inviterId: friendships.inviterId,
@@ -61,7 +63,7 @@ export class UserController {
       })
       .from(friendships)
       .where(and(
-        eq(friendships.status, 'accepted'),
+        inArray(friendships.status, status),
         or(eq(friendships.inviterId, id), eq(friendships.inviteeId, id)),
       ));
     // get ids just of the other users in the friendship
@@ -116,6 +118,18 @@ export class UserController {
       friend.message = pendingFriendships[index].message as string;
     });
     return pendingFriendProfiles;
+  }
+
+  public async createFriendRequest(inviterId: number, inviteeId: number, message: string) {
+    const results = await this.resources.db
+      .insert(friendships)
+      .values({
+        inviterId,
+        inviteeId,
+        message,
+      })
+      .execute();
+    return { created: results[0].affectedRows === 1 };
   }
 }
 
@@ -176,7 +190,27 @@ export class UserService {
     }
   }
 
-  // public async handleCreateFriendRequest(req: express.Request, res: express.Response) { }
+  public async handleCreateFriendRequest(req: express.Request, res: express.Response) {
+    const { userId: inviterId } = req.session;
+    const { message } = req.body;
+    const inviteeId = parseInt(req.params.userId, 10);
+
+    if (!inviteeId) {
+      return new Error('Must provide a valid user id');
+    }
+
+    if (inviteeId === inviterId) {
+      return new Error('You cannot send a friend request to yourself');
+    }
+
+    // TODO: different responses depending on the status of the friendship
+    const existingFriendship = await this.controller.getFriendshipIds(inviterId!, ['accepted', 'pending', 'blocked', 'rejected']);
+    if (existingFriendship.includes(inviteeId)) {
+      return new Error('You are already have a relationship with this user');
+    }
+
+    return this.controller.createFriendRequest(inviterId!, inviteeId, message);
+  }
 
   // public async handleUpdateFriendRequest(req: express.Request, res: express.Response) {}
 }
