@@ -7,7 +7,8 @@ import { friendships, users, UsersType } from '../../models/schema';
 import { z, ZodError } from 'zod';
 
 interface FriendProfile extends UsersType {
-  mutualFriends: number;
+  mutualFriends?: number;
+  message?: string;
 }
 
 const updateUserProfileSchema = z.object({
@@ -96,6 +97,26 @@ export class UserController {
 
     return friendProfiles;
   }
+
+  public async getFriendRequests(id: number) {
+    const pendingFriendships = await this.resources.db
+      .select({
+        inviterId: friendships.inviterId,
+        inviteeId: friendships.inviteeId,
+        message: friendships.message,
+      })
+      .from(friendships)
+      .where(and(
+        eq(friendships.status, 'pending'),
+        eq(friendships.inviteeId, id),
+      ));
+    const pendingFriendIds = pendingFriendships.map(friendship => friendship.inviterId);
+    const pendingFriendProfiles = await this.getFriendProfiles(pendingFriendIds);
+    pendingFriendProfiles.forEach((friend, index) => {
+      friend.message = pendingFriendships[index].message as string;
+    });
+    return pendingFriendProfiles;
+  }
 }
 
 export class UserService {
@@ -143,4 +164,19 @@ export class UserService {
       return new Error('Internal Server Error');
     }
   }
+
+  public async handleGetFriendRequests(req: express.Request, res: express.Response) {
+    const { userId } = req.session;
+
+    try {
+      const friendRequestsResult = await this.controller.getFriendRequests(userId!);
+      return friendRequestsResult;
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
+  // public async handleCreateFriendRequest(req: express.Request, res: express.Response) { }
+
+  // public async handleUpdateFriendRequest(req: express.Request, res: express.Response) {}
 }
