@@ -67,9 +67,8 @@ export class UserController {
     return friendshipIds.map(friend => (friend.inviterId === id ? friend.inviteeId : friend.inviterId));
   }
 
-  public async getFriendslist(id: number) {
-    const friendIds = await this.getFriendshipIds(id);
-    const friendProfiles = await this.resources.db
+  public async getFriendProfiles(friendIds: number[]) {
+    return await this.resources.db
       .select({
         id: users.id,
         firstName: users.firstName,
@@ -83,8 +82,13 @@ export class UserController {
       })
       .from(users)
       .where(inArray(users.id, friendIds)) as FriendProfile[];
+  }
 
+  public async getFriendslist(id: number) {
+    const friendIds = await this.getFriendshipIds(id);
+    const friendProfiles = await this.getFriendProfiles(friendIds);
     const friendsOfFriends = await Promise.all(friendProfiles.map(friend => this.getFriendshipIds(friend.id!)));
+
     friendProfiles.forEach((friend, index) => {
       const mutualFriendsCount = friendsOfFriends[index].filter(friendId => friendIds.includes(friendId)).length;
       friend.mutualFriends = mutualFriendsCount;
