@@ -293,7 +293,6 @@ const DUMMY_FRIENDSHIPS: FriendshipsType[] = [
   { inviterId: 2, inviteeId: 7, message: 'Hey Bruce, let\'s be friends!', status: 'accepted' },
 
   { inviterId: 2, inviteeId: 8, message: 'Hey Hermione, let\'s be friends!', status: 'rejected' },
-
   { inviterId: 2, inviteeId: 9, message: 'Hey Peter, let\'s be friends!', status: 'blocked' },
 
   // John Doe recieves requests...
@@ -304,10 +303,20 @@ const DUMMY_FRIENDSHIPS: FriendshipsType[] = [
   { inviterId: 13, inviteeId: 2, message: 'Hey John, it\'s Diana, let\'s be friends!', status: 'accepted' },
 
   { inviterId: 14, inviteeId: 2, message: 'Hey John, it\'s Thor, let\'s be friends!', status: 'rejected' },
-
   { inviterId: 15, inviteeId: 2, message: 'Hey John, it\'s Hulk, let\'s be friends!', status: 'blocked' },
 
   // John Doe has 5 current friends total
+
+  // 2 mutual friends with Alice (NOT current friends with John)
+  { inviterId: 3, inviteeId: 4, message: '', status: 'accepted' },
+  { inviterId: 3, inviteeId: 5, message: '', status: 'accepted' },
+  { inviterId: 3, inviteeId: 6, message: '', status: 'accepted' },
+
+  // 3 mutual friends with William (IS current friends with John)
+  { inviterId: 5, inviteeId: 6, message: '', status: 'accepted' },
+  { inviterId: 5, inviteeId: 7, message: '', status: 'accepted' },
+  { inviterId: 5, inviteeId: 12, message: '', status: 'accepted' },
+
 ];
 
 export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
