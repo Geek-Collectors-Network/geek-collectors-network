@@ -131,6 +131,15 @@ export class UserController {
       .execute();
     return { created: results[0].affectedRows === 1 };
   }
+
+  public async updateFriendRequest(id:number, status:FriendshipStatus) {
+    const results = await this.resources.db
+      .update(friendships)
+      .set({ status })
+      .where(eq(users.id, id));
+
+    return { updated: results[0].affectedRows === 1 };
+  }
 }
 
 export class UserService {
@@ -212,5 +221,18 @@ export class UserService {
     return this.controller.createFriendRequest(inviterId!, inviteeId, message);
   }
 
-  // public async handleUpdateFriendRequest(req: express.Request, res: express.Response) {}
+  public async handleUpdateFriendRequest(req: express.Request, res: express.Response) {
+    const { userId } = req.session;
+    const { status } = req.body;
+
+    if (!['accepted', 'rejected', 'blocked'].includes(status)) {
+      return new Error('Must supply valid status');
+    }
+
+    try {
+      return this.controller.updateFriendRequest(userId!, status);
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
 }
