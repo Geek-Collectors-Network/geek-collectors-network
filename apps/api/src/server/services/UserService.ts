@@ -6,6 +6,9 @@ import { friendships, users, UsersType } from '../../models/schema';
 
 import { z, ZodError } from 'zod';
 
+interface FriendProfile extends UsersType {
+  mutualFriends: number;
+}
 
 const updateUserProfileSchema = z.object({
   email: z.string().email().toLowerCase(),
@@ -49,7 +52,7 @@ export class UserController {
     return { updated: results[0].affectedRows === 1 };
   }
 
-  public async getFriendslist(id: number) {
+  public async getFriendshipIds(id: number) {
     const friendshipIds = await this.resources.db
       .select({
         inviterId: friendships.inviterId,
@@ -61,7 +64,11 @@ export class UserController {
         or(eq(friendships.inviterId, id), eq(friendships.inviteeId, id)),
       ));
     // get ids just of the other users in the friendship
-    const friendIds = friendshipIds.map(friend => (friend.inviterId === id ? friend.inviteeId : friend.inviterId));
+    return friendshipIds.map(friend => (friend.inviterId === id ? friend.inviteeId : friend.inviterId));
+  }
+
+  public async getFriendslist(id: number) {
+    const friendIds = await this.getFriendshipIds(id);
     const friendProfiles = await this.resources.db
       .select({
         id: users.id,
@@ -75,7 +82,14 @@ export class UserController {
         instagram: users.instagram,
       })
       .from(users)
-      .where(inArray(users.id, friendIds));
+      .where(inArray(users.id, friendIds)) as FriendProfile[];
+
+    const friendsOfFriends = await Promise.all(friendProfiles.map(friend => this.getFriendshipIds(friend.id!)));
+    friendProfiles.forEach((friend, index) => {
+      const mutualFriendsCount = friendsOfFriends[index].filter(friendId => friendIds.includes(friendId)).length;
+      friend.mutualFriends = mutualFriendsCount;
+    });
+
     return friendProfiles;
   }
 }
