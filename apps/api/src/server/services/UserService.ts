@@ -1,5 +1,5 @@
 import express from 'express';
-import { and, eq, inArray, or } from 'drizzle-orm';
+import { and, eq, inArray, not, or } from 'drizzle-orm';
 
 import { type Resources } from './Service';
 import { friendships, users, UsersType } from '../../models/schema';
@@ -96,6 +96,16 @@ export class UserController {
 
     return friendProfiles;
   }
+
+  public async getFriendSuggestions(id: number) {
+    const currentFriendIds = await this.getFriendshipIds(id);
+    const suggestions = await this.resources.db
+      .select()
+      .from(users)
+      .limit(5)
+      .where(not(inArray(users.id, currentFriendIds)));
+    return suggestions;
+  }
 }
 
 export class UserService {
@@ -139,6 +149,16 @@ export class UserService {
 
     try {
       return await this.controller.getFriendslist(userId!);
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
+  public async handleGetFriendSuggestions(req: express.Request, res: express.Response) {
+    const { userId } = req.session;
+
+    try {
+      return this.controller.getFriendSuggestions(userId!);
     } catch (err) {
       return new Error('Internal Server Error');
     }
