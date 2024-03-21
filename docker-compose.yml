@@ -28,11 +28,13 @@ services:
       DATABASE_USER: root
       DATABASE_PASSWORD: dev
       DATABASE_NAME: GeekCollectorsNetwork
+      WEB_ROOT: /app/frontend
     ports:
       - ${API_PORT:-3000}:${API_PORT:-3000}
     restart: unless-stopped
     volumes:
       - ./apps/api:/app/api:ro
+      - ./apps/frontend/dist:/app/frontend:ro
     depends_on:
       mysql-resource:
         condition: service_healthy
