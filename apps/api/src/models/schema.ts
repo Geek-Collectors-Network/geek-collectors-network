@@ -60,6 +60,21 @@ export const items = mysqlTable('item', {
   soldAt: timestamp('sold_at'),
 });
 
+export const itemsToUsersCollections = mysqlTable('item_to_user_collection', {
+  itemId: int('item_id').unique().notNull().references(() => items.id, { onDelete: 'cascade' }),
+  userId: int('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  isPublic: boolean('is_visible').notNull().default(true),
+}, table => ({
+  pk: primaryKey({ columns: [table.itemId, table.userId] }),
+}));
+
+export const itemsToUsersWishlists = mysqlTable('item_to_user_wishlist', {
+  itemId: int('item_id').notNull().references(() => items.id, { onDelete: 'cascade' }),
+  userId: int('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  isPublic: boolean('is_visible').notNull().default(true),
+}, table => ({
+  pk: primaryKey({ columns: [table.itemId, table.userId] }),
+}));
 
 /*        ENTITY RELATIONS        */
 
@@ -93,3 +108,5 @@ export type TagsType = InferInsertModel<typeof tags>;
 export type UsersToTagsType = InferInsertModel<typeof usersToTags>;
 export type FriendshipsType = InferInsertModel<typeof friendships>;
 export type ItemsType = InferInsertModel<typeof items>;
+export type ItemsToUsersCollectionsType = InferInsertModel<typeof itemsToUsersCollections>;
+export type ItemsToUsersWishlistsType = InferInsertModel<typeof itemsToUsersWishlists>;
