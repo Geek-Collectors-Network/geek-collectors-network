@@ -16,10 +16,11 @@ FROM node:${DOCKER_NODE_VERSION} AS frontend
 ARG USER
 ARG WORKSPACE
 WORKDIR ${WORKSPACE}/apps/frontend
+COPY --chown=${USER}:${USER} ./apps/frontend/package*.json .
+RUN npm install
 
 COPY --chown=${USER}:${USER} ./apps/frontend .
-RUN npm install \
-    && npm run build
+RUN npm run build
 
 
 # ========================== PACKAGES STAGE ==========================
