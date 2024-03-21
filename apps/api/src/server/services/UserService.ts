@@ -132,11 +132,15 @@ export class UserController {
     return { created: results[0].affectedRows === 1 };
   }
 
-  public async updateFriendRequest(id:number, status:FriendshipStatus) {
+  public async updateFriendRequest(id:number, friendId: number, status:FriendshipStatus) {
     const results = await this.resources.db
       .update(friendships)
       .set({ status })
-      .where(eq(users.id, id));
+      .where(and(
+        eq(friendships.inviterId, friendId),
+        eq(friendships.inviteeId, id),
+        eq(friendships.status, 'pending'),
+      ));
 
     return { updated: results[0].affectedRows === 1 };
   }
@@ -224,13 +228,14 @@ export class UserService {
   public async handleUpdateFriendRequest(req: express.Request, res: express.Response) {
     const { userId } = req.session;
     const { status } = req.body;
+    const friendId = parseInt(req.params.userId, 10);
 
-    if (!['accepted', 'rejected', 'blocked'].includes(status)) {
+    if (!['accepted', 'rejected'].includes(status)) {
       return new Error('Must supply valid status');
     }
 
     try {
-      return this.controller.updateFriendRequest(userId!, status);
+      return this.controller.updateFriendRequest(userId!, friendId, status);
     } catch (err) {
       return new Error('Internal Server Error');
     }
