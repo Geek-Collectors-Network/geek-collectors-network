@@ -8,10 +8,22 @@ import PageTitle from '../components/PageTitle';
 const cities = ['Vancouver', 'Burnaby', 'Richmond', 'Surrey', 'Coquitlam', 'Langley', 'Abbotsford', 'Chilliwack', 'Kelowna'];
 
 type ProfileInfo = {
-  username: string;
-  dateOfBirth: string;
+  email: string;
+  birthDate: string;
   city: string;
   about: string;
+}
+
+
+function formatDate(date: Date) {
+  const month = date.getUTCMonth() + 1; // Months are zero-indexed, so add 1
+  const day = date.getUTCDate();
+  const year = date.getUTCFullYear();
+
+  // Format the date as MM/DD/YYYY
+  const formattedDate = `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
+
+  return formattedDate;
 }
 
 function ProfileInfo() {
@@ -26,7 +38,10 @@ function ProfileInfo() {
       },
     })
       .then(response => response.json())
-      .then(data => setInitialValues(data))
+      .then(({ data }) => setInitialValues({
+        ...data,
+        birthDate: formatDate(new Date(data.birthDate)),
+      }))
       .catch(error => console.error(error));
   }, []);
 
@@ -68,15 +83,15 @@ function ProfileInfo() {
                 <Avatar size={'lg'} mb={4} name={'J D'}>
                   <AvatarBadge boxSize={'1em'} bg="brand.500" border={'1px'} >+</AvatarBadge>
                 </Avatar>
-                <FormControl id={'username'} isInvalid={!!(formik.errors.username && formik.touched.username)}>
-                  <FormLabel color={'gray.500'}>Username:</FormLabel>
-                  <Field as={Input} name={'username'} border={'none'} focusBorderColor={'transparent'}></Field>
-                  <FormErrorMessage>{formik.errors.username}</FormErrorMessage>
+                <FormControl id={'email'} isInvalid={!!(formik.errors.email && formik.touched.email)}>
+                  <FormLabel color={'gray.500'}>Email:</FormLabel>
+                  <Field as={Input} name={'email'} border={'none'} focusBorderColor={'transparent'}></Field>
+                  <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
                 </FormControl>
-                <FormControl id={'dateOfBirth'} isInvalid={!!(formik.errors.dateOfBirth && formik.touched.dateOfBirth)}>
+                <FormControl id={'birthDate'} isInvalid={!!(formik.errors.birthDate && formik.touched.birthDate)}>
                   <FormLabel color={'gray.500'}>Date of Birth:</FormLabel>
-                  <Field as={Input} name={'dateOfBirth'} border={'none'} focusBorderColor={'transparent'} placeholder={'MM/DD/YYYY'}></Field>
-                  <FormErrorMessage>{formik.errors.dateOfBirth}</FormErrorMessage>
+                  <Field as={Input} name={'birthDate'} border={'none'} focusBorderColor={'transparent'} placeholder={'MM/DD/YYYY'}></Field>
+                  <FormErrorMessage>{formik.errors.birthDate}</FormErrorMessage>
                 </FormControl>
                 <FormControl id={'city'} isInvalid={!!(formik.errors.city && formik.touched.city)}>
                   <FormLabel color={'gray.500'}>City:</FormLabel>

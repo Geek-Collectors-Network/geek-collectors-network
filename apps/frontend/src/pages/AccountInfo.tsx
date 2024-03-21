@@ -24,7 +24,7 @@ function AccountInfo() {
       },
     })
       .then(response => response.json())
-      .then(data => setInitialValues(data))
+      .then(({ data }) => setInitialValues(data))
       .catch(error => console.error(error));
   }, []);
 
