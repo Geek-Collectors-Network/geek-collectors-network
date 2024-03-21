@@ -8,6 +8,24 @@ import PageLink from './PageLink';
 import { loginSchema } from '../schemas/schemas';
 import LoginControls from './LoginControls';
 
+function login(navigate: (path: string) => void, values: Record<string, string>) {
+  fetch('/api/v1/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(values),
+  })
+    .then(response => response.json())
+    .then(response => {
+      const { data, isError } = response;
+
+      if (isError) return console.error(data);
+
+      return navigate('/dashboard');
+    });
+}
+
 function LoginForm() {
   const navigate = useNavigate();
 
@@ -15,22 +33,7 @@ function LoginForm() {
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={loginSchema}
-      onSubmit={values => {
-        fetch('/api/v1/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values),
-        })
-          .then(async response => {
-            if (response.ok) {
-              navigate('/dashboard');
-            } else {
-              console.error('Failed to log in');
-            }
-          });
-      }}
+      onSubmit={login.bind(null, navigate)}
     >
       {formik => (
         <Form>
