@@ -112,6 +112,9 @@ export class UserController {
         eq(friendships.status, 'pending'),
         eq(friendships.inviteeId, id),
       ));
+    if (pendingFriendships.length === 0) {
+      return [];
+    }
     const pendingFriendIds = pendingFriendships.map(friendship => friendship.inviterId);
     const pendingFriendProfiles = await this.getFriendProfiles(pendingFriendIds);
     pendingFriendProfiles.forEach((friend, index) => {
@@ -196,8 +199,7 @@ export class UserService {
     const { userId } = req.session;
 
     try {
-      const friendRequestsResult = await this.controller.getFriendRequests(userId!);
-      return friendRequestsResult;
+      return await this.controller.getFriendRequests(userId!);
     } catch (err) {
       return new Error('Internal Server Error');
     }
