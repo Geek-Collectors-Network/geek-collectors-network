@@ -76,6 +76,13 @@ export const itemsToUsersWishlists = mysqlTable('item_to_user_wishlist', {
   pk: primaryKey({ columns: [table.itemId, table.userId] }),
 }));
 
+export const itemsToTags = mysqlTable('user_to_tag', {
+  itemId: int('user_id').notNull().references(() => items.id, { onDelete: 'cascade' }),
+  tagId: int('tag_id').notNull().references(() => tags.id, { onDelete: 'cascade' }),
+}, table => ({
+  pk: primaryKey({ columns: [table.itemId, table.tagId] }),
+}));
+
 /*        ENTITY RELATIONS        */
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -111,6 +118,7 @@ export const itemsRelations = relations(items, ({ one, many }) => ({
     references: [itemsToUsersCollections.itemId],
   }),
   wishlists: many(itemsToUsersWishlists),
+  tags: many(itemsToTags),
 }));
 
 export const itemsToUsersCollectionsRelations = relations(itemsToUsersCollections, ({ one }) => ({
@@ -135,6 +143,17 @@ export const itemsToUsersWishlistsRelations = relations(itemsToUsersWishlists, (
   }),
 }));
 
+export const itemsToTagsRelations = relations(itemsToTags, ({ one }) => ({
+  item: one(items, {
+    fields: [itemsToTags.itemId],
+    references: [items.id],
+  }),
+  tag: one(tags, {
+    fields: [itemsToTags.tagId],
+    references: [tags.id],
+  }),
+}));
+
 /*        ENTITY TYPES        */
 
 export type UsersType = InferInsertModel<typeof users>;
@@ -144,3 +163,4 @@ export type FriendshipsType = InferInsertModel<typeof friendships>;
 export type ItemsType = InferInsertModel<typeof items>;
 export type ItemsToUsersCollectionsType = InferInsertModel<typeof itemsToUsersCollections>;
 export type ItemsToUsersWishlistsType = InferInsertModel<typeof itemsToUsersWishlists>;
+export type ItemsToTagsType = InferInsertModel<typeof itemsToTags>;
