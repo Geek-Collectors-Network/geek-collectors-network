@@ -12,6 +12,23 @@ type AccountInfo = {
   password: string;
 }
 
+function editProfile(values: Record<string, string>) {
+  fetch('/api/v1/user/profile', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+    }),
+  })
+    .then(response => response.json())
+    .then(console.log);
+}
+
 function AccountInfo() {
   const [initialValues, setInitialValues] = useState<AccountInfo | null>(null);
 
@@ -57,9 +74,7 @@ function AccountInfo() {
         <Formik
           initialValues={initialValues}
           validationSchema={registrationSchema}
-          onSubmit={values => {
-            console.log(values);
-          }}
+          onSubmit={editProfile}
         >
           {formik => (
             <Form style={{ width: '100%' }}>
