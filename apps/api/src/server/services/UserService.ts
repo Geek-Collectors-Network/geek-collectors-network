@@ -22,6 +22,7 @@ const updateUserProfileSchema = z.object({
   birthDate: z.coerce.date(),
 }).partial();
 
+
 export class UserController {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly resources: Resources) { }
