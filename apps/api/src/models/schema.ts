@@ -1,5 +1,7 @@
-import { date, int, mysqlEnum, mysqlTable, primaryKey, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import { boolean, date, int, mysqlEnum, mysqlTable, primaryKey, timestamp, varchar } from 'drizzle-orm/mysql-core';
 import { InferInsertModel, relations } from 'drizzle-orm';
+
+/*        ENTITY DEFINITIONS        */
 
 export const users = mysqlTable('user', {
   id: int('id').primaryKey().autoincrement(),
@@ -44,6 +46,23 @@ export const friendships = mysqlTable('friendship', {
   // TODO: prevent duplicate rows with inviterId and inviteeId swapped
 }));
 
+export const items = mysqlTable('item', {
+  id: int('id').primaryKey().autoincrement(),
+  createdAt: timestamp('created_at').notNull().$defaultFn(() => new Date()),
+  updatedAt: timestamp('updated_at').onUpdateNow(),
+  creatorId: int('creator_id').references(() => users.id, { onDelete: 'set null' }),
+  description: varchar('text', { length: 1000 }).notNull().unique(),
+  imageUrl: varchar('image_url', { length: 255 }),
+  brand: varchar('brand', { length: 50 }),
+  price: int('price').notNull(), // in cents
+  isForSale: boolean('is_for_sale').notNull().default(false),
+  isForTrade: boolean('is_for_trade').notNull().default(false),
+  soldAt: timestamp('sold_at'),
+});
+
+
+/*        ENTITY RELATIONS        */
+
 export const usersRelations = relations(users, ({ many }) => ({
   tags: many(usersToTags),
 }));
@@ -67,8 +86,10 @@ export const usersToTagsRelations = relations(usersToTags, ({ one }) => ({
   }),
 }));
 
+/*        ENTITY TYPES        */
 
 export type UsersType = InferInsertModel<typeof users>;
 export type TagsType = InferInsertModel<typeof tags>;
 export type UsersToTagsType = InferInsertModel<typeof usersToTags>;
 export type FriendshipsType = InferInsertModel<typeof friendships>;
+export type ItemsType = InferInsertModel<typeof items>;
