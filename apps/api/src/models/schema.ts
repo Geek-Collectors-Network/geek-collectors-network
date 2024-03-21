@@ -101,6 +101,40 @@ export const usersToTagsRelations = relations(usersToTags, ({ one }) => ({
   }),
 }));
 
+export const itemsRelations = relations(items, ({ one, many }) => ({
+  creator: one(users, {
+    fields: [items.creatorId],
+    references: [users.id],
+  }),
+  collection: one(itemsToUsersCollections, {
+    fields: [items.id],
+    references: [itemsToUsersCollections.itemId],
+  }),
+  wishlists: many(itemsToUsersWishlists),
+}));
+
+export const itemsToUsersCollectionsRelations = relations(itemsToUsersCollections, ({ one }) => ({
+  item: one(items, {
+    fields: [itemsToUsersCollections.itemId],
+    references: [items.id],
+  }),
+  user: one(users, {
+    fields: [itemsToUsersCollections.userId],
+    references: [users.id],
+  }),
+}));
+
+export const itemsToUsersWishlistsRelations = relations(itemsToUsersWishlists, ({ one }) => ({
+  item: one(items, {
+    fields: [itemsToUsersWishlists.itemId],
+    references: [items.id],
+  }),
+  user: one(users, {
+    fields: [itemsToUsersWishlists.userId],
+    references: [users.id],
+  }),
+}));
+
 /*        ENTITY TYPES        */
 
 export type UsersType = InferInsertModel<typeof users>;
