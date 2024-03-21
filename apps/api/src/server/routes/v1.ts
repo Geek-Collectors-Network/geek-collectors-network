@@ -33,6 +33,8 @@ export class Routes {
     router.post('/user/tag/:tagId/add', authenticate, use((req, res) => this.userService.handleAddUserTag(req, res)));
     router.post('/user/tag/:tagId/remove', authenticate, use((req, res) => this.userService.handleDeleteUserTag(req, res)));
 
+    router.get('/user/friends', authenticate, use((req, res) => this.userService.handleGetFriendslist(req, res)));
+
     return router;
   }
 }
