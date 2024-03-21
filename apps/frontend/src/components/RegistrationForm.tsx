@@ -6,6 +6,24 @@ import TextInput from './TextInput';
 import PageLink from './PageLink';
 import { registrationSchema } from '../schemas/schemas';
 
+function signUp(navigate: (path: string) => void, values: Record<string, string>) {
+  fetch('/api/v1/auth/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(values),
+  })
+    .then(response => response.json())
+    .then(response => {
+      const { data, isError } = response;
+
+      if (isError) return console.error(data);
+
+      return navigate('/login');
+    });
+}
+
 function RegistrationForm() {
   const navigate = useNavigate();
 
@@ -13,22 +31,7 @@ function RegistrationForm() {
     <Formik
       initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
       validationSchema={registrationSchema}
-      onSubmit={values => {
-        fetch('/api/v1/auth/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values),
-        })
-          .then(response => {
-            if (response.ok) {
-              navigate('/login');
-            } else {
-              console.error('Failed to sign up');
-            }
-          });
-      }}
+      onSubmit={signUp.bind(null, navigate)}
     >
       {formik => (
         <Form>
