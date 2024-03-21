@@ -30,8 +30,7 @@ function ProfileInfo() {
   const [initialValues, setInitialValues] = useState<ProfileInfo | null>(null);
 
   useEffect(() => {
-    const userId = sessionStorage.getItem('userId');
-    fetch(`/api/v1/user/${userId}/profile`, {
+    fetch('/api/v1/user/profile', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
