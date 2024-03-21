@@ -46,12 +46,13 @@ export class Server {
     });
 
     this.app.get('/health', sendResponse(200, 'OK!'));
+
     if (WEB_ROOT) {
       this.app.use(express.static(WEB_ROOT)); // Load assets from the WEB_ROOT folder
-      this.app.get('*', (_, res) => res.sendFile(path.resolve(WEB_ROOT, 'index.html'))); // Send all unhandled requests to react-router
-    } else {
-      this.app.get('*', sendResponse(404, new Error('Route Not Found')));
+      this.app.get('*', (_, res) => res.sendFile(path.resolve(WEB_ROOT, 'index.html'))); // Send all unhandled GET requests to react-router
     }
+
+    this.app.use('*', sendResponse(404, new Error('Route Not Found')));
   }
 
   public start(host: string, port: number): void {
