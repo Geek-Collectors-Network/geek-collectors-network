@@ -29,9 +29,8 @@ export class Routes {
 
     // User tags
     router.get('/user/:userId?/tags', authenticate, use((req, res) => this.userService.handleGetUserTags(req, res)));
-    router.post('/user/tag/create', authenticate, use((req, res) => this.userService.handleCreateUserTag(req, res)));
-    router.post('/user/tag/:tagId/add', authenticate, use((req, res) => this.userService.handleAddUserTag(req, res)));
-    router.post('/user/tag/:tagId/remove', authenticate, use((req, res) => this.userService.handleDeleteUserTag(req, res)));
+    router.post('/user/tag/:tagId?', authenticate, use((req, res) => this.userService.handleAddUserTag(req, res)));
+    router.delete('/user/tag/:tagId', authenticate, use((req, res) => this.userService.handleDeleteUserTag(req, res)));
 
     router.get('/user/friends', authenticate, use((req, res) => this.userService.handleGetFriendslist(req, res)));
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { and, eq, inArray, or } from 'drizzle-orm';
+import { and, eq, inArray, or, sql } from 'drizzle-orm';
 
 import { type Resources } from './Service';
 import { friendships, tags, users, usersToTags, UsersType } from '../../models/schema';
@@ -71,12 +71,12 @@ export class UserController {
 
   public async createTag(userId: number, tagText: string) {
     // check if tag already exists
-    const tagSearchResults = await this.resources.db
+    const tagSelectResults = await this.resources.db
       .select()
       .from(tags)
       .where(eq(tags.text, tagText));
-    if (tagSearchResults.length > 0) {
-      return { tagId: tagSearchResults[0].id };
+    if (tagSelectResults.length > 0) {
+      return tagSelectResults[0].id;
     }
     // if tag doesn't exist, create it
     const tagInsertResults = await this.resources.db
@@ -84,26 +84,27 @@ export class UserController {
       .values({
         text: tagText,
         creatorId: userId,
-      })
-      .execute();
-    return { tagId: tagInsertResults[0].insertId, tagText };
+      });
+    return tagInsertResults[0].insertId;
   }
 
-  public async addUserTag(userId: number, tagId: number) {
+  public async addUserToTag(userId: number, tagId: number) {
     try {
-      const results = await this.resources.db
+      await this.resources.db
         .insert(usersToTags)
         .values({
           userId,
           tagId,
-        });
-      return results[0].affectedRows === 1;
+        })
+        .onDuplicateKeyUpdate({ set: { userId: sql`user_id` } });
+      return true;
     } catch (err) {
+      console.error(err);
       return false;
     }
   }
 
-  public async removeUserTag(userId: number, tagId: number) {
+  public async deleteUserToTag(userId: number, tagId: number) {
     const results = await this.resources.db
       .delete(usersToTags)
       .where(and(eq(usersToTags.userId, userId), eq(usersToTags.tagId, tagId)));
@@ -202,32 +203,24 @@ export class UserService {
     return new Error('User not found');
   }
 
-  public async handleCreateUserTag(req: express.Request, res: express.Response) {
-    const { userId } = req.session;
-
-    const tagText = req.body.tag;
-
-    if (!tagText) {
-      return new Error('Missing tag text.');
-    }
-    const { tagId } = await this.controller.createTag(userId!, tagText);
-    await this.controller.addUserTag(userId!, tagId);
-    return { tagId, tagText };
-  }
-
   public async handleAddUserTag(req: express.Request, res: express.Response) {
     const { userId } = req.session;
-    const tagId = parseInt(req.params.tagId, 10);
+    let tagId = parseInt(req.params.tagId, 10);
+    const tagText = req.body.text;
 
-    const added = await this.controller.addUserTag(userId!, tagId);
-    return { added };
+    if (Number.isNaN(tagId) && tagText) {
+      tagId = await this.controller.createTag(userId!, tagText);
+    }
+
+    const added = await this.controller.addUserToTag(userId!, tagId);
+    return added ? { tagId } : false;
   }
 
   public async handleDeleteUserTag(req: express.Request, res: express.Response) {
     const { userId } = req.session;
     const tagId = parseInt(req.params.tagId, 10);
 
-    const removed = await this.controller.removeUserTag(userId!, tagId);
+    const removed = await this.controller.deleteUserToTag(userId!, tagId);
     return { removed };
   }
 
