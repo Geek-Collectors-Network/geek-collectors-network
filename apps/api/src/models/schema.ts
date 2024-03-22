@@ -51,6 +51,7 @@ export const items = mysqlTable('item', {
   createdAt: timestamp('created_at').notNull().$defaultFn(() => new Date()),
   updatedAt: timestamp('updated_at').onUpdateNow(),
   creatorId: int('creator_id').references(() => users.id, { onDelete: 'set null' }),
+  title: varchar('title', { length: 50 }).notNull(),
   description: varchar('text', { length: 1000 }),
   imageUrl: varchar('image_url', { length: 255 }),
   brand: varchar('brand', { length: 50 }),
