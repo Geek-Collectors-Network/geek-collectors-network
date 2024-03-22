@@ -1,9 +1,9 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import { sql } from 'drizzle-orm';
 
-import type { FriendshipsType, UsersType, TagsType, UsersToTagsType } from './schema';
+import type { FriendshipsType, ItemsType, UsersType, TagsType, UsersToTagsType } from './schema';
 // eslint-disable-next-line no-duplicate-imports
-import { friendships, users, tags, usersToTags } from './schema';
+import { friendships, items, users, tags, usersToTags } from './schema';
 
 import { logger } from '../modules/logger';
 
@@ -319,6 +319,115 @@ const DUMMY_FRIENDSHIPS: FriendshipsType[] = [
 
 ];
 
+const DUMMY_ITEMS: ItemsType[] = [
+  {
+    id: 1,
+    creatorId: 2,
+    title: 'Iron Man Mark XLIII Action Figure',
+    description: "Highly detailed action figure featuring Iron Man's Mark XLIII armor from Marvel's Avengers: Age of Ultron movie.",
+    imageUrl: 'https://example.com/iron-man-mark-xliii.jpg',
+    brand: 'Hot Toys',
+    price: 5999, // in cents ($59.99)
+    isForSale: true,
+  },
+  {
+    id: 2,
+    creatorId: 3,
+    title: 'The Lord of the Rings Trilogy Blu-ray Set',
+    description: 'Complete Blu-ray set of The Lord of the Rings trilogy, featuring extended editions of all three films with bonus content.',
+    imageUrl: 'https://example.com/lotr-blu-ray-set.jpg',
+    brand: 'Warner Bros.',
+    price: 9999, // in cents ($99.99)
+    isForSale: true,
+    isForTrade: true,
+  },
+  {
+    id: 3,
+    creatorId: 2,
+    title: 'Star Wars Millennium Falcon LEGO Set',
+    description: 'LEGO set featuring the iconic Millennium Falcon starship from the Star Wars saga. Includes Han Solo, Chewbacca, and other minifigures.',
+    imageUrl: 'https://example.com/millennium-falcon-lego.jpg',
+    brand: 'LEGO',
+    price: 12999, // in cents ($129.99)
+    isForSale: true,
+    isForTrade: true,
+  },
+  {
+    id: 4,
+    creatorId: 3,
+    title: 'Harry Potter Wand Collection',
+    description: 'Set of replica wands from the Harry Potter film series, including wands for Harry Potter, Hermione Granger, and Ron Weasley.',
+    imageUrl: 'https://example.com/harry-potter-wand-collection.jpg',
+    brand: 'Noble Collection',
+    price: 6999, // in cents ($69.99)
+    isForSale: true,
+    isForTrade: true,
+  },
+  {
+    id: 5,
+    creatorId: 4,
+    title: 'Nintendo Switch Console (Animal Crossing Edition)',
+    description: 'Limited edition Nintendo Switch console featuring custom designs inspired by Animal Crossing: New Horizons game.',
+    imageUrl: 'https://example.com/nintendo-switch-animal-crossing.jpg',
+    brand: 'Nintendo',
+    price: 29999, // in cents ($299.99)
+    isForSale: true,
+  },
+  {
+    id: 6,
+    creatorId: 2,
+    title: 'Marvel Comics Collectible Art Print Set',
+    description: 'Set of high-quality art prints featuring iconic Marvel Comics characters, including Spider-Man, Iron Man, and Captain America.',
+    imageUrl: 'https://example.com/marvel-comics-art-prints.jpg',
+    brand: 'Mondo',
+    price: 4999, // in cents ($49.99)
+    isForSale: true,
+    isForTrade: true,
+  },
+  {
+    id: 7,
+    creatorId: 3,
+    title: 'Doctor Who TARDIS Bluetooth Speaker',
+    description: 'Bluetooth speaker designed to look like the TARDIS time machine from the Doctor Who TV series. Features LED lights and sound effects.',
+    imageUrl: 'https://example.com/doctor-who-tardis-speaker.jpg',
+    brand: 'Seven20',
+    price: 4999, // in cents ($49.99)
+    isForSale: true,
+  },
+  {
+    id: 8,
+    creatorId: 2,
+    title: 'Funko Pop! Star Wars Boba Fett Vinyl Figure',
+    description: 'Funko Pop! vinyl figure featuring Boba Fett, the infamous bounty hunter from the Star Wars saga. Part of the Star Wars collection.',
+    imageUrl: 'https://example.com/funko-pop-boba-fett.jpg',
+    brand: 'Funko',
+    price: 999, // in cents ($9.99)
+    isForSale: true,
+    isForTrade: true,
+  },
+  {
+    id: 9,
+    creatorId: 3,
+    title: "Game of Thrones Collector's Edition Box Set",
+    description: "Collector's edition box set of the complete Game of Thrones TV series on Blu-ray, featuring all eight seasons and bonus content.",
+    imageUrl: 'https://example.com/game-of-thrones-box-set.jpg',
+    brand: 'HBO',
+    price: 7999, // in cents ($79.99)
+    isForSale: true,
+  },
+  {
+    id: 10,
+    creatorId: 2,
+    title: 'DC Comics Batman Logo Throw Blanket',
+    description: 'Soft and cozy throw blanket featuring the iconic Batman logo from DC Comics. Perfect for fans of the Dark Knight.',
+    imageUrl: 'https://example.com/dc-batman-throw-blanket.jpg',
+    brand: 'Bioworld',
+    price: 2999, // in cents ($29.99)
+    isForTrade: true,
+  },
+];
+
+
 export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
   logger.info('Writing dummy data to database if it doesn\'t exist.');
 
@@ -365,6 +474,17 @@ export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
     .execute());
   try {
     await Promise.all(friendshipPromises);
+  } catch (e) {
+    // Likely to throw "duplicate entry", we'll just ignore it
+  }
+
+  const itemPromises = DUMMY_ITEMS.map(dummy => db
+    .insert(items)
+    .values(dummy)
+    .onDuplicateKeyUpdate({ set: { id: sql`id` } })
+    .execute());
+  try {
+    await Promise.all(itemPromises);
   } catch (e) {
     // Likely to throw "duplicate entry", we'll just ignore it
   }
