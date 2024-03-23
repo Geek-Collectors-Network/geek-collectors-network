@@ -1,4 +1,4 @@
-import { boolean, date, int, mysqlEnum, mysqlTable, primaryKey, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import { boolean, date, decimal, int, mysqlEnum, mysqlTable, primaryKey, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
 import { InferInsertModel, relations } from 'drizzle-orm';
 
 /*        ENTITY DEFINITIONS        */
@@ -51,11 +51,11 @@ export const items = mysqlTable('item', {
   createdAt: timestamp('created_at').notNull().$defaultFn(() => new Date()),
   updatedAt: timestamp('updated_at').onUpdateNow(),
   creatorId: int('creator_id').references(() => users.id, { onDelete: 'set null' }),
-  title: varchar('title', { length: 50 }).notNull(),
-  description: varchar('text', { length: 1000 }),
+  name: varchar('name', { length: 50 }).notNull(),
+  description: text('description'),
   imageUrl: varchar('image_url', { length: 255 }),
   brand: varchar('brand', { length: 50 }),
-  price: int('price').notNull(), // in cents
+  price: decimal('price', { precision: 2 }),
   isForSale: boolean('is_for_sale').notNull().default(false),
   isForTrade: boolean('is_for_trade').notNull().default(false),
   soldAt: timestamp('sold_at'),
