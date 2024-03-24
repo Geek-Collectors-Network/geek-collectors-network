@@ -5,7 +5,7 @@ import useFetchData from '../hooks/useFetchData';
 import loadingAnimation from '../components/LoadingAnimation';
 import ItemCard from '../components/ItemCard';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { SimpleGrid, VStack, Container, HStack } from '@chakra-ui/react';
+import { SimpleGrid, VStack, Container } from '@chakra-ui/react';
 import PageTitle from '../components/PageTitle';
 
 type Item = {
