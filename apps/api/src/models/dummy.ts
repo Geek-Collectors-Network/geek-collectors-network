@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import { sql } from 'drizzle-orm';
 
-import type { FriendshipsType, ItemsType, UsersType, TagsType, UsersToTagsType } from './schema';
+import type { FriendshipsType, ItemsType, ItemsToTagsType, ItemsToUsersCollectionsType, ItemsToUsersWishlistsType, UsersType, TagsType, UsersToTagsType } from './schema';
 // eslint-disable-next-line no-duplicate-imports
 import { friendships, items, users, tags, usersToTags } from './schema';
 
@@ -248,25 +248,28 @@ const DUMMY_USERS: UsersType[] = [
 
 const tagsText: string[] = [
   'Star Wars',
-  'Star Trek',
   'Marvel',
-  'Lord of the Rings',
-  'Transformers',
-  'Minecraft',
-  'Harry Potter',
+  'The Avengers',
+  'Iron Man',
   'DC Comics',
-  'Nintendo',
-  'Game of Thrones',
-  'Pokemon',
-  'Doctor Who',
-  'The Simpsons',
-  'Dungeons & Dragons',
-  'Back to the Future',
   'Batman',
+  'Superman',
+  'Nintendo',
+  'Pokemon',
   'Super Mario Bros',
   'The Legend of Zelda',
-  'The Avengers',
-  'Ghostbusters',
+  'Transformers',
+  'robots',
+  'models',
+  'action figures',
+  'movies',
+  'books',
+  'comics',
+  'video games',
+  'board games',
+  'LEGO',
+  'sci-fi',
+  'space',
 ];
 
 const DUMMY_TAGS: TagsType[] = tagsText.map((text, index) => ({
@@ -333,11 +336,11 @@ const DUMMY_ITEMS: ItemsType[] = [
   {
     id: 2,
     creatorId: 3,
-    title: 'The Lord of the Rings Trilogy Blu-ray Set',
-    description: 'Complete Blu-ray set of The Lord of the Rings trilogy, featuring extended editions of all three films with bonus content.',
-    imageUrl: 'https://example.com/lotr-blu-ray-set.jpg',
-    brand: 'Warner Bros.',
-    price: 9999, // in cents ($99.99)
+    title: 'Batman: The Dark Knight Returns Graphic Novel',
+    description: 'Classic graphic novel by Frank Miller featuring an older Bruce Wayne returning to the role of Batman.',
+    imageUrl: 'https://example.com/batman-dark-knight-returns.jpg',
+    brand: 'DC Comics',
+    price: 1999, // in cents ($19.99)
     isForSale: true,
     isForTrade: true,
   },
@@ -355,14 +358,14 @@ const DUMMY_ITEMS: ItemsType[] = [
   {
     id: 4,
     creatorId: 3,
-    title: 'Harry Potter Wand Collection',
-    description: 'Set of replica wands from the Harry Potter film series, including wands for Harry Potter, Hermione Granger, and Ron Weasley.',
-    imageUrl: 'https://example.com/harry-potter-wand-collection.jpg',
-    brand: 'Noble Collection',
-    price: 6999, // in cents ($69.99)
+    title: 'Pokemon Trading Card Game: Sword & Shield Booster Box',
+    description: 'Booster box containing 36 Pokemon TCG packs from the Sword & Shield expansion. Each pack contains 10 cards.',
+    imageUrl: 'https://example.com/pokemon-sword-shield-booster-box.jpg',
+    brand: 'Pokemon',
+    price: 9999, // in cents ($99.99)
     isForSale: true,
-    isForTrade: true,
   },
+
   {
     id: 5,
     creatorId: 4,
@@ -387,34 +390,35 @@ const DUMMY_ITEMS: ItemsType[] = [
   {
     id: 7,
     creatorId: 3,
-    title: 'Doctor Who TARDIS Bluetooth Speaker',
-    description: 'Bluetooth speaker designed to look like the TARDIS time machine from the Doctor Who TV series. Features LED lights and sound effects.',
-    imageUrl: 'https://example.com/doctor-who-tardis-speaker.jpg',
-    brand: 'Seven20',
-    price: 4999, // in cents ($49.99)
+    title: 'The Avengers: Earth\'s Mightiest Heroes DVD Box Set',
+    description: 'Complete DVD box set of the animated TV series The Avengers: Earth\'s Mightiest Heroes. Includes all 52 episodes.',
+    imageUrl: 'https://example.com/avengers-earths-mightiest-heroes.jpg',
+    brand: 'Walt Disney Studios Home Entertainment',
+    price: 2999, // in cents ($29.99)
     isForSale: true,
   },
   {
     id: 8,
-    creatorId: 2,
-    title: 'Funko Pop! Star Wars Boba Fett Vinyl Figure',
-    description: 'Funko Pop! vinyl figure featuring Boba Fett, the infamous bounty hunter from the Star Wars saga. Part of the Star Wars collection.',
-    imageUrl: 'https://example.com/funko-pop-boba-fett.jpg',
-    brand: 'Funko',
-    price: 999, // in cents ($9.99)
+    creatorId: 4,
+    title: 'The Legend of Zelda Hylian Shield Backpack',
+    description: 'Backpack featuring the iconic Hylian Shield design from The Legend of Zelda video game series. Perfect for fans of Link and Hyrule.',
+    imageUrl: 'https://example.com/zelda-hylian-shield-backpack.jpg',
+    brand: 'Bioworld',
+    price: 5999, // in cents ($59.99)
     isForSale: true,
-    isForTrade: true,
   },
   {
     id: 9,
-    creatorId: 3,
-    title: "Game of Thrones Collector's Edition Box Set",
-    description: "Collector's edition box set of the complete Game of Thrones TV series on Blu-ray, featuring all eight seasons and bonus content.",
-    imageUrl: 'https://example.com/game-of-thrones-box-set.jpg',
-    brand: 'HBO',
-    price: 7999, // in cents ($79.99)
+    creatorId: 2,
+    title: 'Transformers Optimus Prime Action Figure',
+    description: 'Highly detailed action figure featuring Optimus Prime from the Transformers movie franchise. Includes light-up features and accessories.',
+    imageUrl: 'https://example.com/transformers-optimus-prime.jpg',
+    brand: 'Hasbro',
+    price: 3999, // in cents ($39.99)
     isForSale: true,
+    isForTrade: true,
   },
+
   {
     id: 10,
     creatorId: 2,
@@ -425,6 +429,11 @@ const DUMMY_ITEMS: ItemsType[] = [
     price: 2999, // in cents ($29.99)
     isForTrade: true,
   },
+];
+
+const DUMMY_ITEMS_TAGS: ItemsToTagsType[] = [
+  { itemId: 1, tagId: 3 },
+
 ];
 
 
