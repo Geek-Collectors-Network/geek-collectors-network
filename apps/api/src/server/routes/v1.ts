@@ -27,6 +27,7 @@ export class Routes {
     router.patch('/user/profile', authenticate, use((req, res) => this.userService.handleEditProfile(req, res)));
 
     router.get('/user/friends', authenticate, use((req, res) => this.userService.handleGetFriendslist(req, res)));
+    router.get('/user/friendship/suggestions', authenticate, use((req, res) => this.userService.handleGetFriendSuggestions(req, res)));
 
     return router;
   }
