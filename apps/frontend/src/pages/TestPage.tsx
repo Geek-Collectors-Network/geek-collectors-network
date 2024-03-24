@@ -3,6 +3,7 @@ import React from 'react';
 // import FriendsList from './FriendsList';
 import PageLayout from '../components/PageLayout';
 import ItemCard from '../components/ItemCard';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 const item = {
   title: 'Star Wars Darth Vader Electronic Vinyl Figure #343',
@@ -10,13 +11,22 @@ const item = {
   itemImage: 'http://uncleodiescollectibles.com/img_lib/Star%20Wars%20Collectibles%20240%208-9-21.jpg',
 };
 
+const button = {
+  label: 'Delete Item',
+  icon: <DeleteIcon />,
+  variant: 'solid',
+  colorScheme: 'brand',
+  onClick: () => console.log('Deleting item from list...'),
+
+};
+
+
 function TestPage() {
   return (
     <PageLayout showNavigation={false}>
       <ItemCard
-        title={item.title}
-        description={item.description}
-        itemImage={item.itemImage}
+        itemData={item}
+        button={button}
       />
       {/* <FriendsList /> */}
     </PageLayout>

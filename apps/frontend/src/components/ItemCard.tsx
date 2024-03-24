@@ -7,10 +7,10 @@ import {
   Text,
   Stack,
   Flex,
-  Button,
   Spacer,
+  Divider,
+  IconButton,
 } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
 
 type ItemData = {
  title: string,
@@ -18,7 +18,20 @@ type ItemData = {
  itemImage?: string,
 }
 
-function ItemCard({ title, description, itemImage }: ItemData) {
+type CardButton = {
+  label: string,
+  icon: React.ReactElement,
+  variant?: string,
+  colorScheme?: string,
+  onClick?: () => void
+}
+
+type ItemCardProps = {
+  itemData: ItemData,
+  button: CardButton
+}
+
+function ItemCard({ itemData, button }: ItemCardProps) {
   return (
     <Card
       maxW="sm"
@@ -31,22 +44,27 @@ function ItemCard({ title, description, itemImage }: ItemData) {
         <Stack mt="3" spacing="6">
 
           <Image
-            src={itemImage || 'https://via.placeholder.com/150'}
-            borderRadius="lg"
+            src={itemData.itemImage || 'https://via.placeholder.com/150'}
             objectFit="cover"
             htmlWidth="100%"
             htmlHeight="auto" />
 
-          <Heading size="md">{title}</Heading>
+          <Divider />
 
-          <Text>{description}</Text>
+          <Heading size="md">{itemData.title}</Heading>
+
+          <Text>{itemData.description}</Text>
         </Stack>
 
-        <Flex p="0">
+        <Flex>
           <Spacer />
-          <Button variant="ghost" colorScheme="brand" size="lg" p="0">
-            <DeleteIcon color="brand" w={6} h={6} />
-          </Button>
+          <IconButton
+            aria-label={button.label}
+            icon={button.icon}
+            variant={button.variant || 'ghost'}
+            colorScheme={button.colorScheme || 'brand'}
+            onClick={button.onClick}
+          />
         </Flex>
 
       </CardBody>
