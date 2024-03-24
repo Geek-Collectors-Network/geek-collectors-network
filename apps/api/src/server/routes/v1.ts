@@ -19,6 +19,7 @@ export class Routes {
   public create() {
     const router = express.Router();
 
+    // Authorization
     router.post('/auth/signup', use((req, res) => this.authService.handleSignUp(req, res)));
     router.post('/auth/login', use((req, res) => this.authService.handleLogin(req, res)));
     router.post('/auth/logout', use((req, res) => this.authService.handleLogout(req, res)));
@@ -26,7 +27,16 @@ export class Routes {
     router.get('/user/:userId?/profile', authenticate, use((req, res) => this.userService.handleGetProfile(req, res)));
     router.patch('/user/profile', authenticate, use((req, res) => this.userService.handleEditProfile(req, res)));
 
+    // User tags
+    router.get('/user/:userId?/tags', authenticate, use((req, res) => this.userService.handleGetUserTags(req, res)));
+    router.post('/user/tag/:tagId?', authenticate, use((req, res) => this.userService.handleAddUserTag(req, res)));
+    router.delete('/user/tag/:tagId', authenticate, use((req, res) => this.userService.handleDeleteUserTag(req, res)));
+
     router.get('/user/friends', authenticate, use((req, res) => this.userService.handleGetFriendslist(req, res)));
+
+    router.get('/friendship/requests', authenticate, use((req, res) => this.userService.handleGetFriendRequests(req, res)));
+    router.post('/friendship/:userId', authenticate, use((req, res) => this.userService.handleCreateFriendRequest(req, res)));
+    router.patch('/friendship/:userId', authenticate, use((req, res) => this.userService.handleUpdateFriendRequest(req, res)));
 
     return router;
   }
