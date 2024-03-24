@@ -260,7 +260,10 @@ export class UserService {
     let tagId = parseInt(req.params.tagId, 10);
     const tagText = req.body.text;
 
-    if (Number.isNaN(tagId) && tagText) {
+    if (Number.isNaN(tagId)) {
+      if (!tagText) {
+        return new Error('Must provide a tag id or text');
+      }
       tagId = await this.controller.createTag(userId!, tagText);
     }
 
