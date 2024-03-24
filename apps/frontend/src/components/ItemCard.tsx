@@ -57,7 +57,7 @@ function ItemCard({ itemData, button }: ItemCardProps) {
           <Text>{itemData.description}</Text>
         </Stack>
 
-        <Flex>
+        <Flex pt="2">
           <Spacer />
           <IconButton
             aria-label={button.label}

@@ -15,7 +15,7 @@ const button = {
   label: 'Delete Item',
   icon: <DeleteIcon />,
   variant: 'solid',
-  colorScheme: 'brand',
+  colorScheme: '',
   onClick: () => console.log('Deleting item from list...'),
 
 };
