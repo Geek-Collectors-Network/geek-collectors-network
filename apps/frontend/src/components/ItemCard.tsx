@@ -6,10 +6,11 @@ import {
   Heading,
   Text,
   Stack,
-  Flex,
   Spacer,
   Divider,
   IconButton,
+  CardFooter,
+  AspectRatio,
 } from '@chakra-ui/react';
 
 type ItemData = {
@@ -31,7 +32,7 @@ type ItemCardProps = {
   button: CardButton
 }
 
-// TODO: Male the ItemCard clickable, so that it'll open a modal with more details
+// TODO: Make ItemCard clickable, so it opens modal with more details
 function ItemCard({ itemData, button }: ItemCardProps) {
   return (
     <Card
@@ -44,11 +45,13 @@ function ItemCard({ itemData, button }: ItemCardProps) {
       <CardBody>
         <Stack mt="3" spacing="6">
 
-          <Image
-            src={itemData.itemImage || 'https://via.placeholder.com/150'}
-            objectFit="cover"
-            htmlWidth="100%"
-            htmlHeight="auto" />
+          <AspectRatio ratio={4 / 3}>
+            <Image
+              src={itemData.itemImage || 'https://via.placeholder.com/150'}
+              objectFit="cover"
+              alt={itemData.title} // Remember to add an alt attribute for accessibility
+            />
+          </AspectRatio>
 
           <Divider />
 
@@ -56,19 +59,22 @@ function ItemCard({ itemData, button }: ItemCardProps) {
 
           <Text>{itemData.description}</Text>
         </Stack>
-
-        <Flex pt="2">
-          <Spacer />
-          <IconButton
-            aria-label={button.label}
-            icon={button.icon}
-            variant={button.variant || 'ghost'}
-            colorScheme={button.colorScheme || 'brand'}
-            onClick={button.onClick}
-          />
-        </Flex>
-
       </CardBody>
+
+      <CardFooter>
+
+        {/* Space moves icon to far right */}
+        <Spacer />
+
+        <IconButton
+          aria-label={button.label}
+          icon={button.icon}
+          variant={button.variant || 'ghost'}
+          colorScheme={button.colorScheme || 'brand'}
+          onClick={button.onClick}
+        />
+
+      </CardFooter>
     </Card>
   );
 }
