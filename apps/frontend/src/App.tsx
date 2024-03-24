@@ -9,6 +9,7 @@ import AccountInfo from './pages/AccountInfo';
 import ProfileInfo from './pages/ProfileInfo';
 import Test from './pages/TestPage';
 import UserListTestPage from './pages/UserListTestPage';
+import FriendsListPage from './pages/FriendsListPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/test" element={<Test />} />
       <Route path="/userlist" element={<UserListTestPage />} />
+      <Route path="/friendslist" element={<FriendsListPage />} />
 
       <Route path="/dashboard" element={<UserDashboard />} />
       <Route path="/account" element={<AccountInfo />} />
