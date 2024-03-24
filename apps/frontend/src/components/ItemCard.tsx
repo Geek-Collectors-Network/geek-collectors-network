@@ -63,7 +63,7 @@ function ItemCard({ itemData, button }: ItemCardProps) {
 
       <CardFooter>
 
-        {/* Space moves icon to far right */}
+        {/* Moves icon to far right */}
         <Spacer />
 
         <IconButton
