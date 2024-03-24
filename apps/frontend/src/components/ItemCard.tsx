@@ -31,6 +31,7 @@ type ItemCardProps = {
   button: CardButton
 }
 
+// TODO: Male the ItemCard clickable, so that it'll open a modal with more details
 function ItemCard({ itemData, button }: ItemCardProps) {
   return (
     <Card
