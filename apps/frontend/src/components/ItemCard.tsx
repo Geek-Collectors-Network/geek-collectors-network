@@ -49,7 +49,7 @@ function ItemCard({ itemData, button }: ItemCardProps) {
             <Image
               src={itemData.itemImage || 'https://via.placeholder.com/150'}
               objectFit="cover"
-              alt={itemData.title} // Remember to add an alt attribute for accessibility
+              alt={itemData.title}
             />
           </AspectRatio>
 
