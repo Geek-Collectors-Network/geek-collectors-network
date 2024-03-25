@@ -10,13 +10,12 @@ import loadingAnimation from '../components/LoadingAnimation';
 import { Friend } from '../types/types';
 
 function FriendsList() {
-  const { data: friends, isLoading } = useFetchData<Friend>('/api/v1/user/friends');
+  const { data: friends, isLoading } = useFetchData<Friend>('/api/v1/user/friends', 'data');
   const [filteredFriends, setFilteredFriends] = useState<Friend[]>([]);
-
 
   // Ensures `filteredFriends` list is updated when original `friends` list changes.
   useEffect(() => {
-    setFilteredFriends(friends);
+    if (friends) { setFilteredFriends(friends); }
   }, [friends]);
 
   // Filter function for search bar
