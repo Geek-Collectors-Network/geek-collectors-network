@@ -6,6 +6,11 @@ import TextInput from './TextInput';
 import PageLink from './PageLink';
 import { registrationSchema } from '../schemas/schemas';
 
+type RegionTextInputProps = {
+  name: string,
+  country: string
+}
+
 function signUp(navigate: (path: string) => void, values: Record<string, string>) {
   fetch('/api/v1/auth/signup', {
     method: 'POST',
@@ -28,20 +33,20 @@ const provinceCountries = ['canada'];
 const stateCountries = ['united states'];
 const territoryCountries = ['australia'];
 
-function RegionTextInput({ country }: { country: string }) {
+function RegionTextInput({ name, country }: RegionTextInputProps) {
   if (provinceCountries.includes(country.toLowerCase())) {
-    return <TextInput name="region" label="Province:" />;
+    return <TextInput name={name} label="Province:" />;
   }
 
   if (stateCountries.includes(country.toLowerCase())) {
-    return <TextInput name="region" label="State:" />;
+    return <TextInput name={name} label="State:" />;
   }
 
   if (territoryCountries.includes(country.toLowerCase())) {
-    return <TextInput name="region" label="Territory:" />;
+    return <TextInput name={name} label="Territory:" />;
   }
 
-  return <TextInput name="region" label="Province:" />;
+  return <TextInput name={name} label="Province:" />;
 }
 
 function RegistrationForm() {
@@ -62,7 +67,7 @@ function RegistrationForm() {
             <TextInput name="email" label="Email:" type="email" />
             <TextInput name="password" label="Password:" type="password" />
             <TextInput name="country" label="Country:" onChange={e => setCountry(e.target.value)} />
-            <RegionTextInput country={country} />
+            <RegionTextInput name="region" country={country} />
             <TextInput name="city" label="City:" />
 
             <Button
