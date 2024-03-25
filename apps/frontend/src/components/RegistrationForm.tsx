@@ -66,7 +66,11 @@ function RegistrationForm() {
             <TextInput name="lastName" label="Last name:" />
             <TextInput name="email" label="Email:" type="email" />
             <TextInput name="password" label="Password:" type="password" />
-            <TextInput name="country" label="Country:" onChange={e => setCountry(e.target.value)} />
+            <TextInput name="country" label="Country:" onChange={e => {
+              formik.handleChange(e);
+              setCountry(e.target.value);
+            }} />
+
             <RegionTextInput name="region" country={country} />
             <TextInput name="city" label="City:" />
 
