@@ -37,7 +37,7 @@ function UserDashboard() {
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
-        <Link to={'/'} style={{ width: '100%' }}>
+        <Link to={'/itemlist'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
             <Text>Item Collection</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
