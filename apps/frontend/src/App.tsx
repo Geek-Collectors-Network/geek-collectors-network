@@ -10,6 +10,7 @@ import ProfileInfo from './pages/ProfileInfo';
 import Test from './pages/TestPage';
 import UserListTestPage from './pages/UserListTestPage';
 import FriendsListPage from './pages/FriendsListPage';
+import ItemListPage from './pages/ItemListPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/test" element={<Test />} />
       <Route path="/userlist" element={<UserListTestPage />} />
       <Route path="/friendslist" element={<FriendsListPage />} />
+      <Route path="/itemlist" element={<ItemListPage />} />
 
       <Route path="/dashboard" element={<UserDashboard />} />
       <Route path="/account" element={<AccountInfo />} />

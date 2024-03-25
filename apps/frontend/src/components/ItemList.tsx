@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import SearchBar from '../components/SearchBar';
+import SearchBar from './SearchBar';
 import useFetchData from '../hooks/useFetchData';
-import loadingAnimation from '../components/LoadingAnimation';
-import ItemCard from '../components/ItemCard';
+import loadingAnimation from './LoadingAnimation';
+import ItemCard from './ItemCard';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { SimpleGrid, VStack, Container } from '@chakra-ui/react';
-import PageTitle from '../components/PageTitle';
+import PageTitle from './PageTitle';
 
 type Item = {
     id: string,
