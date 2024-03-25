@@ -11,8 +11,10 @@ const cities = ['Vancouver', 'Burnaby', 'Richmond', 'Surrey', 'Coquitlam', 'Lang
 type ProfileInfo = {
   email: string;
   birthDate: string;
-  city: string;
   about: string;
+  country: string;
+  region: string;
+  city: string;
 }
 
 function formatDate(date: Date) {
@@ -92,6 +94,16 @@ function ProfileInfo() {
                   <FormLabel color={'gray.500'}>Date of Birth:</FormLabel>
                   <Field as={Input} name={'birthDate'} border={'none'} focusBorderColor={'transparent'} placeholder={'MM/DD/YYYY'}></Field>
                   <FormErrorMessage>{formik.errors.birthDate}</FormErrorMessage>
+                </FormControl>
+                <FormControl id={'country'} isInvalid={!!(formik.errors.country && formik.touched.country)}>
+                  <FormLabel color={'gray.500'}>Country:</FormLabel>
+                  <Field as={Input} name={'country'} border={'none'} focusBorderColor={'transparent'}></Field>
+                  <FormErrorMessage>{formik.errors.country}</FormErrorMessage>
+                </FormControl>
+                <FormControl id={'region'} isInvalid={!!(formik.errors.region && formik.touched.region)}>
+                  <FormLabel color={'gray.500'}>Region:</FormLabel>
+                  <Field as={Input} name={'region'} border={'none'} focusBorderColor={'transparent'}></Field>
+                  <FormErrorMessage>{formik.errors.region}</FormErrorMessage>
                 </FormControl>
                 <FormControl id={'city'} isInvalid={!!(formik.errors.city && formik.touched.city)}>
                   <FormLabel color={'gray.500'}>City:</FormLabel>
