@@ -28,7 +28,7 @@ function ItemList() {
   // Filter function for Item Search Bar
   const handleItemSearch = (query: string) => {
     const lowercaseQuery = query.toLowerCase();
-    const filteredQueries = items.filter(item => item.title.toLowerCase().includes(lowercaseQuery) ||
+    const filteredQueries = items.filter(item => item.name.toLowerCase().includes(lowercaseQuery) ||
       item.description.toLowerCase().includes(lowercaseQuery));
     setFilteredItems(filteredQueries);
   };
@@ -49,7 +49,7 @@ function ItemList() {
         : filteredItems.map(item => (
           <ItemCard
             key={item.id}
-            itemData={{ title: item.title, description: item.description, itemImage: item.imageUrl }}
+            itemData={{ title: item.name, description: item.description, itemImage: item.imageUrl }}
             button={button}
           />
         ))
