@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { Button, VStack } from '@chakra-ui/react';
@@ -24,12 +24,33 @@ function signUp(navigate: (path: string) => void, values: Record<string, string>
     });
 }
 
+const provinceCountries = ['canada'];
+const stateCountries = ['united states'];
+const territoryCountries = ['australia'];
+
+function RegionTextInput({ country }: { country: string }) {
+  if (provinceCountries.includes(country.toLowerCase())) {
+    return <TextInput name="region" label="Province:" />;
+  }
+
+  if (stateCountries.includes(country.toLowerCase())) {
+    return <TextInput name="region" label="State:" />;
+  }
+
+  if (territoryCountries.includes(country.toLowerCase())) {
+    return <TextInput name="region" label="Territory:" />;
+  }
+
+  return <TextInput name="region" label="Province:" />;
+}
+
 function RegistrationForm() {
   const navigate = useNavigate();
+  const [country, setCountry] = useState('');
 
   return (
     <Formik
-      initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
+      initialValues={{ firstName: '', lastName: '', email: '', password: '', country, region: '', city: '' }}
       validationSchema={registrationSchema}
       onSubmit={signUp.bind(null, navigate)}
     >
@@ -40,6 +61,9 @@ function RegistrationForm() {
             <TextInput name="lastName" label="Last name:" />
             <TextInput name="email" label="Email:" type="email" />
             <TextInput name="password" label="Password:" type="password" />
+            <TextInput name="country" label="Country:" onChange={e => setCountry(e.target.value)} />
+            <RegionTextInput country={country} />
+            <TextInput name="city" label="City:" />
 
             <Button
               type="submit"
