@@ -12,7 +12,7 @@ type Item = {
     id: string,
     title: string,
     description: string,
-    thumbnail: string
+    imageUrl: string
 }
 
 function ItemList() {
