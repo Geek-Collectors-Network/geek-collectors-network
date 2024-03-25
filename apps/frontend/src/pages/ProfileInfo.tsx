@@ -6,8 +6,6 @@ import PageLayout from '../components/PageLayout';
 import PageTitle from '../components/PageTitle';
 import TagInput from '../components/TagInput';
 
-const cities = ['Vancouver', 'Burnaby', 'Richmond', 'Surrey', 'Coquitlam', 'Langley', 'Abbotsford', 'Chilliwack', 'Kelowna'];
-
 type ProfileInfo = {
   email: string;
   birthDate: string;
@@ -107,10 +105,7 @@ function ProfileInfo() {
                 </FormControl>
                 <FormControl id={'city'} isInvalid={!!(formik.errors.city && formik.touched.city)}>
                   <FormLabel color={'gray.500'}>City:</FormLabel>
-                  <Field as={Select} name={'city'} border={'none'} focusBorderColor={'transparent'}>
-                    <option value={''}>Select a city</option>
-                    {cities.map(city => <option key={city} value={city}>{city}</option>)}
-                  </Field>
+                  <Field as={Input} name={'city'} border={'none'} focusBorderColor={'transparent'}></Field>
                   <FormErrorMessage>{formik.errors.city}</FormErrorMessage>
                 </FormControl>
                 <FormControl id={'about'} isInvalid={!!(formik.errors.about && formik.touched.about)}>
