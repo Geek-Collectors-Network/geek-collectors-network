@@ -10,7 +10,7 @@ import PageTitle from '../components/PageTitle';
 
 type Item = {
     id: string,
-    title: string,
+    name: string,
     description: string,
     imageUrl: string
 }
