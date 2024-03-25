@@ -16,6 +16,7 @@ type Item = {
 }
 
 function ItemList() {
+  // TODO: Replace URL with actual API endpoint
   const { data: items, isLoading } = useFetchData<Item>('https://dummyjson.com/products/category/smartphones?limit=8', 'products');
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
 
@@ -48,7 +49,7 @@ function ItemList() {
         : filteredItems.map(item => (
           <ItemCard
             key={item.id}
-            itemData={{ title: item.title, description: item.description, itemImage: item.thumbnail }}
+            itemData={{ title: item.title, description: item.description, itemImage: item.imageUrl }}
             button={button}
           />
         ))
