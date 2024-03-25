@@ -54,6 +54,10 @@ export class Routes {
     router.post('/item/:itemId/:tagId?', authenticate, use((req, res) => this.itemService.handleAddItemTag(req, res)));
     router.delete('/item/:itemId/:tagId', authenticate, use((req, res) => this.itemService.handleRemoveItemTag(req, res)));
 
+    // Collection routes
+    router.get('/user/:userId?/collection', authenticate, use((req, res) => this.itemService.handleGetUserCollection(req, res)));
+
+
 
     return router;
   }
