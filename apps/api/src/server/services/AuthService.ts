@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   public async handleSignUp(req: express.Request, res: express.Response) {
-    const { email, password, firstName, lastName, country, region, city } = req.body;
+    const { email, password, firstName, lastName } = req.body;
 
     if (!email || !password || !firstName || !lastName) {
       return new Error('Missing required fields');
