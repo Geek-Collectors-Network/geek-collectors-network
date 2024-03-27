@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import { Button, VStack } from '@chakra-ui/react';
 import TextInput from './TextInput';
 import PageLink from './PageLink';
 import { registrationSchema } from '../schemas/schemas';
-
-type RegionTextInputProps = {
-  name: string,
-  country: string
-}
 
 function signUp(navigate: (path: string) => void, values: Record<string, string>) {
   fetch('/api/v1/auth/signup', {
@@ -29,33 +24,12 @@ function signUp(navigate: (path: string) => void, values: Record<string, string>
     });
 }
 
-const provinceCountries = ['canada'];
-const stateCountries = ['united states'];
-const territoryCountries = ['australia'];
-
-function RegionTextInput({ name, country }: RegionTextInputProps) {
-  if (provinceCountries.includes(country.toLowerCase())) {
-    return <TextInput name={name} label="Province:" />;
-  }
-
-  if (stateCountries.includes(country.toLowerCase())) {
-    return <TextInput name={name} label="State:" />;
-  }
-
-  if (territoryCountries.includes(country.toLowerCase())) {
-    return <TextInput name={name} label="Territory:" />;
-  }
-
-  return <TextInput name={name} label="Province:" />;
-}
-
 function RegistrationForm() {
   const navigate = useNavigate();
-  const [country, setCountry] = useState('');
 
   return (
     <Formik
-      initialValues={{ firstName: '', lastName: '', email: '', password: '', country, region: '', city: '' }}
+      initialValues={{ firstName: '', lastName: '', email: '', password: '', country: '', region: '', city: '' }}
       validationSchema={registrationSchema}
       onSubmit={signUp.bind(null, navigate)}
     >
@@ -66,12 +40,8 @@ function RegistrationForm() {
             <TextInput name="lastName" label="Last name:" />
             <TextInput name="email" label="Email:" type="email" />
             <TextInput name="password" label="Password:" type="password" />
-            <TextInput name="country" label="Country:" onChange={e => {
-              formik.handleChange(e);
-              setCountry(e.target.value);
-            }} />
-
-            <RegionTextInput name="region" country={country} />
+            <TextInput name="country" label="Country:" />
+            <TextInput name="region" label="State/Province:" />;
             <TextInput name="city" label="City:" />
 
             <Button
