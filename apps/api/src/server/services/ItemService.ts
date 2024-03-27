@@ -21,15 +21,16 @@ export class ItemController {
   }
 
   public async getUserCollection(id: number) {
-    const results = await this.resources.db
-      .execute(sql`
-      SELECT item.*
-      FROM item
-      JOIN item_to_user_collection ON item.id = item_to_user_collection.item_id
-      JOIN user ON user.id = item_to_user_collection.user_id
-      WHERE user.id = ${id};
-      `);
-    return results[0];
+    // TODO: if querying another user, omit items with isHidden = true
+    const results = await this.resources.db.query.itemsToUsersCollections.findMany({
+      where: item_ => eq(item_.userId, id),
+      with: { item: true },
+    });
+    if (results) {
+      return results.map(result => ({ ...result.item, notes: result.notes }));
+    }
+    return results;
+  }
   }
 
   public async getUserWishlist(id: number) {
