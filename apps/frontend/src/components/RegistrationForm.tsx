@@ -29,7 +29,7 @@ function RegistrationForm() {
 
   return (
     <Formik
-      initialValues={{ firstName: '', lastName: '', email: '', password: '', country: '', region: '', city: '' }}
+      initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
       validationSchema={registrationSchema}
       onSubmit={signUp.bind(null, navigate)}
     >
@@ -40,9 +40,6 @@ function RegistrationForm() {
             <TextInput name="lastName" label="Last name:" />
             <TextInput name="email" label="Email:" type="email" />
             <TextInput name="password" label="Password:" type="password" />
-            <TextInput name="country" label="Country:" />
-            <TextInput name="region" label="State/Province:" />;
-            <TextInput name="city" label="City:" />
 
             <Button
               type="submit"
