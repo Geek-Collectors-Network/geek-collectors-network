@@ -44,19 +44,21 @@ export class Routes {
     // Item routes
 
     // search for items
-    router.get('/items', authenticate, use((req, res) => this.itemService.handleSearchItems(req, res)));
+    // router.get('/items', authenticate, use((req, res) => this.itemService.handleSearchItems(req, res)));
     // item crud operations
-    router.post('/item/', authenticate, use((req, res) => this.itemService.handleCreateItem(req, res)));
+    // router.post('/item/', authenticate, use((req, res) => this.itemService.handleCreateItem(req, res)));
     router.get('/item/:itemId', authenticate, use((req, res) => this.itemService.handleGetItem(req, res)));
-    router.patch('/item/:itemId', authenticate, use((req, res) => this.itemService.handleUpdateItem(req, res)));
-    router.delete('/item/:itemId', authenticate, use((req, res) => this.itemService.handleDeleteItem(req, res)));
+    // router.patch('/item/:itemId', authenticate, use((req, res) => this.itemService.handleUpdateItem(req, res)));
+    // router.delete('/item/:itemId', authenticate, use((req, res) => this.itemService.handleDeleteItem(req, res)));
     // item tags
-    router.post('/item/:itemId/:tagId?', authenticate, use((req, res) => this.itemService.handleAddItemTag(req, res)));
-    router.delete('/item/:itemId/:tagId', authenticate, use((req, res) => this.itemService.handleRemoveItemTag(req, res)));
+    // router.post('/item/:itemId/:tagId?', authenticate, use((req, res) => this.itemService.handleAddItemTag(req, res)));
+    // router.delete('/item/:itemId/:tagId', authenticate, use((req, res) => this.itemService.handleRemoveItemTag(req, res)));
 
-    // Collection routes
+    // User Collection Items routes
     router.get('/user/:userId?/collection', authenticate, use((req, res) => this.itemService.handleGetUserCollection(req, res)));
 
+    // User Wishlist Items routes
+    router.get('/user/:userId?/wishlist', authenticate, use((req, res) => this.itemService.handleGetUserWishlist(req, res)));
 
 
     return router;

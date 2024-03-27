@@ -9,8 +9,19 @@ export class ItemController {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly resources: Resources) { }
 
+  public async getItem(id: number) {
+    const item = await this.resources.db.query.items.findFirst({
+      where: item_ => eq(item_.id, id),
+      with: { tags: { with: { tag: true } } },
+    });
+    if (item) {
+      item.tags = item.tags.map(tag => tag.tag.text);
+    }
+    return item;
+  }
+
   public async getUserCollection(id: number) {
-    const coll = await this.resources.db
+    const results = await this.resources.db
       .execute(sql`
       SELECT item.*
       FROM item
@@ -18,7 +29,19 @@ export class ItemController {
       JOIN user ON user.id = item_to_user_collection.user_id
       WHERE user.id = ${id};
       `);
-    return coll[0];
+    return results[0];
+  }
+
+  public async getUserWishlist(id: number) {
+    // TODO: if querying another user, omit items with isHidden = true
+    const results = await this.resources.db.query.itemsToUsersWishlists.findMany({
+      where: item_ => eq(item_.userId, id),
+      with: { item: true },
+    });
+    if (results) {
+      return results.map(result => ({ ...result.item, notes: result.notes }));
+    }
+    return results;
   }
 }
 
@@ -33,7 +56,18 @@ export class ItemService {
 
   public async handleCreateItem(req: express.Request, res: express.Response) {}
 
-  public async handleGetItem(req: express.Request, res: express.Response) {}
+  public async handleGetItem(req: express.Request, res: express.Response) {
+    try {
+      const itemId = parseInt(req.params.itemId, 10);
+      const item = await this.controller.getItem(itemId);
+      if (item) {
+        return item;
+      }
+      return new Error('Item not found');
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
 
   public async handleUpdateItem(req: express.Request, res: express.Response) {}
 
@@ -48,6 +82,15 @@ export class ItemService {
     try {
       const userId = req.params.userId ? parseInt(req.params.userId, 10) : req.session.userId!;
       return await this.controller.getUserCollection(userId);
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
+  public async handleGetUserWishlist(req: express.Request, res: express.Response) {
+    try {
+      const userId = req.params.userId ? parseInt(req.params.userId, 10) : req.session.userId!;
+      return await this.controller.getUserWishlist(userId);
     } catch (err) {
       return new Error('Internal Server Error');
     }
