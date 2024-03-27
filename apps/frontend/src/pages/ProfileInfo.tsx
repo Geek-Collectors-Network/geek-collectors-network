@@ -99,7 +99,7 @@ function ProfileInfo() {
                   <FormErrorMessage>{formik.errors.country}</FormErrorMessage>
                 </FormControl>
                 <FormControl id={'region'} isInvalid={!!(formik.errors.region && formik.touched.region)}>
-                  <FormLabel color={'gray.500'}>Region:</FormLabel>
+                  <FormLabel color={'gray.500'}>Province/State:</FormLabel>
                   <Field as={Input} name={'region'} border={'none'} focusBorderColor={'transparent'}></Field>
                   <FormErrorMessage>{formik.errors.region}</FormErrorMessage>
                 </FormControl>
