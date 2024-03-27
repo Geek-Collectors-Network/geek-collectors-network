@@ -3,7 +3,7 @@ import { sql } from 'drizzle-orm';
 
 import type { FriendshipsType, ItemsType, ItemsToTagsType, ItemsToUsersCollectionsType, ItemsToUsersWishlistsType, UsersType, TagsType, UsersToTagsType } from './schema';
 // eslint-disable-next-line no-duplicate-imports
-import { friendships, items, users, tags, usersToTags } from './schema';
+import { friendships, items, itemsToTags, itemsToUsersCollections, itemsToUsersWishlists, users, tags, usersToTags } from './schema';
 
 import { logger } from '../modules/logger';
 
@@ -259,6 +259,7 @@ const tagsText: string[] = [
   'Super Mario Bros',
   'The Legend of Zelda',
   'Transformers',
+  'Warhammer 40k',
   'robots',
   'models',
   'action figures',
@@ -324,118 +325,198 @@ const DUMMY_FRIENDSHIPS: FriendshipsType[] = [
 
 const DUMMY_ITEMS: ItemsType[] = [
   {
-    id: 1,
-    creatorId: 2,
-    title: 'Iron Man Mark XLIII Action Figure',
-    description: "Highly detailed action figure featuring Iron Man's Mark XLIII armor from Marvel's Avengers: Age of Ultron movie.",
-    imageUrl: 'https://example.com/iron-man-mark-xliii.jpg',
-    brand: 'Hot Toys',
-    price: 5999, // in cents ($59.99)
-    isForSale: true,
+    'id': 1,
+    'creatorId': 1,
+    'name': 'Millennium Falcon LEGO Set',
+    'description': 'Recreate iconic Star Wars scenes with this detailed LEGO Millennium Falcon set.',
+    'url': 'https://www.lego.com/en-us/themes/star-wars',
+    'imageUrl': 'https://i.ibb.co/QQhj9V1/lego-millenium-falcon.jpg',
+    'company': 'LEGO',
+    'price': 199.99,
+    'isForSale': true,
+    // 'isForTrade': false,
   },
   {
-    id: 2,
-    creatorId: 3,
-    title: 'Batman: The Dark Knight Returns Graphic Novel',
-    description: 'Classic graphic novel by Frank Miller featuring an older Bruce Wayne returning to the role of Batman.',
-    imageUrl: 'https://example.com/batman-dark-knight-returns.jpg',
-    brand: 'DC Comics',
-    price: 1999, // in cents ($19.99)
-    isForSale: true,
-    isForTrade: true,
+    'id': 2,
+    'creatorId': 1,
+    'name': 'Iron Man Mark XLIII Action Figure',
+    'description': 'Highly detailed Iron Man action figure from Marvel Comics.',
+    'url': 'https://www.marvel.com/',
+    'imageUrl': 'https://i.ibb.co/VJyXJjJ/iron-man-action-figure.jpg',
+    'company': 'Hasbro',
+    'price': 29.99,
+    'isForSale': true,
+    'isForTrade': true,
   },
   {
-    id: 3,
-    creatorId: 2,
-    title: 'Star Wars Millennium Falcon LEGO Set',
-    description: 'LEGO set featuring the iconic Millennium Falcon starship from the Star Wars saga. Includes Han Solo, Chewbacca, and other minifigures.',
-    imageUrl: 'https://example.com/millennium-falcon-lego.jpg',
-    brand: 'LEGO',
-    price: 12999, // in cents ($129.99)
-    isForSale: true,
-    isForTrade: true,
+    'id': 3,
+    'creatorId': 1,
+    'name': 'Optimus Prime Masterpiece Edition',
+    'description': 'Transformers Masterpiece Edition figure of Optimus Prime, leader of the Autobots.',
+    'url': 'https://www.transformers.com/',
+    'imageUrl': 'https://i.ibb.co/SDTM3jZ/optimus-prime.webp',
+    'company': 'Hasbro',
+    'price': 99.99,
+    'isForSale': true,
+    'isForTrade': false,
   },
   {
-    id: 4,
-    creatorId: 3,
-    title: 'Pokemon Trading Card Game: Sword & Shield Booster Box',
-    description: 'Booster box containing 36 Pokemon TCG packs from the Sword & Shield expansion. Each pack contains 10 cards.',
-    imageUrl: 'https://example.com/pokemon-sword-shield-booster-box.jpg',
-    brand: 'Pokemon',
-    price: 9999, // in cents ($99.99)
-    isForSale: true,
-  },
-
-  {
-    id: 5,
-    creatorId: 4,
-    title: 'Nintendo Switch Console (Animal Crossing Edition)',
-    description: 'Limited edition Nintendo Switch console featuring custom designs inspired by Animal Crossing: New Horizons game.',
-    imageUrl: 'https://example.com/nintendo-switch-animal-crossing.jpg',
-    brand: 'Nintendo',
-    price: 29999, // in cents ($299.99)
-    isForSale: true,
+    'id': 4,
+    'creatorId': 1,
+    'name': 'Darth Vader Helmet Replica',
+    'description': "Authentic replica of Darth Vader's iconic helmet from Star Wars.",
+    'url': 'https://www.sideshow.com/',
+    'imageUrl': 'https://i.ibb.co/zX4JHYd/darth-vader.jpg',
+    'company': 'Sideshow Collectibles',
+    'price': 299.99,
+    'isForSale': false,
+    'isForTrade': false,
   },
   {
-    id: 6,
-    creatorId: 2,
-    title: 'Marvel Comics Collectible Art Print Set',
-    description: 'Set of high-quality art prints featuring iconic Marvel Comics characters, including Spider-Man, Iron Man, and Captain America.',
-    imageUrl: 'https://example.com/marvel-comics-art-prints.jpg',
-    brand: 'Mondo',
-    price: 4999, // in cents ($49.99)
-    isForSale: true,
-    isForTrade: true,
+    'id': 5,
+    'creatorId': 1,
+    'name': 'Captain America Shield Prop Replica',
+    'description': "Officially licensed replica of Captain America's shield from Marvel Comics.",
+    'url': 'https://www.shopdisney.com/',
+    'imageUrl': 'https://example.com/captain-america-shield.jpg',
+    'company': 'Marvel',
+    'price': 199.99,
+    'isForSale': true,
+    'isForTrade': true,
   },
   {
-    id: 7,
-    creatorId: 3,
-    title: 'The Avengers: Earth\'s Mightiest Heroes DVD Box Set',
-    description: 'Complete DVD box set of the animated TV series The Avengers: Earth\'s Mightiest Heroes. Includes all 52 episodes.',
-    imageUrl: 'https://example.com/avengers-earths-mightiest-heroes.jpg',
-    brand: 'Walt Disney Studios Home Entertainment',
-    price: 2999, // in cents ($29.99)
-    isForSale: true,
+    'id': 6,
+    'creatorId': 1,
+    'name': 'Transformers G1 Soundwave Figure',
+    'description': 'Vintage Transformers Generation 1 Soundwave action figure.',
+    'url': 'https://www.hasbro.com/en-us/brands/transformers',
+    'imageUrl': 'https://i.ibb.co/jGXCDS5/shockwave.webp',
+    'company': 'Hasbro',
+    'price': 49.99,
+    'isForSale': true,
+    'isForTrade': false,
   },
   {
-    id: 8,
-    creatorId: 4,
-    title: 'The Legend of Zelda Hylian Shield Backpack',
-    description: 'Backpack featuring the iconic Hylian Shield design from The Legend of Zelda video game series. Perfect for fans of Link and Hyrule.',
-    imageUrl: 'https://example.com/zelda-hylian-shield-backpack.jpg',
-    brand: 'Bioworld',
-    price: 5999, // in cents ($59.99)
-    isForSale: true,
+    'id': 7,
+    'creatorId': 1,
+    'name': 'Legend of Zelda: Breath of the Wild - Link Nendoroid Figure',
+    'description': 'Adorable Nendoroid figure of Link from The Legend of Zelda: Breath of the Wild.',
+    'url': 'https://www.goodsmile.info/en/',
+    'imageUrl': 'https://i.ibb.co/W2BphpM/link.webp',
+    'company': 'Good Smile Company',
+    'price': 69.99,
+    'isForSale': true,
+    'isForTrade': true,
   },
   {
-    id: 9,
-    creatorId: 2,
-    title: 'Transformers Optimus Prime Action Figure',
-    description: 'Highly detailed action figure featuring Optimus Prime from the Transformers movie franchise. Includes light-up features and accessories.',
-    imageUrl: 'https://example.com/transformers-optimus-prime.jpg',
-    brand: 'Hasbro',
-    price: 3999, // in cents ($39.99)
-    isForSale: true,
-    isForTrade: true,
+    'id': 8,
+    'creatorId': 1,
+    'name': 'Samus Aran Figma Action Figure',
+    'description': 'Highly articulated Figma action figure of Samus Aran, the iconic bounty hunter from Metroid.',
+    'url': 'https://www.goodsmile.info/en/',
+    'imageUrl': 'https://i.ibb.co/0hTqKr9/samus.jpg',
+    'company': 'Good Smile Company',
+    'price': 59.99,
+    'isForSale': true,
+    'isForTrade': false,
   },
-
   {
-    id: 10,
-    creatorId: 2,
-    title: 'DC Comics Batman Logo Throw Blanket',
-    description: 'Soft and cozy throw blanket featuring the iconic Batman logo from DC Comics. Perfect for fans of the Dark Knight.',
-    imageUrl: 'https://example.com/dc-batman-throw-blanket.jpg',
-    brand: 'Bioworld',
-    price: 2999, // in cents ($29.99)
-    isForTrade: true,
+    'id': 9,
+    'creatorId': 1,
+    'name': 'Warhammer 40,000: Indomitus Box Set',
+    'description': 'The ultimate Warhammer 40k starter set featuring Space Marines and Necrons.',
+    'url': 'https://www.games-workshop.com/en-US/Warhammer-40000',
+    'imageUrl': 'https://i.ibb.co/d4T8BnJ/warhammer-40000-indomitus.jpg',
+    'company': 'Games Workshop',
+    'price': 199.99,
+    'isForSale': true,
+    'isForTrade': false,
+  },
+  {
+    'id': 10,
+    'creatorId': 1,
+    'name': 'Warhammer 40,000: Space Marine Primaris Intercessors Squad',
+    'description': 'A set of highly detailed Space Marine Primaris Intercessors for your Warhammer 40k army.',
+    'url': 'https://www.games-workshop.com/en-US/Warhammer-40000',
+    'imageUrl': 'https://i.ibb.co/Ry1QHK1/warhammer-40k-intercessors.jpg',
+    'company': 'Games Workshop',
+    'price': 59.99,
+    'isForSale': true,
+    'isForTrade': true,
   },
 ];
 
 const DUMMY_ITEMS_TAGS: ItemsToTagsType[] = [
-  { itemId: 1, tagId: 3 },
+  { itemId: 1, tagId: 1 },
+  { itemId: 1, tagId: 15 },
+  { itemId: 1, tagId: 22 },
+  { itemId: 1, tagId: 23 },
+  { itemId: 1, tagId: 24 },
+
+  { itemId: 2, tagId: 2 },
+  { itemId: 2, tagId: 3 },
+  { itemId: 2, tagId: 4 },
+  { itemId: 2, tagId: 16 },
+
+  { itemId: 3, tagId: 12 },
+  { itemId: 3, tagId: 54 },
+  { itemId: 3, tagId: 16 },
+
+  { itemId: 4, tagId: 1 },
+  { itemId: 4, tagId: 17 },
+  { itemId: 4, tagId: 23 },
+
+  { itemId: 5, tagId: 2 },
+  { itemId: 5, tagId: 3 },
+  { itemId: 5, tagId: 19 },
+
+  { itemId: 6, tagId: 12 },
+  { itemId: 6, tagId: 14 },
+  { itemId: 6, tagId: 16 },
+
+  { itemId: 7, tagId: 8 },
+  { itemId: 7, tagId: 11 },
+  { itemId: 7, tagId: 15 },
+  { itemId: 7, tagId: 20 },
+
+  { itemId: 8, tagId: 8 },
+  { itemId: 8, tagId: 11 },
+  { itemId: 8, tagId: 15 },
+  { itemId: 8, tagId: 20 },
+  { itemId: 8, tagId: 23 },
+
+  { itemId: 9, tagId: 13 },
+  { itemId: 9, tagId: 15 },
+  { itemId: 9, tagId: 23 },
+
+  { itemId: 10, tagId: 13 },
+  { itemId: 10, tagId: 15 },
+  { itemId: 10, tagId: 24 },
+];
+
+const DUMMY_COLLECTION_ITEMS: ItemsToUsersCollectionsType[] = [
+  { userId: 2, itemId: 1, notes: 'I love Star Wars!' },
+  { userId: 2, itemId: 2 },
+  { userId: 2, itemId: 3 },
+
+  { userId: 3, itemId: 7 },
+  { userId: 3, itemId: 8, notes: 'She\'s my hero' },
+  { userId: 3, itemId: 9 },
+  { userId: 3, itemId: 10 },
 
 ];
 
+const DUMMY_WISHLIST_ITEMS: ItemsToUsersWishlistsType[] = [
+  { userId: 2, itemId: 7 },
+  { userId: 2, itemId: 8 },
+  { userId: 2, itemId: 9, notes: 'I need some paint for these' },
+
+  { userId: 3, itemId: 1, notes: 'I want this so bad!' },
+  { userId: 3, itemId: 2 },
+  { userId: 3, itemId: 4 },
+  { userId: 3, itemId: 5 },
+
+];
 
 export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
   logger.info('Writing dummy data to database if it doesn\'t exist.');
@@ -494,6 +575,40 @@ export const writeDummyToDb = async (db: ReturnType<typeof drizzle>) => {
     .execute());
   try {
     await Promise.all(itemPromises);
+  } catch (e) {
+    // Likely to throw "duplicate entry", we'll just ignore it
+  }
+
+  const itemTagPromises = DUMMY_ITEMS_TAGS.map(dummy => db
+    .insert(itemsToTags)
+    .values(dummy)
+    // .onDuplicateKeyUpdate({ set: { itemId: sql`item_id` } })
+    .execute());
+  try {
+    await Promise.all(itemTagPromises);
+  } catch (e) {
+    // Likely to throw "duplicate entry", we'll just ignore it
+  }
+
+
+  const collectionItemPromises = DUMMY_COLLECTION_ITEMS.map(dummy => db
+    .insert(itemsToUsersCollections)
+    .values(dummy)
+    .onDuplicateKeyUpdate({ set: { itemId: sql`item_id` } })
+    .execute());
+  try {
+    await Promise.all(collectionItemPromises);
+  } catch (e) {
+    // Likely to throw "duplicate entry", we'll just ignore it
+  }
+
+  const wishlistItemPromises = DUMMY_WISHLIST_ITEMS.map(dummy => db
+    .insert(itemsToUsersWishlists)
+    .values(dummy)
+    .onDuplicateKeyUpdate({ set: { itemId: sql`item_id` } })
+    .execute());
+  try {
+    await Promise.all(wishlistItemPromises);
   } catch (e) {
     // Likely to throw "duplicate entry", we'll just ignore it
   }
