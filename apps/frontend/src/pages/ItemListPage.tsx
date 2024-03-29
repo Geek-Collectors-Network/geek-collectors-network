@@ -5,16 +5,32 @@ import ItemList from '../components/ItemList';
 import PageLayout from '../components/PageLayout';
 
 
-function ItemListPage() {
+function ItemCollectionPage() {
   return (
     <PageLayout showNavigation={true}>
       <VStack
         justify={'center'}
       >
-        <ItemList />
+        <ItemList
+          url={'/api/v1/user/collection'}
+        />
       </VStack>
     </PageLayout>
   );
 }
 
-export default ItemListPage;
+function ItemWishlistPage() {
+  return (
+    <PageLayout showNavigation={true}>
+      <VStack
+        justify={'center'}
+      >
+        <ItemList
+          url={'/api/v1/user/wishlist'}
+        />
+      </VStack>
+    </PageLayout>
+  );
+}
+
+export { ItemCollectionPage, ItemWishlistPage };
