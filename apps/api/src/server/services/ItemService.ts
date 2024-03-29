@@ -24,10 +24,14 @@ export class ItemController {
     // TODO: if querying another user, omit items with isHidden = true
     const results = await this.resources.db.query.itemsToUsersCollections.findMany({
       where: item_ => eq(item_.userId, id),
-      with: { item: true },
+      with: { item: { with: { tags: { with: { tag: true } } } } },
     });
     if (results) {
-      return results.map(result => ({ ...result.item, notes: result.notes }));
+      return results.map(result => ({
+        ...result.item,
+        notes: result.notes,
+        tags: result.item.tags.map(tag => tag.tag.text),
+      }));
     }
     return results;
   }
@@ -37,10 +41,14 @@ export class ItemController {
     // TODO: if querying another user, omit items with isHidden = true
     const results = await this.resources.db.query.itemsToUsersWishlists.findMany({
       where: item_ => eq(item_.userId, id),
-      with: { item: true },
+      with: { item: { with: { tags: { with: { tag: true } } } } },
     });
     if (results) {
-      return results.map(result => ({ ...result.item, notes: result.notes }));
+      return results.map(result => ({
+        ...result.item,
+        notes: result.notes,
+        tags: result.item.tags.map(tag => tag.tag.text),
+      }));
     }
     return results;
   }
