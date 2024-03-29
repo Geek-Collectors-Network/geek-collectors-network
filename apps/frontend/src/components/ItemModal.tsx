@@ -79,37 +79,49 @@ function ItemModalBody({ id, name, description, imageUrl, url, tags }: ItemModal
 }
 
 
-type ItemModalFooterProps = {
-    onAddItem: () => void;
-    onRemoveItem: () => void;
+type ActionProps = {
+    label: string;
+    onClick: () => void;
+    variant: 'solid' | 'outline';
 }
 
-function ItemModalFooter({ onAddItem, onRemoveItem } : ItemModalFooterProps) {
+type ItemModalFooterProps = {
+    actions: ActionProps[];
+}
+
+function ItemModalFooter({ actions } : ItemModalFooterProps) {
   return (
     <HStack w={'100%'} spacing={4}>
-      <Button flex={1} variant={'solid'} colorScheme="brand" onClick={onAddItem}>Add Item</Button>
-      <Button flex={1} variant={'outline'} colorScheme="brand" onClick={onRemoveItem}>Remove Item</Button>
+      {actions.map((action, index) => (
+        <Button
+          key={index}
+          flex={1}
+          variant={action.variant}
+          colorScheme={'brand'}
+          onClick={action.onClick}
+        >
+        </Button>
+      ))};
     </HStack>
   );
 }
 
 
 type ItemModalProps = {
-    onAddItem: () => void;
-    onRemoveItem: () => void;
     isOpen: boolean;
     onClose: () => void;
     bodyProps: ItemModalBodyProps;
+    footerActions: ActionProps[];
 }
 
-function ItemModal({ onAddItem, onRemoveItem, onClose, isOpen, bodyProps }: ItemModalProps) {
+function ItemModal({ onClose, isOpen, bodyProps, footerActions }: ItemModalProps) {
   return (
     <GeneralModal
       isOpen={isOpen}
       onClose={onClose}
       headerContent={<ItemModalHeader name={bodyProps.name}/>}
       bodyContent={<ItemModalBody {...bodyProps} />}
-      footerContent={<ItemModalFooter onAddItem={onAddItem} onRemoveItem={onRemoveItem} />}
+      footerContent={<ItemModalFooter actions={footerActions} />}
     />
   );
 }
