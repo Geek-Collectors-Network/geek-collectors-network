@@ -61,6 +61,7 @@ function ItemModalBody({ id, name, description, imageUrl, url, tags }: ItemModal
 
             <Divider />
 
+            <Text size={'md'} as={'b'}>Item Tags</Text>
             <Wrap spacing={0}>
               {tags.map(tag => (
                 <WrapItem key={id}>
@@ -91,18 +92,19 @@ type ItemModalFooterProps = {
 
 function ItemModalFooter({ actions } : ItemModalFooterProps) {
   return (
-    <HStack w={'100%'} spacing={4}>
+    <VStack w={'100%'}>
       {actions.map((action, index) => (
         <Button
+          fontSize={['xs', 'sm', 'md', 'lg']}
           key={index}
-          flex={1}
+          width={'100%'}
           variant={action.variant}
           colorScheme={'brand'}
           onClick={action.onClick}
         >
           {action.label}</Button>
       ))};
-    </HStack>
+    </VStack>
   );
 }
 
