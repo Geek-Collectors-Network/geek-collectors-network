@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   HStack,
   VStack,
@@ -21,27 +21,28 @@ import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 
 type ItemModalHeaderProps = {
-    itemName: string;
+    name: string;
 }
 
-function ItemModalHeader({ itemName }: ItemModalHeaderProps) {
+function ItemModalHeader({ name }: ItemModalHeaderProps) {
   return (
     <HStack w={'100%'} justify={'center'}>
-      <Text fontSize={'xl'}>{itemName}</Text>
+      <Text fontSize={'xl'}>{name}</Text>
     </HStack>
   );
 }
 
 
 type ItemModalBodyProps = {
-    itemName: string;
-    itemImage: string;
-    itemDescription: string;
-    itemURL: string;
-    itemTags: string[];
+    id: number;
+    name: string;
+    description: string;
+    imageUrl: string;
+    url: string
+    tags: string[];
 }
 
-function ItemModalBody({ itemName, itemImage, itemDescription, itemURL, itemTags }: ItemModalBodyProps) {
+function ItemModalBody({ id, name, description, imageUrl, url, tags }: ItemModalBodyProps) {
   return (
     <VStack>
       <Card>
@@ -49,23 +50,21 @@ function ItemModalBody({ itemName, itemImage, itemDescription, itemURL, itemTags
           <Stack spacing={4}>
 
             <AspectRatio ratio={ 16 / 9 }>
-              <Image src={itemImage || 'https://via.placeholder.com/150'} objectFit={'cover'} borderRadius={5}/>
+              <Image src={imageUrl || 'https://via.placeholder.com/150'} objectFit={'cover'} borderRadius={5}/>
             </AspectRatio>
 
-            <Text>{itemDescription}</Text>
+            <Text>{description}</Text>
 
             <Divider />
 
-            <Link href={itemURL} isExternal>
-                Go to the product page for {itemName} <ExternalLinkIcon mx="2px" />
-            </Link>
+            <Link href={url} isExternal> {name} <ExternalLinkIcon mx="2px" /> </Link>
 
             <Divider />
 
             <Wrap spacing={0}>
-              {itemTags.map(tag => (
-                <WrapItem key={tag}>
-                  <Tag size="md" m={1} backgroundColor={'brand.100'} borderRadius="15px">
+              {tags.map(tag => (
+                <WrapItem key={id}>
+                  <Tag size="lg" m={1} backgroundColor={'brand.100'} borderRadius="15px">
                     {tag}
                   </Tag>
                 </WrapItem>
@@ -85,7 +84,6 @@ type ItemModalFooterProps = {
     onRemoveItem: () => void;
 }
 
-
 function ItemModalFooter({ onAddItem, onRemoveItem } : ItemModalFooterProps) {
   return (
     <HStack w={'100%'} spacing={4}>
@@ -99,22 +97,22 @@ function ItemModalFooter({ onAddItem, onRemoveItem } : ItemModalFooterProps) {
 type ItemModalProps = {
     onAddItem: () => void;
     onRemoveItem: () => void;
-    onClose: () => void;
     isOpen: boolean;
+    onClose: () => void;
     bodyProps: ItemModalBodyProps;
 }
 
-
-function ItemModal({ onAddItem, onRemoveItem, onClose, isOpen, bodyProps } :ItemModalProps) {
+function ItemModal({ onAddItem, onRemoveItem, onClose, isOpen, bodyProps }: ItemModalProps) {
   return (
     <GeneralModal
       isOpen={isOpen}
       onClose={onClose}
-      headerContent={<ItemModalHeader itemName={'Iron Man Action Figure'} />} // Simple text as header content
+      headerContent={<ItemModalHeader name={bodyProps.name}/>}
       bodyContent={<ItemModalBody {...bodyProps} />}
       footerContent={<ItemModalFooter onAddItem={onAddItem} onRemoveItem={onRemoveItem} />}
     />
   );
 }
+
 
 export default ItemModal;
