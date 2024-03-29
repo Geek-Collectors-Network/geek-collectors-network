@@ -21,6 +21,9 @@ const updateUserProfileSchema = z.object({
   displayName: z.string().max(20),
   profileImageUrl: z.string().url().max(255),
   birthDate: z.coerce.date(),
+  country: z.string().max(100),
+  region: z.string().max(100),
+  city: z.string().max(100),
 }).partial();
 
 
@@ -29,50 +32,17 @@ export class UserController {
   constructor(private readonly resources: Resources) { }
 
   public async getProfile(id: number) {
-    // const results = await this.resources.db
-    //   .select({
-    //     email: users.email,
-    //     firstName: users.firstName,
-    //     lastName: users.lastName,
-    //     displayName: users.displayName,
-    //     profileImageUrl: users.profileImageUrl,
-    //     birthDate: users.birthDate,
-    //     createdAt: users.createdAt,
-    //     updatedAt: users.updatedAt,
-    //     lastLoginAt: users.lastLoginAt,
-    //   })
-    //   .from(users)
-    //   .where(eq(users.id, id));
-
-
-    const results = await this.resources.db
-      .query
-      .users
-      .findFirst({
-        where: user_ => eq(user_.id, id),
-        columns: {
-          createdAt: false,
-          updatedAt: false,
-          lastLoginAt: false,
-          hashedPassword: false,
-          salt: false,
-        },
-        with: {
-          tags: {
-            columns: {
-              tagId: false,
-              userId: false,
-            },
-            with: {
-              tag: {
-                columns: {
-                  text: true,
-                },
-              },
-            },
-          },
-        },
-      });
+    const results = await this.resources.db.query.users.findFirst({
+      where: user_ => eq(user_.id, id),
+      columns: {
+        createdAt: false,
+        updatedAt: false,
+        lastLoginAt: false,
+        hashedPassword: false,
+        salt: false,
+      },
+      with: { tags: { with: { tag: true } } },
+    });
     if (results) {
       results.tags = results.tags.map(tag => tag.tag.text);
     }
@@ -229,7 +199,7 @@ export class UserController {
     return { created: results[0].affectedRows === 1 };
   }
 
-  public async updateFriendRequest(id:number, friendId: number, status:FriendshipStatus) {
+  public async updateFriendRequest(id: number, friendId: number, status: FriendshipStatus) {
     const results = await this.resources.db
       .update(friendships)
       .set({ status })

@@ -31,7 +31,7 @@ export class ItemController {
     }
     return results;
   }
-  }
+
 
   public async getUserWishlist(id: number) {
     // TODO: if querying another user, omit items with isHidden = true
