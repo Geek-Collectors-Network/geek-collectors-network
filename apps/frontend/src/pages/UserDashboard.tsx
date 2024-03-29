@@ -39,13 +39,13 @@ function UserDashboard() {
         </Link>
         <Link to={'/collection'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
-            <Text>Item Collection</Text>
+            <Text>Personal Collection</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
         <Link to={'/wishlist'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
-            <Text>Item Wishlist</Text>
+            <Text>Wishlist</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
