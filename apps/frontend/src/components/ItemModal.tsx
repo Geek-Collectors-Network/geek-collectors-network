@@ -100,7 +100,7 @@ function ItemModalFooter({ actions } : ItemModalFooterProps) {
           colorScheme={'brand'}
           onClick={action.onClick}
         >
-        </Button>
+          {action.label}</Button>
       ))};
     </HStack>
   );
