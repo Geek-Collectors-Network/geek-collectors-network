@@ -13,6 +13,8 @@ type Item = {
     name: string,
     description: string,
     imageUrl: string
+    url: string
+    tags: string[]
 }
 
 type ItemListProps = {
@@ -93,8 +95,8 @@ function ItemList({ url }: ItemListProps) {
               name: selectedItem.name,
               description: selectedItem.description,
               imageUrl: selectedItem.imageUrl,
-              url: '', // Assuming you have a URL
-              tags: [], // Assuming you have tags
+              url: selectedItem.url,
+              tags: selectedItem.tags,
             }}
             footerActions={[
               {
