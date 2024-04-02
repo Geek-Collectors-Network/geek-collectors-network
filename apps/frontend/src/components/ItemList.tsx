@@ -43,7 +43,7 @@ function ItemList({ url }: ItemListProps) {
     label: 'Open Item',
     icon: <ViewIcon />,
     variant: 'solid',
-    colorScheme: 'teal',
+    colorScheme: 'brand',
     onClick: () => { // Updated to find and set the selected item based on itemId
       const item = items.find(listedItem => listedItem.id === itemId);
       setSelectedItem(item || null);
@@ -54,8 +54,8 @@ function ItemList({ url }: ItemListProps) {
   const deleteItem = {
     label: 'Delete Item',
     icon: <DeleteIcon />,
-    variant: 'solid',
-    colorScheme: 'red',
+    variant: 'outline',
+    colorScheme: 'brand',
     onClick: () => console.log('Deleting item...'), // Placeholder functionality
   };
 

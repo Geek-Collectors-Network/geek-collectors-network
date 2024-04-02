@@ -103,7 +103,7 @@ function ItemModalFooter({ actions } : ItemModalFooterProps) {
           onClick={action.onClick}
         >
           {action.label}</Button>
-      ))};
+      ))}
     </VStack>
   );
 }
