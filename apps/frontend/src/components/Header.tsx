@@ -1,9 +1,10 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { Box, Flex, IconButton, useBreakpointValue, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerBody } from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Flex, IconButton, useBreakpointValue, Text } from '@chakra-ui/react';
 import NavigationLinks from './NavigationLinks';
 import HamburgerMenu from './HamburgerMenu';
+import { ChevronLeftIcon } from '@chakra-ui/icons';
+
 
 type HeaderProps = {
   showNavigation: boolean;
@@ -19,15 +20,26 @@ const links = [
 
 function Header({ showNavigation }: HeaderProps) {
   const location = useLocation();
+  const link = links.find(link_ => link_.path === location.pathname);
+  const pageTitle = link ? link.text : '';
+
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const navigate = useNavigate();
 
   // Function to render navigation content
   const renderNavigationContent = () => {
     if (showNavigation) {
       if (isMobile) {
         return (
-          <Flex align="center" justify={'space-evenly'}>
-            <h1>{location.pathname}</h1>
+          <Flex align="center" justify="space-between">
+            <IconButton
+              colorScheme="white"
+              aria-label="Back"
+              icon={<ChevronLeftIcon w={8} h={8} color="white" />}
+              justifySelf={'start'}
+              onClick={() => navigate(-1)}
+            />
+            <Text color="white" fontWeight="bold" fontSize="xl">{pageTitle}</Text>
             <HamburgerMenu links={links}/>
           </Flex>
         );

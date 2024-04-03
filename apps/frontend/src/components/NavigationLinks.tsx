@@ -19,6 +19,7 @@ function NavigationLinks({ links }: NavigationLinksProps) {
             py={1}
             color={location.pathname === path ? 'white' : 'gray.200'}
             fontWeight={location.pathname === path ? 'bold' : 'normal'}
+            fontSize="xl"
             _hover={{ textDecoration: 'underline' }}
           >
             {text}
