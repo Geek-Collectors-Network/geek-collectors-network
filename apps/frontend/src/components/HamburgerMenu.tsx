@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
+  IconButton,
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 
@@ -18,16 +19,17 @@ function HamburgerMenu({ links }: HamburgerMenuProps) {
     <>
       <Menu>
         <MenuButton
-          // colorScheme="brand"
-          // aria-label="Hamburger Menu"
-          // rightIcon={<HamburgerIcon w={8} h={8} color="white" />}
+          as={IconButton}
+          colorScheme="brand"
+          aria-label="Pages"
+          icon={<HamburgerIcon w={8} h={8} color="white" />}
         >
           MENU
         </MenuButton>
         <MenuList>
           {links.map(({ path, text }) => (
             <Link key={path} to={path}>
-              <MenuItem>
+              <MenuItem fontSize="xl">
                 {text}
               </MenuItem>
             </Link>
