@@ -14,7 +14,7 @@ type RegistrationValues = {
   password: string;
 };
 
-async function signUp(values: RegistrationValues) {
+async function registration(values: RegistrationValues) {
   try {
     const response = await fetch('/api/v1/auth/signup', {
       method: 'POST',
@@ -45,7 +45,7 @@ function RegistrationForm() {
 
   const handleSubmit = async (values : RegistrationValues) => {
     setIsLoading(true);
-    const success = await signUp(values);
+    const success = await registration(values);
 
     if (success) {
       toast({
