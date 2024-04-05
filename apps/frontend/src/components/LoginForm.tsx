@@ -50,7 +50,7 @@ function LoginForm() {
       toast({
         title: 'Login Successful',
         status: 'success',
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
       navigate('/dashboard');
@@ -58,7 +58,7 @@ function LoginForm() {
       toast({
         title: 'Login Failed',
         status: 'error',
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     }

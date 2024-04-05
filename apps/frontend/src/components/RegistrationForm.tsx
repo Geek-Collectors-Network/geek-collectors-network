@@ -51,7 +51,7 @@ function RegistrationForm() {
       toast({
         title: 'You\'ve successfully registered!',
         status: 'success',
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
       navigate('/login');
@@ -59,7 +59,7 @@ function RegistrationForm() {
       toast({
         title: 'Whoops! Registration failed.',
         status: 'error',
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     }
