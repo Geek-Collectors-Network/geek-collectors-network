@@ -45,8 +45,6 @@ jobs:
         include:
           - project: api
             dockerfile: Dockerfile.backend
-          - project: frontend
-            dockerfile: Dockerfile.web
 
     env:
       OWNER_LC: ${{ needs.set-globals.outputs.OWNER_LC }}
@@ -85,7 +83,7 @@ jobs:
 
     strategy:
       matrix:
-        project: [api, frontend]
+        project: [api]
 
     env:
       OWNER_LC: ${{ needs.set-globals.outputs.OWNER_LC }}
@@ -118,6 +116,23 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ matrix.project }}:${{ env.VERSION }}
         run: |
           docker push ${{ env.image }}
+
+  deployment:
+    needs: [build, push]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v2
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      # Assumes you manually provisioned a DO docker application.
+      - name: Update container
+        run: |
+          doctl app spec get ${{ secrets.DIGITALOCEAN_APP_ID }} | doctl app update ${{ secrets.DIGITALOCEAN_APP_ID }} --spec -
 
   cleanup:
     name: cleanup

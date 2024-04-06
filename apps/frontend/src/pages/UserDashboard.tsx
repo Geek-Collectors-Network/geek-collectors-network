@@ -8,7 +8,7 @@ import PageLayout from '../components/PageLayout';
 
 function UserDashboard() {
   return (
-    <PageLayout showNavigation={false}>
+    <PageLayout showNavigation={true}>
       <VStack
         bg={'background'}
         divider={<StackDivider borderWidth={'1px'} />}
@@ -31,15 +31,21 @@ function UserDashboard() {
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
-        <Link to={'/'} style={{ width: '100%' }}>
+        <Link to={'/friendslist'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
             <Text>Friends List</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
-        <Link to={'/'} style={{ width: '100%' }}>
+        <Link to={'/collection'} style={{ width: '100%' }}>
           <HStack w={'100%'} justify={'space-between'}>
-            <Text>Item Collection</Text>
+            <Text>Personal Collection</Text>
+            <ArrowRightIcon w={4} h={4} color="brand.500" />
+          </HStack>
+        </Link>
+        <Link to={'/wishlist'} style={{ width: '100%' }}>
+          <HStack w={'100%'} justify={'space-between'}>
+            <Text>Wishlist</Text>
             <ArrowRightIcon w={4} h={4} color="brand.500" />
           </HStack>
         </Link>
