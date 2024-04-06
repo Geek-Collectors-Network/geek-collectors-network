@@ -165,12 +165,12 @@ export class UserController {
   }
 
   public async getFriendSuggestions(id: number) {
-    const currentFriendIds = await this.getFriendshipIds(id);
+    const allRelationshipIds = await this.getFriendshipIds(id, ['accepted', 'pending', 'blocked', 'rejected']);
     const suggestions = await this.resources.db
       .select()
       .from(users)
       .limit(5)
-      .where(not(inArray(users.id, currentFriendIds)));
+      .where(and(not(inArray(users.id, allRelationshipIds)), not(eq(users.id, id))));
     return suggestions;
   }
 
