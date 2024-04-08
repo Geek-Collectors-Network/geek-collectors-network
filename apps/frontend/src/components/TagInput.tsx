@@ -12,8 +12,20 @@ function TagInput({ tags, setTags }: TagInputProps) {
   function addTag() {
     const trimmedInput = tagInput.trim();
     if (trimmedInput.length > 0 && !tags.includes(trimmedInput)) {
-      setTags([...tags, tagInput]);
-      setTagInput('');
+      fetch('/api/v1/user/tag', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: trimmedInput }),
+      })
+        .then(response => response.json())
+        .then(({ data }) => {
+          console.log(data);
+          setTags([...tags, tagInput]);
+          setTagInput('');
+        })
+        .catch(error => console.error(error));
     }
   }
 
