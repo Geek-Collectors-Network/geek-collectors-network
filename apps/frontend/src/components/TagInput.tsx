@@ -34,7 +34,18 @@ function TagInput({ tags, setTags }: TagInputProps) {
   }
 
   function removeTag(id: number) {
-    setTags(tags.filter(tag => tag.id !== id));
+    fetch(`/api/v1/user/tag/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(({ data }) => {
+        console.log(data);
+        setTags(tags.filter(tag => tag.id !== id));
+      })
+      .catch(error => console.error(error));
   }
 
   useEffect(() => {
