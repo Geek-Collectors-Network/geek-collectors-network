@@ -13,8 +13,8 @@ function LandingPage() {
       /> */}
       <Box
         bg="brand.500"
-        w={'180px'}
-        h={'180px'}
+        w={'160px'}
+        h={'160px'}
         display={'inline'}
         transform={'rotate(45deg)'}
       />

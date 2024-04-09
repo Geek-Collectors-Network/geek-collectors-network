@@ -5,7 +5,7 @@ import { Box, IconButton, useBreakpointValue, Heading } from '@chakra-ui/react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 
 import Hamburger from './Hamburger';
-import NavigationLinks from '../NavigationLinks';
+import NavigationLinks from './NavigationLinks';
 
 const links = [
   { path: '/profile/edit', text: 'Profile' },

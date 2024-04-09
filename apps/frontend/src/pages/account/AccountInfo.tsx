@@ -3,7 +3,7 @@ import { VStack, StackDivider, Button, FormControl, FormLabel, FormErrorMessage,
 import { Formik, Form, Field } from 'formik';
 import { registrationSchema } from '../../schemas/schemas';
 import PageLayout from '../../components/PageLayout';
-import loadingAnimation from '../../components/LoadingAnimation';
+import loadingAnimation from '../../components/widgets/LoadingAnimation';
 
 type AccountInfo = {
   firstName: string;
@@ -84,6 +84,7 @@ function AccountInfo() {
                 <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
               </FormControl>
               <Button
+                className="submit-button"
                 type="submit"
                 colorScheme="brand"
                 variant="outline"

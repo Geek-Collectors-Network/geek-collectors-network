@@ -13,7 +13,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import { profileSchema } from '../../schemas/schemas';
 import PageLayout from '../../components/PageLayout';
-import TagInput from '../../components/TagInput';
+import TagInput from './TagInput';
 import loadingAnimation from '../../components/widgets/LoadingAnimation';
 
 type ProfileInfo = {
