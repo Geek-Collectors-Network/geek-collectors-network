@@ -7,13 +7,10 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-  DrawerFooter,
-  Flex,
   Avatar,
   Heading,
   List,
   ListItem,
-  Button,
 } from '@chakra-ui/react';
 
 import { HamburgerIcon } from '@chakra-ui/icons';
@@ -37,7 +34,6 @@ function Hamburger({ links }: HamburgerProps) {
     })
       .then(response => response.json())
       .then(({ data }) => {
-        console.log(data);
         setUser({
           name: `${data.firstName} ${data.lastName}`,
           profileImageUrl: data.profileImageUrl,
@@ -57,62 +53,31 @@ function Hamburger({ links }: HamburgerProps) {
       <Drawer
         isOpen={isOpen}
         onClose={onClose}
-        placement="right"
-        size={'xs'}
       >
         <DrawerOverlay>
           <DrawerContent>
             <DrawerHeader
-              backgroundColor={'brand.500'}
-              py={8}
-              mb={4}
-              _hover={{
-                cursor: 'pointer',
-                backgroundColor: 'brand.600',
-              }}
+              className="hamburger-header"
+              p={8}
               onClick={() => {
                 if (window.location.pathname !== '/profile') {
                   navigate('/profile');
                 }
               }}
             >
-              <Flex align={'center'} direction={'column'}>
-
-                {/* Add src tag with user image and name */}
-                <Avatar size={'lg'} mb={4} src={user.profileImageUrl} />
-                <Heading
-                  size={'md'}
-                  color={'white'}
-                >{user.name}</Heading>
-              </Flex>
+              {/* Add src tag with user image and name */}
+              <Avatar className="avator" size={'lg'} name={user.name} src={user.profileImageUrl} />
+              <Heading>{user.name}</Heading>
             </DrawerHeader>
-            <DrawerBody>
-              <List spacing={8} textAlign={'center'}>
+            <DrawerBody className="hamburger-body">
+              <List>
                 {links.map(link => (
-                  <ListItem key={link.path} _hover={{
-                    color: 'brand.900',
-                  }}>
+                  <ListItem key={link.path}>
                     <Link to={link.path}>{link.text}</Link>
                   </ListItem>
                 ))}
               </List>
             </DrawerBody>
-            <DrawerFooter mb={8}>
-              <Button
-                colorScheme="brand"
-                variant="outline"
-                w={'full'}
-                onClick={() => {
-                  fetch('/api/logout', {
-                    credentials: 'include',
-                  }).then(() => {
-                    navigate('/');
-                  }).catch(error => {
-                    console.error('Logout error:', error);
-                  });
-                }
-                }>Logout</Button>
-            </DrawerFooter>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>

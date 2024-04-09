@@ -104,6 +104,46 @@ export const theme = extendTheme({
           },
         },
       },
+      // Hamburger menu
+      '.hamburger-header': {
+        'background': 'background.500',
+        'color': 'white',
+        'display': 'flex',
+        'flexDirection': 'column',
+        'justifyContent': 'center',
+        'alignItems': 'center',
+        'cursor': 'pointer',
+        'height': '10rem',
+        'position': 'relative',
+        'h2': {
+          'fontFamily': 'Noto Sans, sans-serif',
+          'fontSize': '1.5rem',
+          'fontWeight': 'normal',
+          'margin': '1rem 0 0',
+        },
+      },
+      '.hamburger-body': {
+        'padding': '2rem 0',
+        'color': 'grey',
+        'a': {
+          'color': 'grey',
+          'fontSize': '1.2rem',
+          ':hover': {
+            'color': 'brand.500',
+            'fontWeight': 'bold',
+          },
+        },
+        'ul': {
+          'padding': '2rem 3rem',
+          'li': {
+            'margin': '0 0 2rem',
+            '_hover': {
+              'opacity': '0.8',
+              'cursor': 'pointer',
+            },
+          },
+        },
+      },
       'form': {
         'width': '100%',
         'maxWidth': '30rem',
