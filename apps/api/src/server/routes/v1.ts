@@ -60,6 +60,7 @@ export class Routes {
 
     // User Collection Items routes
     router.get('/user/collection', authenticate, use((req, res) => this.itemService.handleGetUserCollection(req, res)));
+    router.post('/user/collection', authenticate, use((req, res) => this.itemService.handleAddItemToCollection(req, res)));
 
     // User Wishlist Items routes
     router.get('/user/wishlist', authenticate, use((req, res) => this.itemService.handleGetUserWishlist(req, res)));

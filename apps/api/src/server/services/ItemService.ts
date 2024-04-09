@@ -2,7 +2,7 @@ import express from 'express';
 import { eq, sql } from 'drizzle-orm';
 
 import { type Resources } from './Service';
-import { items, ItemsType, itemsToTags } from '../../models/schema';
+import { items, ItemsType, itemsToTags, itemsToUsersCollections } from '../../models/schema';
 import { desc } from 'drizzle-orm';
 
 
@@ -50,6 +50,23 @@ export class ItemController {
       }));
     }
     return results;
+  }
+
+  public async addItemToCollection(userId: number, itemId: number, notes: string) {
+    try {
+      const results = await this.resources.db
+        .insert(itemsToUsersCollections)
+        .values({
+          userId,
+          itemId,
+          notes,
+        })
+        .onDuplicateKeyUpdate({ set: { itemId: sql`item_id` } });
+      return results[0].affectedRows === 1;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   }
 
 
@@ -115,6 +132,17 @@ export class ItemService {
     try {
       const userId = req.query.id ? parseInt(req.query.id.toString(), 10) : req.session.userId!;
       return await this.controller.getUserCollection(userId);
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
+  public async handleAddItemToCollection(req: express.Request, res: express.Response) {
+    try {
+      const userId = req.session.userId!;
+      const { itemId, notes } = req.body;
+      return await this.controller.addItemToCollection(userId, itemId, notes);
+      // TODO: (prompt user to) remove item from wishlist if it exists
     } catch (err) {
       return new Error('Internal Server Error');
     }
