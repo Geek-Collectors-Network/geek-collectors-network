@@ -37,7 +37,7 @@ function UserProfile() {
 
   if (!initialValues) {
     return (
-      <PageLayout showNavigation={true}>
+      <PageLayout>
         <VStack
           bg={'background'}
           spacing={2}
@@ -56,7 +56,7 @@ function UserProfile() {
   const fullName = `${firstName} ${lastName}`;
 
   return (
-    <PageLayout showNavigation={true}>
+    <PageLayout>
       <VStack
         bg={'background'}
         spacing={6}

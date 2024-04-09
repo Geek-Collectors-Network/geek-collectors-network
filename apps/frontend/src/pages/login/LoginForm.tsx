@@ -71,7 +71,7 @@ function LoginForm() {
       onSubmit={handleSubmit}
     >
       {formik => (
-        <Form>
+        <Form className="login-form">
           <VStack gap={4}>
             <TextInput name="email" label="Email" />
             <TextInput name="password" label="Password" type="password" />

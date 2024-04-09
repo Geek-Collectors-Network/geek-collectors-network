@@ -34,7 +34,7 @@ function RegistrationForm() {
       onSubmit={signUp.bind(null, navigate)}
     >
       {formik => (
-        <Form>
+        <Form className="login-form">
           <VStack gap={4} >
             <TextInput name="firstName" label="First name" />
             <TextInput name="lastName" label="Last name" />

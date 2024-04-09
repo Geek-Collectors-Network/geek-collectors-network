@@ -77,7 +77,7 @@ function ProfileInfo() {
 
   if (!initialValues) {
     return (
-      <PageLayout showNavigation={true}>
+      <PageLayout>
         <VStack
           bg={'background'}
           spacing={2}
@@ -91,7 +91,7 @@ function ProfileInfo() {
   }
 
   return (
-    <PageLayout showNavigation={true}>
+    <PageLayout>
       <VStack
         bg={'background'}
         spacing={2}
