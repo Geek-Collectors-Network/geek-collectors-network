@@ -94,7 +94,7 @@ function ProfileInfo() {
         {formik => (
           <Form className="profile-form">
             <VStack gap={1} divider={<StackDivider/>} >
-              <Avatar className="avatar" border={'1px'} size={'xl'} name={`${initialValues.firstName} ${initialValues.lastName}`} src={initialValues.profileImageUrl}>
+              <Avatar className="avatar" border={'1px'} size={['lg', 'xl']} name={`${initialValues.firstName} ${initialValues.lastName}`} src={initialValues.profileImageUrl}>
                 {/* <AvatarBadge boxSize={'1em'} bg="brand.500" border={'1px'} >+</AvatarBadge> */}
               </Avatar>
               <FormControl id={'email'} isInvalid={!!(formik.errors.email && formik.touched.email)}>

@@ -70,10 +70,10 @@ export const theme = extendTheme({
         'height': '5rem',
         'width': '100%',
         'zIndex': 999,
-        '&a': {
+        'a': {
           'fontSize': '0.5rem',
         },
-        '&button': {
+        'button': {
           'backgroundColor': 'transparent',
           'color': 'white',
         },
@@ -93,7 +93,7 @@ export const theme = extendTheme({
           'a': {
             'color': 'grey',
             'fontSize': '1rem',
-            '&:hover': {
+            ':hover': {
               'color': 'brand.500',
               'textDecoration': 'underline',
             },
@@ -229,9 +229,6 @@ export const theme = extendTheme({
             'boxShadow': 'none',
           },
         },
-        '.avatar': {
-          'margin': '0 0 1rem',
-        },
         '.tag-container': {
           'display': 'flex',
           'flexWrap': 'wrap',
@@ -241,6 +238,25 @@ export const theme = extendTheme({
         '.tag-close-button': {
           'padding': '0',
           'margin': '0 0 0 0.2rem',
+        },
+      },
+      '.avatar': {
+        'margin': '0 0 1rem',
+      },
+      '.profile': {
+        'width': '80%',
+        'maxWidth': '30rem',
+        '.profile-section': {
+          'margin': '1.2rem 0 0',
+          'h1': {
+            'margin': '0 0 0.5rem',
+          },
+          'h2': {
+            'color': 'grey',
+            'fontSize': '1.2rem',
+            'fontWeight': 'normal',
+            'margin': '0 0 0.5rem',
+          },
         },
       },
     },
