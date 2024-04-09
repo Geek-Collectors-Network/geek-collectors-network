@@ -64,6 +64,7 @@ export class Routes {
 
     // User Wishlist Items routes
     router.get('/user/wishlist', authenticate, use((req, res) => this.itemService.handleGetUserWishlist(req, res)));
+    router.post('/user/wishlist', authenticate, use((req, res) => this.itemService.handleAddItemToWishlist(req, res)));
 
     return router;
   }

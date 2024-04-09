@@ -1,9 +1,14 @@
 import express from 'express';
-import { eq, sql } from 'drizzle-orm';
+import { eq, sql, desc } from 'drizzle-orm';
 
 import { type Resources } from './Service';
-import { items, ItemsType, itemsToTags, itemsToUsersCollections } from '../../models/schema';
-import { desc } from 'drizzle-orm';
+import {
+  items,
+  ItemsType,
+  itemsToTags,
+  itemsToUsersCollections,
+  itemsToUsersWishlists,
+} from '../../models/schema';
 
 
 export class ItemController {
@@ -85,6 +90,23 @@ export class ItemController {
     }
     return results;
   }
+
+  public async addItemToWishlist(userId: number, itemId: number, notes: string) {
+    try {
+      const results = await this.resources.db
+        .insert(itemsToUsersWishlists)
+        .values({
+          userId,
+          itemId,
+          notes,
+        })
+        .onDuplicateKeyUpdate({ set: { itemId: sql`item_id` } });
+      return results[0].affectedRows === 1;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
 }
 
 export class ItemService {
@@ -152,6 +174,16 @@ export class ItemService {
     try {
       const userId = req.query.id ? parseInt(req.query.id.toString(), 10) : req.session.userId!;
       return await this.controller.getUserWishlist(userId);
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
+  public async handleAddItemToWishlist(req: express.Request, res: express.Response) {
+    try {
+      const userId = req.session.userId!;
+      const { itemId, notes } = req.body;
+      return await this.controller.addItemToWishlist(userId, itemId, notes);
     } catch (err) {
       return new Error('Internal Server Error');
     }
