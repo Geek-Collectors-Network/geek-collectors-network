@@ -57,6 +57,7 @@ export const theme = extendTheme({
       'button': {
         'fontWeight': 'light',
       },
+      // Site-wide header
       'header': {
         'background': 'background.500',
         'color': 'white',
@@ -80,6 +81,9 @@ export const theme = extendTheme({
           'color': 'brand.500',
           'fontFamily': 'Noto Sans, sans-serif',
           'fontWeight': 'normal',
+          '_hover': {
+            'cursor': 'pointer',
+          },
         },
         '.navigation-links': {
           'display': 'flex',
@@ -109,31 +113,31 @@ export const theme = extendTheme({
           'margin': '1.5rem 0 0',
           'width': '100%',
         },
+        'label': {
+          'color': 'grey',
+        },
         'input': {
           'background': 'white',
           'boxShadow': 'none',
         },
       },
-      '.login-form, .registration-form': {
-        'width': '80%',
-        'background': 'background.500',
-        'label': {
-          'color': 'white',
-          'fontSize': '1.2rem',
-        },
-        'input': {
-          'background': 'white',
-          'padding': '1.7rem',
-          'margin': '0.5rem 0',
-        },
-        'a': {
-          'color': 'grey',
-          'fontSize': '1rem',
-          '_hover': {
-            'color': 'brand.100',
-          },
-        },
+      // General container
+      '.container': {
+        'display': 'flex',
+        'flexDirection': 'column',
+        'alignItems': 'center',
+        'justifyContent': 'center',
+        'padding': '10rem 0',
+        'width': '100%',
       },
+      // Loading animation
+      '.loading-animation': {
+        'position': 'absolute',
+        'top': '50%',
+        'left': '50%',
+        'transform': 'translate(-50%, -50%)',
+      },
+      // Landing page - Navy blue background
       '.background': {
         'backgroundColor': 'background.500',
         'display': 'flex',
@@ -171,6 +175,49 @@ export const theme = extendTheme({
               'opacity': '0.8',
             },
           },
+        },
+      },
+      // Login and registration pages
+      '.login-form, .registration-form': {
+        'width': '80%',
+        'background': 'background.500',
+        'label': {
+          'color': 'white',
+          'fontSize': '1.2rem',
+        },
+        'input': {
+          'background': 'white',
+          'padding': '1.7rem',
+          'margin': '0.5rem 0',
+        },
+        'a': {
+          'color': 'grey',
+          'fontSize': '1rem',
+          '_hover': {
+            'color': 'brand.100',
+          },
+        },
+      },
+      // Account info page
+      '.account-form': {
+        'width': '80%',
+        'maxWidth': '30rem',
+        'label': {
+          'color': 'grey',
+        },
+        'input': {
+          'background': 'white',
+          'border': 'none',
+          'boxShadow': 'none',
+          '_focus': {
+            'boxShadow': 'none',
+          },
+        },
+        'button': {
+          'fontWeight': 'light',
+          'padding': '1.7rem',
+          'margin': '1.5rem 0 0',
+          'width': '100%',
         },
       },
     },

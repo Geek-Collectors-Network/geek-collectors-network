@@ -5,7 +5,7 @@ import LandingPage from './pages/landing/LandingPage';
 import Registration from './pages/registration/Registration';
 import LoginPage from './pages/login/LoginPage';
 import UserDashboard from './pages/UserDashboard';
-import AccountInfo from './pages/AccountInfo';
+import AccountInfo from './pages/account/AccountInfo';
 import ProfileInfo from './pages/ProfileInfo';
 import UserProfile from './pages/UserProfile';
 import UserListTestPage from './pages/UserListTestPage';
