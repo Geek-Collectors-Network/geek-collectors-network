@@ -149,7 +149,7 @@ export const theme = extendTheme({
       },
       '.motto': {
         'color': 'white',
-        'fontSize': '1.5rem',
+        'fontSize': '1.2rem',
         'margin': '3.5rem 0 0',
       },
       '.navigation-buttons': {
@@ -160,7 +160,7 @@ export const theme = extendTheme({
         '.navigation-button': {
           'borderRadius': '0',
           'fontWeight': 'light',
-          'padding': '2.5rem',
+          'padding': '2.1rem',
           'width': '100%',
           '&.signup': {
             'backgroundColor': 'brand.500',
@@ -198,8 +198,8 @@ export const theme = extendTheme({
           },
         },
       },
-      // Account info page
-      '.account-form': {
+      // Account info and profile pages
+      '.account-form, .profile-form': {
         'width': '80%',
         'maxWidth': '30rem',
         'label': {
@@ -213,11 +213,34 @@ export const theme = extendTheme({
             'boxShadow': 'none',
           },
         },
-        'button': {
+        '.submit-button': {
           'fontWeight': 'light',
           'padding': '1.7rem',
           'margin': '1.5rem 0 0',
           'width': '100%',
+        },
+      },
+      // Profile page
+      '.profile-form': {
+        'textarea': {
+          'border': 'none',
+          'resize': 'none',
+          '_focus': {
+            'boxShadow': 'none',
+          },
+        },
+        '.avatar': {
+          'margin': '0 0 1rem',
+        },
+        '.tag-container': {
+          'display': 'flex',
+          'flexWrap': 'wrap',
+          'gap': '0.5rem',
+          'margin': '1rem 0 0',
+        },
+        '.tag-close-button': {
+          'padding': '0',
+          'margin': '0 0 0 0.2rem',
         },
       },
     },
