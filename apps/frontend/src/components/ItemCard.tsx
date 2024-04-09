@@ -14,19 +14,14 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
+import { CardButton } from './CardButtons';
+
 type ItemData = {
  title: string,
  description: string,
  itemImage?: string,
 }
 
-type CardButton = {
-  label: string,
-  icon: React.ReactElement,
-  variant?: string,
-  colorScheme?: string,
-  onClick?: () => void
-}
 
 type ItemCardProps = {
   itemData: ItemData,
