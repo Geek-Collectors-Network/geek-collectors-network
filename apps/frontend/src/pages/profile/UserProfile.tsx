@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Stack, VStack, StackDivider, Avatar, Heading, Text, Tag, Button } from '@chakra-ui/react';
 import PageLayout from '../../components/PageLayout';
 import loadingAnimation from '../../components/widgets/LoadingAnimation';
+import { TagInfo } from './TagInput';
 
 type ProfileInfo = {
   email: string;
@@ -15,13 +16,13 @@ type ProfileInfo = {
   region: string;
   city: string;
   about: string;
-  tags: string[];
+  tags: TagInfo[];
 }
 
 
 function UserProfile() {
   const { userId } = useParams();
-  const userProfileUrl = `/api/v1/user/${userId}/profile`;
+  const userProfileUrl = `/api/v1/user/profile?id=${userId}`;
   const [initialValues, setInitialValues] = useState<ProfileInfo | null>(null);
 
   useEffect(() => {
@@ -32,7 +33,9 @@ function UserProfile() {
       },
     })
       .then(response => response.json())
-      .then(({ data }) => setInitialValues({ ...data }))
+      .then(({ data }) => {
+        setInitialValues({ ...data });
+      })
       .catch(error => console.error(error));
   }, []);
 
@@ -84,7 +87,7 @@ function UserProfile() {
           <Box>
             {tags.map(tag => (
               <Tag
-                key={tag}
+                key={tag.id}
                 size={'lg'}
                 variant={'outline'}
                 backgroundColor={'transparent'}
@@ -92,7 +95,7 @@ function UserProfile() {
                 borderRadius={'full'}
                 m={1}
               >
-                {tag}
+                {tag.text}
               </Tag>
             ))}
           </Box>

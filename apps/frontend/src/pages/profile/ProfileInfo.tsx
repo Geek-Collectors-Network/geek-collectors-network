@@ -13,7 +13,7 @@ import {
 import { Formik, Form, Field } from 'formik';
 import { profileSchema } from '../../schemas/schemas';
 import PageLayout from '../../components/PageLayout';
-import TagInput from './TagInput';
+import { TagInfo, TagInput } from './TagInput';
 import loadingAnimation from '../../components/widgets/LoadingAnimation';
 
 type ProfileInfo = {
@@ -26,7 +26,7 @@ type ProfileInfo = {
   country: string;
   region: string;
   city: string;
-  tags: string[];
+  tags: TagInfo[];
 }
 
 function formatDate(date: Date) {
@@ -56,7 +56,7 @@ const updateProfile = async (values: ProfileInfo) => {
 
 function ProfileInfo() {
   const [initialValues, setInitialValues] = useState<ProfileInfo | null>(null);
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<TagInfo[]>([]);
 
   useEffect(() => {
     fetch('/api/v1/user/profile', {
