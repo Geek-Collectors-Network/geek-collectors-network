@@ -19,7 +19,7 @@ export class ItemController {
       with: { tags: { with: { tag: true } } },
     });
     if (item) {
-      item.tags = item.tags.map(tag => tag.tag.text);
+      item.tags = item.tags.map(tag => ({ id: tag.tag.id, text: tag.tag.text }));
     }
     return item;
   }
@@ -33,7 +33,7 @@ export class ItemController {
     if (results) {
       return results.map(item => ({
         ...item,
-        tags: item.tags.map(tag => tag.tag.text),
+        tags: item.tags.map(tag => ({ id: tag.tag.id, text: tag.tag.text })),
       }));
     }
     return results;
@@ -49,7 +49,7 @@ export class ItemController {
       return results.map(result => ({
         ...result.item,
         notes: result.notes,
-        tags: result.item.tags.map(tag => tag.tag.text),
+        tags: result.item.tags.map(tag => ({ id: tag.tag.id, text: tag.tag.text })),
       }));
     }
     return results;
