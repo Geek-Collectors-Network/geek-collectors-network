@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
 
 type NavigationLinksProps = {
@@ -11,20 +11,38 @@ function NavigationLinks({ links }: NavigationLinksProps) {
   const location = useLocation();
 
   return (
-    <Flex ml={4}>
+    <Flex className="navigation-links">
       {links.map(({ path, text }) => (
-        <Link key={path} to={path}>
-          <Box
-            px={2}
-            py={1}
-            color={location.pathname === path ? 'white' : 'gray.200'}
-            fontWeight={location.pathname === path ? 'bold' : 'normal'}
-            fontSize="xl"
-            _hover={{ textDecoration: 'underline' }}
+        path === '/logout' ? (
+          <Link
+            key={path}
+            to={'/'}
+            className={`navigation-link ${location.pathname === path ? 'active' : ''}`}
+            onClick={() => {
+              fetch('/api/v1/user/logout', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+                .then(response => response.json())
+                .then(() => {
+                  window.location.href = '/';
+                })
+                .catch(error => console.error(error));
+            }}
           >
             {text}
-          </Box>
-        </Link>
+          </Link>
+        ) : (
+          <Link
+            key={path}
+            to={path}
+            className={`navigation-link ${location.pathname === path ? 'active' : ''}`}
+          >
+            {text}
+          </Link>
+        )
       ))}
     </Flex>
   );

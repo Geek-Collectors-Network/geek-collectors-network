@@ -57,10 +57,66 @@ export const theme = extendTheme({
       'button': {
         'fontWeight': 'light',
       },
-      'form': {
+      'header': {
         'background': 'background.500',
-        'width': '80%',
+        'color': 'white',
+        'padding': '1rem 2rem',
+        'display': 'flex',
+        'justifyContent': 'space-between',
+        'alignItems': 'center',
+        'position': 'fixed',
+        'top': 0,
+        'height': '5rem',
+        'width': '100%',
+        'zIndex': 999,
+        '&a': {
+          'fontSize': '0.5rem',
+        },
+        '&button': {
+          'backgroundColor': 'transparent',
+          'color': 'white',
+        },
+        '.gcn': {
+          'color': 'brand.500',
+          'fontFamily': 'Noto Sans, sans-serif',
+          'fontWeight': 'normal',
+        },
+        '.navigation-links': {
+          'display': 'flex',
+          'justifyContent': 'end',
+          'gap': '1.5rem',
+          'width': '100%',
+          'a': {
+            'color': 'grey',
+            'fontSize': '1rem',
+            '&:hover': {
+              'color': 'brand.500',
+              'textDecoration': 'underline',
+            },
+          },
+          '.active': {
+            'color': 'brand.500',
+            'fontWeight': 'bold',
+          },
+        },
+      },
+      'form': {
+        'width': '100%',
         'maxWidth': '30rem',
+        'button': {
+          'fontWeight': 'light',
+          'padding': '1.7rem',
+          'margin': '1.5rem 0 0',
+          'width': '100%',
+        },
+        'input': {
+          'background': 'white',
+          'boxShadow': 'none',
+        },
+      },
+      '.login-form, .registration-form': {
+        'width': '80%',
+        'background': 'background.500',
         'label': {
           'color': 'white',
           'fontSize': '1.2rem',
@@ -69,12 +125,6 @@ export const theme = extendTheme({
           'background': 'white',
           'padding': '1.7rem',
           'margin': '0.5rem 0',
-        },
-        'button': {
-          'fontWeight': 'light',
-          'padding': '1.7rem',
-          'margin': '1.5rem 0 0',
-          'width': '100%',
         },
         'a': {
           'color': 'grey',

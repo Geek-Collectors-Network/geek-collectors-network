@@ -28,8 +28,6 @@ function Hamburger({ links }: HamburgerProps) {
   const navigate = useNavigate();
   const [user, setUser] = useState({ name: '', profileImageUrl: '' });
 
-  // Fetch profile data; if the data changes -- name
-  // or image -- update the user state
   useEffect(() => {
     fetch('/api/v1/user/profile', {
       method: 'GET',
@@ -51,7 +49,7 @@ function Hamburger({ links }: HamburgerProps) {
   return (
     <>
       <IconButton
-        colorScheme="brand"
+        colorScheme="background"
         aria-label="Hamburger Menu"
         icon={<HamburgerIcon w={8} h={8} color="white" />}
         onClick={onOpen}
