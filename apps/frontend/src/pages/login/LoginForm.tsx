@@ -49,16 +49,14 @@ function LoginForm() {
       toast({
         title: 'Login Successful',
         status: 'success',
-        duration: 5000,
-        isClosable: true,
+        duration: 2000,
       });
       navigate('/dashboard');
     } else {
       toast({
         title: 'Login Failed',
         status: 'error',
-        duration: 5000,
-        isClosable: true,
+        duration: 2000,
       });
     }
     setIsLoading(false);
