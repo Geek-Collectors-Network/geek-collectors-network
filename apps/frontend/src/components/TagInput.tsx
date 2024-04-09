@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Box, Tag, TagCloseButton, Input } from '@chakra-ui/react';
 
+type TagInfo = {
+  id: number;
+  text: string;
+};
+
 type TagInputProps = {
-  tags: string[];
-  setTags: React.Dispatch<React.SetStateAction<string[]>>;
+  tags: TagInfo[];
+  setTags: React.Dispatch<React.SetStateAction<TagInfo[]>>;
 };
 
 function TagInput({ tags, setTags }: TagInputProps) {
@@ -11,7 +16,7 @@ function TagInput({ tags, setTags }: TagInputProps) {
 
   function addTag() {
     const trimmedInput = tagInput.trim();
-    if (trimmedInput.length > 0 && !tags.includes(trimmedInput)) {
+    if (trimmedInput.length > 0 && !tags.some(tag => tag.text === trimmedInput)) {
       fetch('/api/v1/user/tag', {
         method: 'POST',
         headers: {
@@ -21,16 +26,15 @@ function TagInput({ tags, setTags }: TagInputProps) {
       })
         .then(response => response.json())
         .then(({ data }) => {
-          console.log(data);
-          setTags([...tags, tagInput]);
+          setTags([...tags, { id: data.id, text: trimmedInput }]);
           setTagInput('');
         })
         .catch(error => console.error(error));
     }
   }
 
-  function removeTag(tag: string) {
-    setTags(tags.filter(t => t !== tag));
+  function removeTag(id: number) {
+    setTags(tags.filter(tag => tag.id !== id));
   }
 
   useEffect(() => {
@@ -59,9 +63,9 @@ function TagInput({ tags, setTags }: TagInputProps) {
           mb={2}
         />
         {tags.map(tag => (
-          <Tag key={tag} size="lg" m={1} backgroundColor={'brand.100'} borderRadius={'15px'}>
-            {tag}
-            <TagCloseButton onClick={() => removeTag(tag)} />
+          <Tag key={tag.text} size="lg" m={1} backgroundColor={'brand.100'} borderRadius={'15px'}>
+            {tag.text}
+            <TagCloseButton onClick={() => removeTag(tag.id)} />
           </Tag>
         ))}
       </Box>
@@ -69,4 +73,4 @@ function TagInput({ tags, setTags }: TagInputProps) {
   );
 }
 
-export default TagInput;
+export { TagInfo, TagInput };
