@@ -1,5 +1,5 @@
 import express from 'express';
-import { eq, sql, desc } from 'drizzle-orm';
+import { and, eq, sql, desc } from 'drizzle-orm';
 
 import { type Resources } from './Service';
 import {
@@ -69,7 +69,20 @@ export class ItemController {
         .onDuplicateKeyUpdate({ set: { itemId: sql`item_id` } });
       return results[0].affectedRows === 1;
     } catch (err) {
-      console.error(err);
+      return false;
+    }
+  }
+
+  public async removeItemFromCollection(userId: number, itemId: number) {
+    try {
+      const results = await this.resources.db
+        .delete(itemsToUsersCollections)
+        .where(and(
+          eq(itemsToUsersCollections.userId, userId),
+          eq(itemsToUsersCollections.itemId, itemId),
+        ));
+      return results[0].affectedRows === 1;
+    } catch (err) {
       return false;
     }
   }
@@ -101,6 +114,21 @@ export class ItemController {
           notes,
         })
         .onDuplicateKeyUpdate({ set: { itemId: sql`item_id` } });
+      return results[0].affectedRows === 1;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  public async removeItemFromWishlist(userId: number, itemId: number) {
+    try {
+      const results = await this.resources.db
+        .delete(itemsToUsersWishlists)
+        .where(and(
+          eq(itemsToUsersWishlists.userId, userId),
+          eq(itemsToUsersWishlists.itemId, itemId),
+        ));
+      console.log(results);
       return results[0].affectedRows === 1;
     } catch (err) {
       console.error(err);
@@ -170,6 +198,16 @@ export class ItemService {
     }
   }
 
+  public async handleRemoveItemFromCollection(req: express.Request, res: express.Response) {
+    try {
+      const userId = req.session.userId!;
+      const { itemId } = req.params;
+      return await this.controller.removeItemFromCollection(userId, parseInt(itemId, 10));
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
   public async handleGetUserWishlist(req: express.Request, res: express.Response) {
     try {
       const userId = req.query.id ? parseInt(req.query.id.toString(), 10) : req.session.userId!;
@@ -184,6 +222,16 @@ export class ItemService {
       const userId = req.session.userId!;
       const { itemId, notes } = req.body;
       return await this.controller.addItemToWishlist(userId, itemId, notes);
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
+  public async handleRemoveItemFromWishlist(req: express.Request, res: express.Response) {
+    try {
+      const userId = req.session.userId!;
+      const { itemId } = req.params;
+      return await this.controller.removeItemFromWishlist(userId, parseInt(itemId, 10));
     } catch (err) {
       return new Error('Internal Server Error');
     }
