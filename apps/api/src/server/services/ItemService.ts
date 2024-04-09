@@ -4,8 +4,6 @@ import { and, eq, sql, desc } from 'drizzle-orm';
 import { type Resources } from './Service';
 import {
   items,
-  ItemsType,
-  itemsToTags,
   itemsToUsersCollections,
   itemsToUsersWishlists,
 } from '../../models/schema';
@@ -144,10 +142,6 @@ export class ItemService {
     this.controller = new ItemController(resources);
   }
 
-  public async handleSearchItems(req: express.Request, res: express.Response) {}
-
-  public async handleCreateItem(req: express.Request, res: express.Response) {}
-
   public async handleGetItem(req: express.Request, res: express.Response) {
     try {
       const itemId = parseInt(req.params.itemId, 10);
@@ -168,15 +162,6 @@ export class ItemService {
       return new Error('Internal Server Error');
     }
   }
-
-  public async handleUpdateItem(req: express.Request, res: express.Response) {}
-
-  public async handleDeleteItem(req: express.Request, res: express.Response) {}
-
-  public async handleAddItemTag(req: express.Request, res: express.Response) {}
-
-  public async handleRemoveItemTag(req: express.Request, res: express.Response) {}
-
 
   public async handleGetUserCollection(req: express.Request, res: express.Response) {
     try {
