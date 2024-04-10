@@ -49,18 +49,6 @@ function ItemList({ url, buttons }: ItemListProps) {
     setFilteredItems(filtered);
   };
 
-  const openItemModalButton = (itemId: number) => ({
-    label: 'Open Item',
-    icon: <ViewIcon />,
-    variant: 'solid',
-    colorScheme: 'brand',
-    onClick: () => {
-      const item = items.find(listedItem => listedItem.id === itemId);
-      setSelectedItem(item || null);
-      setModalOpen(true);
-    },
-  });
-
   const itemListLayout = filteredItems.length <= 0 ? (
     <Center w="full">No items found</Center>
   ) : (
@@ -71,7 +59,12 @@ function ItemList({ url, buttons }: ItemListProps) {
           <ItemCard
             key={item.id}
             itemData={{ title: item.name, description: item.description, itemImage: item.imageUrl }}
-            buttons={[openItemModalButton(item.id), ...cardButtons]}
+            buttons={cardButtons}
+            onClick={() => {
+              const clickedItem = items.find(listedItem => listedItem.id === item.id);
+              setSelectedItem(clickedItem || null);
+              setModalOpen(true);
+            }}
           />
         );
       })}
@@ -85,10 +78,10 @@ function ItemList({ url, buttons }: ItemListProps) {
     }
     const item = selectedItem!;
     const modelButtons:ActionProps[] = !buttons ? [] : buttons.map(button => {
-      const cb = button(item.id);
+      const cardButton = button(item.id);
       return ({
-        label: cb.label,
-        onClick: cb.onClick || (() => console.log('No onClick provided')),
+        label: cardButton.label,
+        onClick: cardButton.onClick || (() => console.log(cardButton.label)),
         variant: 'outline',
       });
     });

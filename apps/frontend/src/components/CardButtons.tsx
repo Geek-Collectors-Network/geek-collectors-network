@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AddIcon, DeleteIcon } from '@chakra-ui/icons'; // Assuming ViewIcon for opening modal
+import { AddIcon, DeleteIcon, StarIcon } from '@chakra-ui/icons'; // Assuming ViewIcon for opening modal
 
 type CardButton = {
   label: string,
@@ -29,7 +29,7 @@ const addToCollectionButton = (itemId: number) => ({
 
 const addToWishlistButton = (itemId: number) => ({
   label: 'Add to Wishlist',
-  icon: <AddIcon />,
+  icon: <StarIcon />,
   variant: 'solid',
   colorScheme: 'brand',
   onClick: () => {
@@ -49,7 +49,7 @@ const deleteItemButton = (itemId: number) => ({
   icon: <DeleteIcon />,
   variant: 'outline',
   colorScheme: 'brand',
-  onClick: () => console.log('Deleting item...'), // Placeholder functionality
+  onClick: () => console.log(`Deleting item ${itemId} from _____`), // Placeholder functionality
 });
 
 export { addToCollectionButton, addToWishlistButton, deleteItemButton, CardButton };

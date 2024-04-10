@@ -11,7 +11,7 @@ import {
   IconButton,
   CardFooter,
   AspectRatio,
-  VStack,
+  HStack,
 } from '@chakra-ui/react';
 
 import { CardButton } from './CardButtons';
@@ -25,20 +25,22 @@ type ItemData = {
 
 type ItemCardProps = {
   itemData: ItemData,
-  buttons: CardButton[]
+  buttons: CardButton[],
+  onClick: () => void,
 }
 
 // TODO: Make ItemCard clickable, so it opens modal with more details
-function ItemCard({ itemData, buttons }: ItemCardProps) {
+function ItemCard({ itemData, buttons, onClick }: ItemCardProps) {
   return (
     <Card
       maxW="sm"
       variant="elevated"
       p="2"
       shadow="md"
-      _hover={{ shadow: 'lg' }}>
+      _hover={{ shadow: 'lg' }}
+    >
 
-      <CardBody>
+      <CardBody onClick={onClick} cursor={'pointer'}>
         <Stack mt="3" spacing="6">
 
           <AspectRatio ratio={4 / 3}>
@@ -63,11 +65,11 @@ function ItemCard({ itemData, buttons }: ItemCardProps) {
         <Spacer />
 
         {/* Renders multiple buttons */}
-        <VStack w={'100%'}>
+        <HStack w={'100%'} justify={'center'} spacing={'0.5rem'}>
           {buttons.map((button, index) => (
             <IconButton
               key={index}
-              w={'100%'}
+              // w={'100%'}
               aria-label={button.label}
               icon={button.icon}
               variant={button.variant || 'ghost'}
@@ -75,7 +77,7 @@ function ItemCard({ itemData, buttons }: ItemCardProps) {
               onClick={button.onClick}
             />
           ))}
-        </VStack>
+        </HStack>
 
       </CardFooter>
     </Card>
