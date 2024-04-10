@@ -27,6 +27,7 @@ export class ItemController {
   public async getItemFeed(req: express.Request, res: express.Response) {
     const results = await this.resources.db.query.items.findMany({
       with: { tags: { with: { tag: true } } },
+      // TODO: filter out items in user's collection or wishlist
       orderBy: desc(items.createdAt),
     });
     console.log(results);

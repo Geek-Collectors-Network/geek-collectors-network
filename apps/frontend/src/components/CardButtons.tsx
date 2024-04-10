@@ -27,6 +27,17 @@ const addToCollectionButton = (itemId: number) => ({
   },
 });
 
+const removeFromCollectionButton = (itemId: number) => ({
+  label: 'Remove from Collection',
+  icon: <DeleteIcon />,
+  variant: 'outline',
+  colorScheme: 'brand',
+  onClick: () => {
+    console.log(`Removing item ${itemId} from Collection...`);
+    fetch(`/api/v1/user/collection/${itemId}`, { method: 'DELETE' });
+  },
+});
+
 const addToWishlistButton = (itemId: number) => ({
   label: 'Add to Wishlist',
   icon: <StarIcon />,
@@ -44,12 +55,15 @@ const addToWishlistButton = (itemId: number) => ({
   },
 });
 
-const deleteItemButton = (itemId: number) => ({
-  label: 'Delete Item',
+const removeFromWishlistButton = (itemId: number) => ({
+  label: 'Remove from Wishlist',
   icon: <DeleteIcon />,
   variant: 'outline',
   colorScheme: 'brand',
-  onClick: () => console.log(`Deleting item ${itemId} from _____`), // Placeholder functionality
+  onClick: () => {
+    console.log(`Removing item ${itemId} from Wishlist...`);
+    fetch(`/api/v1/user/wishlist/${itemId}`, { method: 'DELETE' });
+  },
 });
 
-export { addToCollectionButton, addToWishlistButton, deleteItemButton, CardButton };
+export { addToCollectionButton, addToWishlistButton, removeFromCollectionButton, removeFromWishlistButton, CardButton };

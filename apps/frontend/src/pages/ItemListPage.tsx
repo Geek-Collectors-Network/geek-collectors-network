@@ -4,7 +4,7 @@ import { VStack } from '@chakra-ui/react';
 
 import ItemList from '../components/ItemList';
 import PageLayout from '../components/PageLayout';
-import { addToCollectionButton, addToWishlistButton, deleteItemButton } from '../components/CardButtons';
+import { addToCollectionButton, addToWishlistButton, removeFromCollectionButton, removeFromWishlistButton } from '../components/CardButtons';
 
 
 function ItemFeedPage() {
@@ -17,11 +17,7 @@ function ItemFeedPage() {
       >
         <ItemList
           url={url}
-          buttons={[
-            addToCollectionButton,
-            addToWishlistButton,
-            deleteItemButton,
-          ]}
+          buttons={[addToCollectionButton, addToWishlistButton]}
         />
       </VStack>
     </PageLayout>
@@ -33,7 +29,7 @@ function ItemCollectionPage() {
   const params = new URLSearchParams(search);
   const userId = params.get('userId');
   const url = userId ? `/api/v1/user/collection?id=${userId}` : '/api/v1/user/collection';
-  const buttons = userId ? [addToWishlistButton, deleteItemButton] : [deleteItemButton];
+  const buttons = userId ? [addToWishlistButton] : [removeFromCollectionButton];
 
   return (
     <PageLayout>
@@ -55,7 +51,7 @@ function ItemWishlistPage() {
   const params = new URLSearchParams(search);
   const userId = params.get('userId');
   const url = userId ? `/api/v1/user/wishlist?id=${userId}` : '/api/v1/user/wishlist';
-  const buttons = userId ? [addToWishlistButton, deleteItemButton] : [deleteItemButton];
+  const buttons = userId ? [addToWishlistButton] : [removeFromWishlistButton];
 
   return (
     <PageLayout>

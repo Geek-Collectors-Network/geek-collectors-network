@@ -69,7 +69,6 @@ function ItemCard({ itemData, buttons, onClick }: ItemCardProps) {
           {buttons.map((button, index) => (
             <IconButton
               key={index}
-              // w={'100%'}
               aria-label={button.label}
               icon={button.icon}
               variant={button.variant || 'ghost'}
