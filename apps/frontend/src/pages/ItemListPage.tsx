@@ -4,7 +4,7 @@ import { VStack } from '@chakra-ui/react';
 
 import ItemList from '../components/ItemList';
 import PageLayout from '../components/PageLayout';
-import { addToCollectionButton, addToWishlistButton, removeFromCollectionButton, removeFromWishlistButton } from '../components/CardButtons';
+import { addToCollectionButton, addToWishlistButton, removeFromCollectionButton, removeFromWishlistButton, hideItemButton } from '../components/CardButtons';
 
 
 function ItemFeedPage() {
@@ -17,7 +17,7 @@ function ItemFeedPage() {
       >
         <ItemList
           url={url}
-          buttons={[addToCollectionButton, addToWishlistButton]}
+          buttons={[addToCollectionButton, addToWishlistButton, hideItemButton]}
         />
       </VStack>
     </PageLayout>

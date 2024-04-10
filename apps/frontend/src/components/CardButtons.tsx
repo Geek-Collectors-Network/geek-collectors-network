@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AddIcon, DeleteIcon, StarIcon } from '@chakra-ui/icons'; // Assuming ViewIcon for opening modal
+import { AddIcon, DeleteIcon, StarIcon, ViewOffIcon } from '@chakra-ui/icons'; // Assuming ViewIcon for opening modal
 
 type CardButton = {
   label: string,
@@ -66,4 +66,14 @@ const removeFromWishlistButton = (itemId: number) => ({
   },
 });
 
-export { addToCollectionButton, addToWishlistButton, removeFromCollectionButton, removeFromWishlistButton, CardButton };
+const hideItemButton = (itemId: number) => ({
+  label: 'Hide item',
+  icon: <ViewOffIcon />,
+  variant: 'outline',
+  colorScheme: 'brand',
+  onClick: () => {
+    console.log(`Hiding item ${itemId} from feed...`);
+  },
+});
+
+export { addToCollectionButton, addToWishlistButton, removeFromCollectionButton, removeFromWishlistButton, hideItemButton, CardButton };
