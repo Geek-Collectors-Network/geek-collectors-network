@@ -4,7 +4,32 @@ import { VStack } from '@chakra-ui/react';
 
 import ItemList from '../components/ItemList';
 import PageLayout from '../components/PageLayout';
+import { addToCollectionButton, addToWishlistButton, deleteItemButton } from '../components/CardButtons';
 
+
+function ItemFeedPage() {
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const userId = params.get('userId');
+  const url = userId ? `/api/v1/user/collection?id=${userId}` : '/api/v1/user/collection';
+
+  return (
+    <PageLayout showNavigation={true}>
+      <VStack
+        justify={'center'}
+      >
+        <ItemList
+          url={url}
+          buttons={[
+            addToCollectionButton,
+            addToWishlistButton,
+            deleteItemButton,
+          ]}
+        />
+      </VStack>
+    </PageLayout>
+  );
+}
 
 function ItemCollectionPage() {
   const { search } = useLocation();
@@ -19,6 +44,8 @@ function ItemCollectionPage() {
       >
         <ItemList
           url={url}
+          buttons={[deleteItemButton]}
+
         />
       </VStack>
     </PageLayout>
@@ -38,10 +65,11 @@ function ItemWishlistPage() {
       >
         <ItemList
           url={url}
+          buttons={[deleteItemButton]}
         />
       </VStack>
     </PageLayout>
   );
 }
 
-export { ItemCollectionPage, ItemWishlistPage };
+export { ItemFeedPage, ItemCollectionPage, ItemWishlistPage };
