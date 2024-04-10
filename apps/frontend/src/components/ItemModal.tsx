@@ -18,7 +18,7 @@ import {
 
 import GeneralModal from './GeneralModal';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { TagInfo } from './TagInput';
+import { TagInfo } from '../pages/profile/TagInput';
 
 type ItemModalHeaderProps = {
     name: string;

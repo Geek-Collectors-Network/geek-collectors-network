@@ -8,13 +8,10 @@ import { addToCollectionButton, addToWishlistButton, deleteItemButton } from '..
 
 
 function ItemFeedPage() {
-  const { search } = useLocation();
-  const params = new URLSearchParams(search);
-  const userId = params.get('userId');
-  const url = userId ? `/api/v1/user/collection?id=${userId}` : '/api/v1/user/collection';
+  const url = '/api/v1/item/feed';
 
   return (
-    <PageLayout showNavigation={true}>
+    <PageLayout>
       <VStack
         justify={'center'}
       >
@@ -36,6 +33,7 @@ function ItemCollectionPage() {
   const params = new URLSearchParams(search);
   const userId = params.get('userId');
   const url = userId ? `/api/v1/user/collection?id=${userId}` : '/api/v1/user/collection';
+  const buttons = userId ? [addToWishlistButton, deleteItemButton] : [deleteItemButton];
 
   return (
     <PageLayout>
@@ -44,7 +42,7 @@ function ItemCollectionPage() {
       >
         <ItemList
           url={url}
-          buttons={[deleteItemButton]}
+          buttons={buttons}
 
         />
       </VStack>
@@ -57,6 +55,7 @@ function ItemWishlistPage() {
   const params = new URLSearchParams(search);
   const userId = params.get('userId');
   const url = userId ? `/api/v1/user/wishlist?id=${userId}` : '/api/v1/user/wishlist';
+  const buttons = userId ? [addToWishlistButton, deleteItemButton] : [deleteItemButton];
 
   return (
     <PageLayout>
@@ -65,7 +64,7 @@ function ItemWishlistPage() {
       >
         <ItemList
           url={url}
-          buttons={[deleteItemButton]}
+          buttons={buttons}
         />
       </VStack>
     </PageLayout>

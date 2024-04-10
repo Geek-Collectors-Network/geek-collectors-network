@@ -7,7 +7,7 @@ import { SimpleGrid, VStack, Container, Center } from '@chakra-ui/react';
 import ItemModal from './ItemModal';
 import { CardButton } from './CardButtons';
 import { ViewIcon } from '@chakra-ui/icons'; // Assuming ViewIcon for opening modal
-import { TagInfo } from './TagInput';
+import { TagInfo } from '../pages/profile/TagInput';
 
 
 type ActionProps = {
