@@ -119,7 +119,7 @@ function AccountInfo() {
                 }}
                 disabled={!formik.dirty || formik.isSubmitting}
               >
-                Update Profile
+                SAVE
               </Button>
             </VStack>
           </Form>
