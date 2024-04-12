@@ -54,7 +54,6 @@ function AccountInfo() {
 
   return (
     <PageLayout>
-
       <Formik
         initialValues={initialValues}
         validationSchema={registrationSchema}
