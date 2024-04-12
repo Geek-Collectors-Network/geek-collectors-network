@@ -1,18 +1,23 @@
 import React, { ReactNode } from 'react';
 import { Box } from '@chakra-ui/react';
-import Header from './Header';
+import Header from './header/Header';
 
 type PageLayoutProps = {
   children: ReactNode;
-  showNavigation: boolean;
 };
 
-function PageLayout({ children, showNavigation }: PageLayoutProps) {
+function PageLayout({ children }: PageLayoutProps) {
   return (
     <>
-      <Box w={'100vw'} h={'100vh'} bg={'background'}>
-        <Header showNavigation={showNavigation} />
-        {children}
+      <Box
+        overflow="hidden">
+        <Header />
+        <Box
+          className="container"
+          overflowY="auto"
+        >
+          {children}
+        </Box>
       </Box>
     </>
   );

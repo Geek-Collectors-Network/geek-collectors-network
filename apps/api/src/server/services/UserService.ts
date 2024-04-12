@@ -1,5 +1,5 @@
 import express from 'express';
-import { and, eq, inArray, or, sql } from 'drizzle-orm';
+import { and, eq, inArray, not, or, sql } from 'drizzle-orm';
 
 import { type Resources } from './Service';
 import { friendships, tags, users, usersToTags, UsersType } from '../../models/schema';
@@ -44,7 +44,7 @@ export class UserController {
       with: { tags: { with: { tag: true } } },
     });
     if (results) {
-      results.tags = results.tags.map(tag => tag.tag.text);
+      results.tags = results.tags.map(tag => ({ id: tag.tag.id, text: tag.tag.text }));
     }
     return results;
   }
@@ -164,6 +164,16 @@ export class UserController {
     return friendProfiles;
   }
 
+  public async getFriendSuggestions(id: number) {
+    const allRelationshipIds = await this.getFriendshipIds(id, ['accepted', 'pending', 'blocked', 'rejected']);
+    const suggestions = await this.resources.db
+      .select()
+      .from(users)
+      .limit(5)
+      .where(and(not(inArray(users.id, allRelationshipIds)), not(eq(users.id, id))));
+    return suggestions;
+  }
+
   public async getFriendRequests(id: number) {
     const pendingFriendships = await this.resources.db
       .select({
@@ -221,7 +231,7 @@ export class UserService {
   }
 
   public async handleGetProfile(req: express.Request, res: express.Response) {
-    const userId = req.params.userId ? parseInt(req.params.userId, 10) : req.session.userId!;
+    const userId = req.query.id ? parseInt(req.query.id.toString(), 10) : req.session.userId!;
 
     const getProfileResult = await this.controller.getProfile(userId);
 
@@ -250,7 +260,7 @@ export class UserService {
   }
 
   public async handleGetUserTags(req: express.Request, res: express.Response) {
-    const userId = req.params.userId ? parseInt(req.params.userId, 10) : req.session.userId!;
+    const userId = req.query.id ? parseInt(req.query.id.toString(), 10) : req.session.userId!;
 
     const results = await this.controller.getUserTags(userId);
     if (results) {
@@ -261,23 +271,23 @@ export class UserService {
 
   public async handleAddUserTag(req: express.Request, res: express.Response) {
     const { userId } = req.session;
-    let tagId = parseInt(req.params.tagId, 10);
-    const tagText = req.body.text;
+    const { text } = req.body;
+    let id = parseInt(req.body.id, 10);
 
-    if (Number.isNaN(tagId)) {
-      if (!tagText) {
+    if (Number.isNaN(id)) {
+      if (!text) {
         return new Error('Must provide a tag id or text');
       }
-      tagId = await this.controller.createTag(userId!, tagText);
+      id = await this.controller.createTag(userId!, text);
     }
 
-    const added = await this.controller.addUserToTag(userId!, tagId);
-    return added ? { tagId } : false;
+    const added = await this.controller.addUserToTag(userId!, id);
+    return added ? { tagId: id } : false;
   }
 
   public async handleDeleteUserTag(req: express.Request, res: express.Response) {
     const { userId } = req.session;
-    const tagId = parseInt(req.params.tagId, 10);
+    const tagId = parseInt(req.params.id, 10);
 
     const removed = await this.controller.deleteUserToTag(userId!, tagId);
     return { removed };
@@ -288,6 +298,16 @@ export class UserService {
 
     try {
       return await this.controller.getFriendslist(userId!);
+    } catch (err) {
+      return new Error('Internal Server Error');
+    }
+  }
+
+  public async handleGetFriendSuggestions(req: express.Request, res: express.Response) {
+    const { userId } = req.session;
+
+    try {
+      return this.controller.getFriendSuggestions(userId!);
     } catch (err) {
       return new Error('Internal Server Error');
     }

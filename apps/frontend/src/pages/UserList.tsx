@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { VStack, Tabs, TabList, TabPanels, Tab, TabPanel, Text, Center } from '@chakra-ui/react';
 
 import PageLayout from '../components/PageLayout';
-import PageTitle from '../components/PageTitle';
 import UserProfileCard from '../components/UserProfileCard';
 import { AddIcon, CheckIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import FriendRequestModal from '../components/FriendRequestModal';
@@ -63,10 +62,8 @@ function UserList() {
 
 
   return (
-    <PageLayout showNavigation={true} >
+    <PageLayout>
       <VStack bg={'background'} px={10} pt={14} spacing={0}>
-
-        <PageTitle title={'User Lists'} />
 
         <Tabs size={['sm', 'md']} variant={'enclosed'} colorScheme="brand">
 
@@ -87,10 +84,18 @@ function UserList() {
                 filteredPendingUsers.map(user => (
                   <UserProfileCard
                     key={user.id}
-                    userData={{ name: `${user.firstName} ${user.lastName}`, image: user.image }}
+                    userData={{ id: user.id, name: `${user.firstName} ${user.lastName}`, image: user.image }}
                     buttons={[
-                      { label: 'Accept request', icon: <CheckIcon boxSize={6}/>, onClick: () => acceptFriendRequest(user.id) },
-                      { label: 'Reject request', icon: <SmallCloseIcon boxSize={8}/>, onClick: () => handleUserRemoval(setFilteredPendingUsers, user.id) },
+                      {
+                        label: 'Accept request',
+                        icon: <CheckIcon boxSize={6}/>,
+                        onClick: () => acceptFriendRequest(user.id),
+                      },
+                      {
+                        label: 'Reject request',
+                        icon: <SmallCloseIcon boxSize={8}/>,
+                        onClick: () => handleUserRemoval(setFilteredPendingUsers, user.id),
+                      },
                     ]}
                   />
                 ))
@@ -107,10 +112,18 @@ function UserList() {
                 filteredSuggestedUsers.map(user => (
                   <UserProfileCard
                     key={user.id}
-                    userData={{ name: `${user.firstName} ${user.lastName}`, image: user.image }}
+                    userData={{ id: user.id, name: `${user.firstName} ${user.lastName}`, image: user.image }}
                     buttons={[
-                      { label: 'Accept Request', icon: <AddIcon boxSize={5}/>, onClick: () => openFriendRequestModal(user.id) },
-                      { label: 'Reject Request', icon: <SmallCloseIcon boxSize={8}/>, onClick: () => handleUserRemoval(setFilteredSuggestedUsers, user.id) },
+                      {
+                        label: 'Accept Request',
+                        icon: <AddIcon boxSize={5}/>,
+                        onClick: () => openFriendRequestModal(user.id),
+                      },
+                      {
+                        label: 'Reject Request',
+                        icon: <SmallCloseIcon boxSize={8}/>,
+                        onClick: () => handleUserRemoval(setFilteredSuggestedUsers, user.id),
+                      },
                     ]}
                   />
                 ))
