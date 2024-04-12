@@ -25,6 +25,7 @@ async function editProfile(values: Record<string, string>): Promise<boolean> {
       }),
     });
 
+
     const data = await response.json();
     if (!response.ok || data.isError) {
       throw new Error(data.message || 'Failed to update profile due to network request error.');
@@ -48,7 +49,7 @@ function AccountInfo() {
 
     if (success) {
       toast({
-        title: 'Profile succesfully updated!',
+        title: 'Profile successfully updated!',
         status: 'success',
         duration: 2000,
       });

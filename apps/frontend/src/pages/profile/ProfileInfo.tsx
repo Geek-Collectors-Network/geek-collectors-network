@@ -194,7 +194,6 @@ function ProfileInfo() {
                     color: 'white',
                   }}
                 >
-
                 SEE MY PROFILE
                 </Button>
               </Box>
