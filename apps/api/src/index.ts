@@ -39,7 +39,7 @@ import { logger } from './modules/logger';
     port: DATABASE_PORT,
     user: DATABASE_USER,
     password: DATABASE_PASSWORD,
-    database: 'geekcollectorsnetwork_sessionstore',
+    database: 'SessionStore',
   });
 
   const sessions = expressSession.default({
