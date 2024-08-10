@@ -27,8 +27,6 @@ import { logger } from './modules/logger';
   const migrationsFolder = path.join(__dirname, '..', 'drizzle');
   const connectionString = `mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}`;
 
-  console.log(connectionString);
-
   const client = await mysql.createConnection(connectionString);
   const db = drizzle(client, { schema, mode: 'default' });
 
@@ -41,7 +39,7 @@ import { logger } from './modules/logger';
     port: DATABASE_PORT,
     user: DATABASE_USER,
     password: DATABASE_PASSWORD,
-    database: 'SessionStore',
+    database: 'geekcollectorsnetwork_sessionstore',
   });
 
   const sessions = expressSession.default({
