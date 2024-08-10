@@ -11,7 +11,7 @@ fi
 
 # This assumes that all the required information is defined
 # in the .env file correctly
-DATABASES=("$DATABASE_NAME" "geekcollectorsnetwork_sessionstore")
+DATABASES=("$DATABASE_NAME" "SessionStore")
 PASSWORD=$DATABASE_PASSWORD
 
 mysql_exec() {
