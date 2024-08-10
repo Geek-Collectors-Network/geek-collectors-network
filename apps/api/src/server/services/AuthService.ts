@@ -92,6 +92,8 @@ export class AuthService {
       if (isSqlError(e) && e.code === 'ER_DUP_ENTRY') {
         return new Error('User already exists.');
       }
+
+      console.error(e);
     }
 
     return new Error('Internal Server Error');
